@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clicker test</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section>
+        <div class="main">
+            <div class="desc"></div>
+
+
+            <div class="gauche">
+                <div class="info">
+                    <p>
+                        Shorties:<br />
+                        <span class="score-val highlight-text">100000</span>
+                    </p>
+                </div>
+                
+
+                <div class="div-img-clickable">
+                    <div class="scroll-area">
+                        <img src="./assets/interface.png" class="clicker" onclick="incrementerScore(event,true)" draggable="false">
+                        
+                            <div class="area" id="area">
+                                <div class="fade-top"></div>
+                                <div class="fade-bottom"></div>
+                            
+                                <div class="scroll-content" id="scrollContent">
+                                    <div class="item">
+                                        <img src="./assets/medias/OnceUponABouchardon.gif" draggable="false" alt="">
+                                    </div>
+                                    <div class="item">
+                                        <img src="./assets/medias/OnceUponABouchardon.gif" draggable="false" alt="">
+                                    </div>
+                                </div>
+                            </div>
+
+                    </div>
+                </div>
+                
+                <div class="statistiques">
+                    <div class="texte">
+                        <p>CPS: <span id="cps" class="highlight-text">0</span></p>
+                        <p>SPC: <span id="spc" class="highlight-text">1</span></p>
+                        <p>SPS: <span id="sps" class="highlight-text">0</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <script id="template-upgrade" type="text/template">
+                <div class="upgrade"
+                onclick="acheterUpgrade('{{nom}}')"
+                onmouseenter="afficherDesc('{{nom}}')" 
+                onmouseleave="cacherDesc()">
+                    <div class="sectionG">
+                        <img src="{{image}}" alt="" class="upgrade-img">
+                    </div>
+                    <div class="sectionM">
+                        <h4>{{nom}}</h4>
+                        <div class="info-prix">
+                            <p class="prixstr"><span class="prix-{{nom}}">{{prix}}</span></p>
+                            <img src="./assets/smartphone_icon_placeholder.png" alt="" class="currency-img">
+                        </div>
+                    </div>
+                    <div class="sectionD"> Niveau <span class="niveau-{{nom}}">0</span> </div>
+
+                    <div class="info-niv-suiv">
+                        <p>
+                            +<span class="bonus-{{nom}}">{{bonusinit}}</span> points <br /> par clic
+                        </p>
+                    </div>
+                </div>
+            </script>
+
+            <div class="droite">
+                <div class="boutique">
+                    <div id="intitule">Boutique</div>
+                    <div id="upgrades"></div>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+    <script type="module" src="index.js"></script>
+</body>
+</html>

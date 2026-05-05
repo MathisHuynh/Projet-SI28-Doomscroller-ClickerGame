@@ -1,0 +1,379 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+
+body{
+    display:grid;
+    place-items: center;
+    height: 100vh;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #2C2C2C;
+    color: white;
+    user-select: none;
+    font-family: 'Quicksand', sans-serif;
+}
+
+section{
+    width: 100%;
+    height: 100vh;
+}
+
+.main{
+    display: flex;
+    width:100%;
+    height: 100%;
+}
+
+.droite {
+    display: flex;
+    flex-direction:row;
+    flex: 1; /* Prend 1 part de l'espace */
+    height: 99vh; /* Utilise la hauteur de vue plutôt que fixe */
+    border: 4px solid white;
+    border-radius: 5px;
+    overflow: hidden; /* Évite les débordements bizarres */
+}
+
+.boutique{
+    height: 100vh;
+    width:50%;
+    position: relative;
+    margin: 0px 0px;
+    border: 4px solid white;
+    border-radius: 5px;
+}
+
+#upgrades{
+    width: -webkit-fill-available;
+    height:100%;
+    flex-grow: 1;
+    padding: 5px;
+    position: relative;
+    overflow-y: scroll;
+    border: 4px solid white;
+}
+
+#intitule{
+    width: 95%;
+    height: fit-content;
+    padding: 10px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/*
+#desc{
+    background-color: rgba(44, 44, 44);
+    width: calc(100% - 24px);;
+    height: 135px;
+    padding: 10px;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    border: 2px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+*/
+
+.desc {
+    position: fixed;
+    pointer-events: none; /* Empêche la div de clignoter en passant sous la souris */
+    display: none;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+    max-width: 250px;
+    font-size: 0.9em;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    transform: translate(15px, 15px); /* Décalage pour ne pas être sous le curseur */
+}
+
+
+
+.gauche {
+    display: flex;
+    flex-direction: column;
+    flex: 1.5; /* Prend 1.5 part de l'espace (plus large que la droite) */
+    height: 100vh;
+    border: 4px solid white;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.gauche p {
+    font-size: clamp(1.2rem, 3vw, 2rem); /* S'adapte dynamiquement */
+    align-self: center;
+    text-align: center;
+    margin: 2vh 0;
+}
+
+
+.div-img-clickable {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    overflow: hidden;
+}
+
+.scroll-area {
+    /*border-radius: 10%;*/
+    display: inline-block;
+    position: relative; /* Référence pour le positionnement absolu */
+    overflow: hidden;
+    line-height: 0;
+}
+
+.clicker {
+    pointer-events: none;
+    user-select: none;
+    /* L'image qui définit la taille */
+    height: 60vh;
+    width: auto;
+    display: block;
+    position: relative; /* Optionnel : pour gérer son z-index */
+    z-index: 999;        /* Derrière le contenu */
+}
+
+.highlight-text{
+    font-size: 32px;
+    color: rgb(202, 115,243);
+    font-weight: 600;
+    text-shadow: 2px 2px 3px rgb(0, 0, 0);
+}
+
+.prixstr{
+    font-size: 20px;
+}
+
+.scroll-area:hover{
+    transform:scale(1.01) ;
+    cursor: pointer;
+}
+
+.clickfeedback{
+    color: white;
+    position: absolute;
+    font-size: 20px;
+    pointer-events: none;
+    z-index: 999;
+}
+
+.onclickicon{
+    width:15px;
+}
+
+
+.upgrade {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: auto; /* S'adapte à la largeur du parent */
+    max-width: 400px; /* Sécurité pour les très grands écrans */
+    height: auto; /* Laisse le contenu respirer */
+    min-height: 6vh; 
+    border: 4px solid white;
+    border-radius: 5px;
+    padding: 1vh 1vw; /* Padding proportionnel */
+    margin: 0 auto 10px auto;
+}
+
+.upgrade:hover{
+    opacity: 0.9;
+    transform: scale(1.01);
+    cursor: pointer;
+}
+
+.upgrade:active{
+    transform: scale(1.02);
+}
+
+.sectionG{
+    max-width: 15%;
+}
+
+.sectionM h4{
+    margin: 0;
+    margin-bottom: 10px;
+    font-size: 110%;
+}
+.sectionM p{
+    margin:0;
+}
+
+.upgrade-img {
+    width: 100%; /* L'image s'adapte à la taille du bouton */
+}
+
+.currency-img{
+    width: 30px;
+    height: 30px;
+}
+
+.info-prix{
+    display: flex;
+    align-items: center;
+    gap : 5px;
+}
+
+.info-niv-suiv{
+    position: absolute;
+    right: 102%;
+    z-index: 100;
+    pointer-events: none;
+    background-color: rgb(90,89,90);
+    height: 80px;
+    width: 100px;
+    text-align: center;
+    display: none;
+    border-radius: 4px;
+}
+
+.upgrade:hover .info-niv-suiv{
+    display:block;
+}
+
+
+.statistiques {
+    width: 100%;
+    height: fit-content;
+    padding: 2vh;
+    box-sizing: border-box;
+    border-top: 6px white solid;
+}
+
+.texte{
+    display: flex;
+    gap: 100px;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+
+.fade-up{
+    animation: fade-up 1s;
+}
+
+@keyframes fade-up{
+    0%{
+        transform: translateY(0);
+        opacity: 1;
+    }
+    20%{
+        transform: translateY(-5px);
+        opacity: 0.9;
+    }
+    40%{
+        transform: translateY(-13px);
+        opacity: 0.75;
+    }
+    60%{
+        transform: translateY(-25px);
+        opacity: 0.55;
+    }
+    80%{
+        transform: translateY(-42px);
+        opacity: 0.3;
+    }
+    100%{
+        transform: translateY(-65px);
+        opacity: 0;
+    }
+}
+
+::-webkit-scrollbar{
+    width: 10px;
+}
+
+::-webkit-scrollbar-track{
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb{
+    background: #888;
+}
+
+::-webkit-scrollbar-thumb-hover{
+    background: #555;
+}
+
+    /* ─── Zone de scroll ─── */
+.area {
+/* Superposition sur l'image */
+    border-radius: 10%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* TRANSPARENCE */
+    background: transparent !important; /* Force la transparence, ignore les anciennes couleurs */
+    
+    overflow: hidden;
+    cursor: grab;
+    z-index: 0; /* Devant l'image */
+}
+ 
+.area.dragging {
+  cursor: grabbing;
+}
+ 
+/* ─── Contenu scrollable ─── */
+.scroll-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /*padding: 1.5rem;*/
+    will-change: transform; /* optimisation GPU */
+}
+ 
+/* ─── Items ─── */
+.item { 
+    /*padding: 1rem 1.25rem;
+    margin-bottom: 12px;*/
+    background: #1a1a1a;
+    transition: border-color 0.2s;
+}
+ 
+ 
+    /* ─── Masques haut / bas pour effet de fondu ─── */
+.fade-top,
+.fade-bottom {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    pointer-events: none;
+    z-index: 2;
+}
+ 
+.fade-top {
+    top: 0;
+    background: linear-gradient(to bottom, #141414, transparent);
+}
+ 
+.fade-bottom {
+    bottom: 0;
+    background: linear-gradient(to top, #141414, transparent);
+}
+
+.item img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Évite que l'image ne disparaisse pendant le changement de src */
+    backface-visibility: hidden; 
+}
