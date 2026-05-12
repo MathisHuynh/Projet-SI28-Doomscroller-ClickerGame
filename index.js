@@ -5,7 +5,8 @@ import { medias } from "./constantes/medias.js"
 // --- INITIALISATION DES VARIABLES DE DONNÉES ---
 let scorestr = document.querySelector('.score-val');
 
-let score = 1000; 
+let total_score = 0;
+let score = 0;
 
 let cpsstr = document.getElementById("cps");
 let spcstr = document.getElementById("spc");
@@ -57,29 +58,6 @@ window.cacherDesc = function() {
     desc.style.display = 'none';
 };
 
-
-// const descstr = document.getElementById('desc');
-
-// window.afficherDesc = function(upgradeNom) {
-//     const upg = upgrades.find(u => u.nom === upgradeNom);
-//     if (!upg) return;
-
-//     const niveauActuel = parseInt(upg.niveau.textContent);
-//     const puIndex = checkPowerup(upgradeNom, niveauActuel);
-
-//     if (puIndex !== 0 && upg.powerup && upg.powerup[puIndex - 1]) {
-//         const nextPowerup = upg.powerup[puIndex - 1];
-        
-//         descstr.innerHTML = `<strong>POWERUP: ${nextPowerup.nom}</strong> ${nextPowerup.desc}`;
-//     } else {
-//         descstr.textContent = upg.desc || "Amélioration standard"; 
-//     }
-// };
-
-// window.cacherDesc = function() {
-//     descstr.textContent = "";
-// };
-
 // --- LOGIQUE DE CLIC ET CPS ---
 let clickTimes = [];
 const MAX_CPS_EFFECT = 10;
@@ -125,6 +103,7 @@ function incrementerScore(event, isClick, val = stats.spc*stats.spcm) {
     nextMedia(isClick);
 
     score += stats.spc;
+    total_score += stats.spc;
     scorestr.textContent = Math.round(score);
 
     // Feedback
@@ -278,6 +257,7 @@ document.addEventListener('mouseup', () => {
 
 
 setInterval(() => {
+    total_score += (stats.sps / 10);
     score += (stats.sps / 10);
 
     if (!window.compteurAuto) window.compteurAuto = 0;
