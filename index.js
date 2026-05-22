@@ -6,20 +6,27 @@ import { medias } from "./constantes/medias.js"
 let scorestr = document.querySelector('.score-val');
 
 let total_score = 0;
-let score = 0;
+let score = 100000;
+
+let loading = document.querySelector('.loading');
+
+let trophies = document.querySelector('.trophies');
 
 let cpsstr = document.getElementById("cps");
 let spcstr = document.getElementById("spc");
 let spsstr = document.getElementById("sps");
 let divImgClickable = document.querySelector('.div-img-clickable');
 
+// --- CURSEUR ---
+const cursor = document.querySelector('.cursor');
+
+const _upgrades = document.querySelectorAll('.upgrade');
+const _clicker = document.querySelector('.clicker');
+
 // --- GESTION AUDIO ---
 const bgm = new Audio('/assets/audio/bgm.mp3');
 bgm.volume = 0.2;
 bgm.loop = true;
-
-const clicksfx = new Audio('/assets/audio/click.mp3');
-const upgradesfx = new Audio('/assets/audio/upgrade.mp3');
 
 // --- AFFICHAGE DES DESCRIPTIONS ---
 
@@ -27,26 +34,31 @@ const desc = document.querySelector('.desc');
 
 // --- GESTION DU MOUVEMENT ---
 window.addEventListener('mousemove', (e) => {
+
+    //const {width,height} = cursor.getBoundingClientRect();
+    cursor.style.left = `${e.clientX}px`; //-width/2
+    cursor.style.top = `${e.clientY}px`; //-height/2
+
     if (desc.style.display === 'block') {
-        desc.style.left = e.clientX + 'px';
-        desc.style.top = e.clientY + 'px';
+        desc.style.left = (e.clientX+22) + 'px';
+        desc.style.top = (e.clientY+22) + 'px';
     }
 });
 
 // --- AFFICHAGE ET LOGIQUE POWERUP ---
-window.afficherDesc = function(upgradeNom) {
-    const upg = upgrades.find(u => u.nom === upgradeNom);
+window.afficherDesc = function(upgradeID) {
+    const upg = upgrades.find(u => u.id === upgradeID);
     if (!upg) return;
 
     const niveauActuel = parseInt(upg.niveau.textContent);
-    const puIndex = checkPowerup(upgradeNom, niveauActuel);
+    const puIndex = checkPowerup(upgradeID, niveauActuel);
 
     // Mise à jour du contenu
     if (puIndex !== 0 && upg.powerup && upg.powerup[puIndex - 1]) {
         const nextPowerup = upg.powerup[puIndex - 1];
-        desc.innerHTML = `<strong>POWERUP: ${nextPowerup.nom}</strong><br>${nextPowerup.desc}`;
+        desc.innerHTML = `<u>POWERUP: ${nextPowerup.nom}</u><br><br>${nextPowerup.desc}`;
     } else {
-        desc.innerHTML = `<strong>${upg.nom}</strong><br>${upg.desc || "Amélioration standard"}`;
+        desc.innerHTML = `<u>${upg.nom}</u><br><br>${upg.desc || "Amélioration standard"}`;
     }
 
     // Affichage
@@ -56,6 +68,16 @@ window.afficherDesc = function(upgradeNom) {
 // --- FERMETURE ---
 window.cacherDesc = function() {
     desc.style.display = 'none';
+};
+
+// --- AFFICHAGE TROPHIES ---
+
+window.afficherTrophies = function(){
+    if(trophies.style.display==='none'){
+        trophies.style.display='block';
+    }else{
+        trophies.style.display='none';
+    }
 };
 
 // --- LOGIQUE DE CLIC ET CPS ---
@@ -75,11 +97,11 @@ function createFeedback(val){
     const div = document.createElement('div');
     div.className = 'clickfeedback fade-up';
     div.style.top = (40 + y) + "%";
-    div.style.left = (23 + x) + "%";
+    div.style.left = (43 + x) + "%";
     
     div.textContent = "+" + Math.round(val) + " ";
     const img = document.createElement('img');
-    img.src = "./assets/onclickicon.png";
+    img.src = "./assets/currency.gif";
     img.className = "onclickicon";
     img.draggable = false;
     div.appendChild(img);
@@ -93,12 +115,18 @@ function createFeedback(val){
     }
 }
 
+function playscoresfx(){
+    const clicksfx = new Audio('/assets/audio/click.mp3');
+    clicksfx.currentTime = 0;
+    clicksfx.playbackRate = 0.8 + Math.random()*0.4;
+    clicksfx.play();
+}
+
 function incrementerScore(event, isClick, val = stats.spc*stats.spcm) {
     clickTimes.push(Date.now());
 
-    // Audio sans latence
-    clicksfx.currentTime = 0;
-    clicksfx.play();
+    playscoresfx();
+
 
     nextMedia(isClick);
 
@@ -111,13 +139,14 @@ function incrementerScore(event, isClick, val = stats.spc*stats.spcm) {
 }
 
 // --- LOGIQUE D'ACHAT ---
-function acheterUpgrade(upgradeNom) {
-    const mu = upgrades.find((u) => u.nom === upgradeNom);
+function acheterUpgrade(upgradeID) {
+    const mu = upgrades.find((u) => u.id === upgradeID);
+    const up= document.getElementById(upgradeID);
+    cursor.src = "./assets/UI/cursor/click.png";
+    up.style.transform= "scale(1.02)";
+    
 
-    if (score >= mu.prix) {
-        upgradesfx.currentTime = 0;
-        upgradesfx.play();
-
+    if (score >= mu.prix) {    
         score -= mu.prix;
         mu.achat(); // Logique interne powerup
         
@@ -135,8 +164,13 @@ function acheterUpgrade(upgradeNom) {
 
         scorestr.textContent = Math.round(score);
         
-        afficherDesc(upgradeNom);
+        afficherDesc(upgradeID);
     }
+
+    setTimeout(() => {
+        cursor.src = "./assets/UI/cursor/pointer.png";
+        up.style.transform= "scale(1)";
+    }, 100);
 }
 
 // --- LOGIQUE DE SCROLLING ET ANIMATION ---
@@ -194,13 +228,26 @@ function nextMedia(isClick = false) {
         }
 
         const items = scrollContent.querySelectorAll('.item img');
-        if(items.length >= 2) {
-            items[0].src = items[1].src;
-            items[1].src = getNextMedia().src;
+        if (items.length >= 2) {
+            // 1. L'item 1 (celui qui vient d'arriver au centre) devient l'item 0
+            // On s'assure qu'il passe en version animée (.gif)
+            
+            //let centerSrc = items[1].src.replace('.png', '.gif');
+            //items[0].src = centerSrc;
+            items[0].src=items[1].src;
+
+            // 2. On récupère le futur média pour l'item 1 (celui qui est caché en bas)
+            //const nextData = getNextMedia();
+            
+            // 3. On force ce futur média en version fixe (.png) 
+            // pour qu'il ne s'anime pas pendant qu'il monte au prochain scroll
+            items[1].src = getNextMedia().src; //.src.replace('.gif', '.png');
         }
 
         currentOffset = 0;
         scrollContent.style.transform = `translateY(0px)`;
+        
+        // "Force Reflow" pour que le navigateur valide le changement de position sans transition
         void scrollContent.offsetHeight; 
         activeCleanup = null;
     };
@@ -236,13 +283,32 @@ function handleGestureEnd() {
     }
 }
 
-area.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    lastY = e.clientY;
-    area.classList.add('dragging');
-    e.preventDefault();
+document.addEventListener('mouseleave',()=>{
+    cursor.style.display="none";
 });
-
+document.addEventListener('mouseenter',()=>{
+    cursor.style.display="block";
+});
+document.addEventListener('mouseup', (e) => {
+    if (isDragging) {
+        // 2. On vérifie si on est encore au-dessus de l'area
+        const rect = area.getBoundingClientRect();
+        const isInsideArea = (
+            e.clientX >= rect.left &&
+            e.clientX <= rect.right &&
+            e.clientY >= rect.top &&
+            e.clientY <= rect.bottom
+        );
+        // 3. On applique le bon pointeur
+        if (isInsideArea) {
+            cursor.src = "./assets/UI/cursor/grab.png";  // Retour au survol si on est dedans
+        } else {
+            cursor.src = "./assets/UI/cursor/default.png";  // Retour au curseur normal si on est dehors
+        }
+        // 4. On termine le geste en dernier
+        handleGestureEnd();
+    }
+});
 document.addEventListener('mousemove', (e) => {
     if (!isDragging) return;
     let dy = lastY - e.clientY;
@@ -251,8 +317,59 @@ document.addEventListener('mousemove', (e) => {
     lastY = e.clientY;
 });
 
-document.addEventListener('mouseup', () => {
-    if (isDragging) handleGestureEnd();
+
+_upgrades.forEach((element) => {    
+    element.addEventListener('mouseenter', () =>{
+        cursor.src="./assets/UI/cursor/pointer.png"
+    });
+
+    element.addEventListener('mouseleave', () =>{
+        cursor.src="./assets/UI/cursor/default.png"
+    });
+    
+});
+
+
+// --- EFFET HOVER SUR L'AREA ---
+area.addEventListener('mouseenter', () => {
+    if (!isDragging) {
+        cursor.src = "./assets/UI/cursor/grab.png";
+    }
+});
+
+area.addEventListener('mouseleave', () => {
+    if (!isDragging) {
+        cursor.src = "./assets/UI/cursor/default.png";
+    }
+});
+
+area.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    lastY = e.clientY;
+    area.classList.add('dragging');
+    cursor.src="./assets/UI/cursor/grabbing.png"
+    e.preventDefault();
+});
+
+area.addEventListener('mouseup', () => {
+    if (isDragging){
+        handleGestureEnd();
+        cursor.src="./assets/UI/cursor/grab.png"
+    }
+});
+
+
+_clicker.addEventListener('mouseenter', () => {
+    cursor.src="./assets/UI/cursor/pointer.png"
+});
+_clicker.addEventListener('mouseleave', () => {
+    cursor.src="./assets/UI/cursor/default.png"
+});
+_clicker.addEventListener('mousedown', () => {
+    cursor.src="./assets/UI/cursor/click.png"
+});
+_clicker.addEventListener('mouseup', () => {
+    cursor.src="./assets/UI/cursor/pointer.png"
 });
 
 
@@ -263,7 +380,7 @@ setInterval(() => {
     if (!window.compteurAuto) window.compteurAuto = 0;
     window.compteurAuto++;
 
-    if (window.compteurAuto >= 21-Math.min(20,stats.sps) && stats.sps>0) {
+    if (window.compteurAuto >= 40-Math.min(20,stats.sps) && stats.sps>0) {
         if (getCPS() < 1 && !isDragging) {
             nextMedia(false);
             

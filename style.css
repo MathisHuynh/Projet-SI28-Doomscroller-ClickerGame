@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tiny5&display=swap');
 
 body{
     display:grid;
@@ -10,7 +10,10 @@ body{
     background-color: #2C2C2C;
     color: white;
     user-select: none;
-    font-family: 'Quicksand', sans-serif;
+    font-family: "Tiny5", sans-serif;
+    overflow: hidden;
+
+    cursor: none;
 }
 
 section{
@@ -24,10 +27,23 @@ section{
     height: 100%;
 }
 
+.cursor{
+    width: 3em;
+    height: 3em;
+    position: absolute;
+    z-index: 9999;
+    pointer-events: none;
+    user-select: none;
+    transform: translate(-10px, -13px);
+    overflow: hidden;
+    display: none;
+}
+
 .droite {
     display: flex;
     flex-direction:row;
-    flex: 1; /* Prend 1 part de l'espace */
+    /*flex: 1; /* Prend 1 part de l'espace */
+    width: fit-content;
     height: 99vh; /* Utilise la hauteur de vue plutôt que fixe */
     border: 4px solid white;
     border-radius: 5px;
@@ -36,7 +52,7 @@ section{
 
 .boutique{
     height: 100vh;
-    width:50%;
+    width: fit-content;
     position: relative;
     margin: 0px 0px;
     border: 4px solid white;
@@ -44,7 +60,7 @@ section{
 }
 
 #upgrades{
-    width: -webkit-fill-available;
+    width: fit-content;
     height:100%;
     flex-grow: 1;
     padding: 5px;
@@ -64,22 +80,6 @@ section{
     text-align: center;
 }
 
-/*
-#desc{
-    background-color: rgba(44, 44, 44);
-    width: calc(100% - 24px);;
-    height: 135px;
-    padding: 10px;
-    position: relative;
-    bottom: 0;
-    left: 0;
-    border: 2px solid white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-*/
 
 .desc {
     position: fixed;
@@ -96,13 +96,40 @@ section{
     transform: translate(15px, 15px); /* Décalage pour ne pas être sous le curseur */
 }
 
+.open_trophies_button{
+    background-color: grey;
+    position: absolute;
+    top: 45%;
+    right: 0%;
+    height: 70px;
+    width: 20px;
+    z-index: 999;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.open_trophies_button:hover{    
+    filter:brightness(80%);
+}
+
+.open_trophies_button:active{    
+    transform: scale(1.04) translate(-5%,0%);
+}
+
+.trophies{
+    display: none;
+    background-color: black;
+    width: 50%;
+}
 
 
 .gauche {
+    flex-grow: 1;
+    position: relative;
     display: flex;
     flex-direction: column;
-    flex: 1.5; /* Prend 1.5 part de l'espace (plus large que la droite) */
+    /*flex: 1.5; /* Prend 1.5 part de l'espace (plus large que la droite) */
     height: 100vh;
+    min-width: 50%;
     border: 4px solid white;
     border-radius: 5px;
     box-sizing: border-box;
@@ -123,6 +150,28 @@ section{
     justify-content: center;
     width: 100%;
     overflow: hidden;
+}
+
+.loading {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: auto;
+    z-index: 998;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    border-radius: 10%;
+}
+
+.loading img{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -70%);
+    width: 30%;
 }
 
 .scroll-area {
@@ -147,7 +196,6 @@ section{
 .highlight-text{
     font-size: 32px;
     color: rgb(202, 115,243);
-    font-weight: 600;
     text-shadow: 2px 2px 3px rgb(0, 0, 0);
 }
 
@@ -157,7 +205,6 @@ section{
 
 .scroll-area:hover{
     transform:scale(1.01) ;
-    cursor: pointer;
 }
 
 .clickfeedback{
@@ -169,7 +216,9 @@ section{
 }
 
 .onclickicon{
-    width:15px;
+    position: absolute;
+    top: 2px;
+    width:20px;
 }
 
 
@@ -177,7 +226,7 @@ section{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: auto; /* S'adapte à la largeur du parent */
+    width: fit-content; /* S'adapte à la largeur du parent */
     max-width: 400px; /* Sécurité pour les très grands écrans */
     height: auto; /* Laisse le contenu respirer */
     min-height: 6vh; 
@@ -190,12 +239,8 @@ section{
 .upgrade:hover{
     opacity: 0.9;
     transform: scale(1.01);
-    cursor: pointer;
 }
 
-.upgrade:active{
-    transform: scale(1.02);
-}
 
 .sectionG{
     max-width: 15%;
@@ -255,7 +300,6 @@ section{
     display: flex;
     gap: 100px;
     justify-content: center;
-    font-weight: bold;
     font-size: 22px;
 }
 
@@ -310,24 +354,20 @@ section{
     /* ─── Zone de scroll ─── */
 .area {
 /* Superposition sur l'image */
-    border-radius: 10%;
+    /* border-radius: 5%; */
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 2%;
+    left: 2.5%;
+    width: 96%;
+    height: 96%;
     
     /* TRANSPARENCE */
     background: transparent !important; /* Force la transparence, ignore les anciennes couleurs */
     
     overflow: hidden;
-    cursor: grab;
     z-index: 0; /* Devant l'image */
 }
  
-.area.dragging {
-  cursor: grabbing;
-}
  
 /* ─── Contenu scrollable ─── */
 .scroll-content {
@@ -343,7 +383,7 @@ section{
 .item { 
     /*padding: 1rem 1.25rem;
     margin-bottom: 12px;*/
-    background: #1a1a1a;
+    background-color: black;
     transition: border-color 0.2s;
 }
  
