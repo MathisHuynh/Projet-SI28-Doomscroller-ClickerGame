@@ -46,7 +46,6 @@ section{
     width: fit-content;
     height: 99vh; /* Utilise la hauteur de vue plutôt que fixe */
     border: 4px solid white;
-    border-radius: 5px;
     overflow: hidden; /* Évite les débordements bizarres */
 }
 
@@ -55,22 +54,19 @@ section{
     width: fit-content;
     position: relative;
     margin: 0px 0px;
-    border: 4px solid white;
-    border-radius: 5px;
 }
 
 #upgrades{
-    background: #131416;
+    background: #454850;
     width: 100%;
     height:100%;
     flex-grow: 1;
     padding: 5px;
     position: relative;
     overflow-y: scroll;
-    border: 4px solid white;
 }
 
-#intitule{
+.intitule{
     width: 95%;
     height: fit-content;
     padding: 10px;
@@ -79,6 +75,7 @@ section{
     align-items: center;
     justify-content: center;
     text-align: center;
+    background-color:#141414;
 }
 
 
@@ -94,16 +91,16 @@ section{
     max-width: 250px;
     font-size: 0.9em;
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    transform: translate(15px, 15px); /* Décalage pour ne pas être sous le curseur */
+    transform: translate(10px, 10px); /* Décalage pour ne pas être sous le curseur */
 }
 
 .open_trophies_button{
     background-color: grey;
     position: absolute;
-    top: 98%;
-    right: 40%;
-    height: 20px;
-    width: 70px;
+    top: 97%;
+    right: 30%;
+    height: 30px;
+    width: 140px;
     z-index: 100;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
@@ -118,8 +115,14 @@ section{
 
 .trophies{
     display: none;
+    position:absolute;
+    top:0%;
+    left: 0%;
+    z-index: 99;
     background-color: black;
-    width: 50%;
+    width: 100%;
+    height: 100%;
+    transition: transform 5s ease-in-out;
 }
 
 
@@ -132,7 +135,6 @@ section{
     height: 100vh;
     min-width: 50%;
     border: 4px solid white;
-    border-radius: 5px;
     box-sizing: border-box;
 }
 
@@ -147,7 +149,6 @@ section{
     top: 0;
     left: 0;
     background-repeat: no-repeat;
-    /* transition: filter 5s ease-in-out; */
     image-rendering: pixelated;
 }
 .background::before {
@@ -223,7 +224,7 @@ section{
     /*border-radius: 10%;*/
     display: inline-block;
     position: relative; /* Référence pour le positionnement absolu */
-    overflow: hidden;
+    /* overflow: hidden; */
     line-height: 0;
 }
 
@@ -236,6 +237,38 @@ section{
     display: block;
     position: relative; /* Optionnel : pour gérer son z-index */
     z-index: 2;        /* Derrière le contenu */
+}
+.glow {
+position: absolute;
+    top: 49%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* Taille fixe pour un rendu pixel-perfect */
+    width: 22vh;
+    height: 49vh;
+    
+    /* Création de l'aspect 8-bit avec des ombres portées multiples 
+       et pas de flou (blur) */
+    background: transparent;
+    box-shadow: 
+        0 0 0 15px rgba(255, 255, 255, 0.2),
+        0 0 0 25px rgba(255, 255, 255, 0.15),
+        0 0 0 35px rgba(255, 255, 255, 0.1),
+        0 0 0 45px rgba(255, 255, 255, 0.05);
+        
+    /* Force le rendu sans anti-aliasing pour le côté rétro */
+    image-rendering: pixelated;
+    
+    pointer-events: none;
+    z-index: 3;
+    
+    /* Animation saccadée (steps) pour le style 8-bit */
+    animation: pulse 1s steps(4) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.05, 1.03); }
 }
 
 .highlight-text{
@@ -283,8 +316,15 @@ section{
     padding: 1vh 1vw;
     margin: 0 auto 10px auto;
     z-index: 1;
-    transition: transform 0.05s ease-out;
+    transition: transform 0.1s ease-out;
     will-change: transform;
+    filter: brightness(0.8);
+}
+.upgrade.upgrade.achetable{
+    filter: brightness(1);
+}
+.upgrade.achetable .info-prix{
+    color:#00ff00;
 }
 
 .upgrade::after {
@@ -361,9 +401,14 @@ section{
 }
 
 .upgrade.ishovered{
-    opacity: 0.9;
+    filter: brightness(0.8);
     transform: scale(1.01);
 }
+.upgrade.achetable.ishovered{
+    filter: brightness(0.9);
+    transform: scale(1.01);
+}
+
 .upgrade.ishovered .sectionG::before {
     animation: tourbillon 10s steps(40) infinite;
 }
@@ -488,10 +533,11 @@ section{
 
 .area {
     position: absolute;
-    top: 2%;
-    left: 2.5%;
-    width: 96%;
-    height: 96%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Déplace l'élément de sa propre moitié */
+    width: 95%;
+    height: 95%;
     
     /* TRANSPARENCE */
     background: transparent !important; /* Force la transparence, ignore les anciennes couleurs */
@@ -513,10 +559,14 @@ section{
  
 /* ─── Items ─── */
 .item { 
-    /*padding: 1rem 1.25rem;
-    margin-bottom: 12px;*/
-    background-color: black;
+    width: 100%;
+    aspect-ratio: 372 / 770; 
+
+    background-color: black; /* C'est ce fond noir qui va créer les "barres" */
     transition: border-color 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
  
  
@@ -545,7 +595,9 @@ section{
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    /* LA MAGIE EST ICI : "contain" redimensionne l'image pour qu'elle 
+       rentre entièrement dans la boîte sans être coupée. */
+    object-fit: contain; 
     /* Évite que l'image ne disparaisse pendant le changement de src */
     backface-visibility: hidden; 
 }

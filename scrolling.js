@@ -15,9 +15,15 @@ export var rafId = null;
 const MAX_CPS_EFFECT = 10;
 let activeCleanup = null;
 
+let last_media = null;
 // --- GESTION DES MÉDIAS ---
 function getNextMedia() {
-    return medias[Math.floor(Math.random() * medias.length)];
+    let new_media = medias[Math.floor(Math.random() * medias.length)];
+    if(last_media!==null){
+        while(new_media===last_media) new_media = medias[Math.floor(Math.random() * medias.length)];
+    }
+    last_media = new_media;
+    return new_media;
 }
 
 function finishAnimation() {

@@ -10,8 +10,7 @@ let divImgClickable = document.querySelector('.div-img-clickable');
 
 export const scoreState = {
     total_score: 0,
-    day_score: 0,
-    score: 1500000000000,
+    score: 100000000000000000,
 };
 
 let clickTimes = [];

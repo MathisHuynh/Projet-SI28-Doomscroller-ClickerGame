@@ -2,7 +2,7 @@ import { stats } from "./constantes/stats.js";
 import { bgm, adaptSoundTrack, lancerMusique } from "./audio.js";
 import { changerAmbiance } from "./background.js";
 import { updateScoresAuto, getCPS, incrementerScore, getSpsEffectif } from "./score.js";
-import { _upgrades } from "./upgradesMan.js";
+import { _upgrades, indiquerAchetable } from "./upgradesMan.js";
 import { area, scrollContent, scrollState, applyOffset, handleGestureEnd, nextMedia } from "./scrolling.js";
 import { cursor, _clicker } from "./cursor.js";
 
@@ -94,6 +94,7 @@ let status = 0;
 setInterval(() => {
     updateScoresAuto();
     adaptSoundTrack();
+    indiquerAchetable();
 
     //--- Auto Scrolling ---
     if (!window.compteurAuto) window.compteurAuto = 0;
@@ -118,9 +119,6 @@ setInterval(() => {
         changerAmbiance(filters[status%2]);
         status += 1;
     }
-    // const dureeTransition = isSingularityUnlocked ? 0.2 : Math.max(0.2, 5 - Math.log10(Math.max(1, spsActuel)));
-    // status += 1;
-    // changerAmbiance(filters[status % 2], dureeTransition);
 
     if (bgm.paused) bgm.play().catch(() => {});
 }, 100);

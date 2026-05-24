@@ -6,6 +6,17 @@ import { scoreState, scorestr, updateScoresAuto } from "./score.js"; // Import d
 export const desc = document.querySelector('.desc');
 export const _upgrades = document.getElementById('upgrades');
 
+export  function indiquerAchetable(){
+    upgrades.forEach(u => {
+        const upgstr = document.getElementById(u.id);
+        upgstr.classList.remove('achetable');
+        if(u.prix<=scoreState.score){
+            upgstr.classList.add('achetable');
+        }
+    })
+};
+
+
 window.afficherDesc = function(upgradeID) {
     const upg = upgrades.find(u => u.id === upgradeID);
     if (!upg) return;
