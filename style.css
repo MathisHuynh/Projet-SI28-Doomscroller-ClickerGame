@@ -12,7 +12,6 @@ body{
     user-select: none;
     font-family: "Tiny5", sans-serif;
     overflow: hidden;
-
     cursor: none;
 }
 
@@ -41,6 +40,7 @@ section{
 
 .droite {
     display: flex;
+    position: relative;
     flex-direction:row;
     /*flex: 1; /* Prend 1 part de l'espace */
     width: fit-content;
@@ -60,7 +60,8 @@ section{
 }
 
 #upgrades{
-    width: fit-content;
+    background: #131416;
+    width: 100%;
     height:100%;
     flex-grow: 1;
     padding: 5px;
@@ -99,20 +100,20 @@ section{
 .open_trophies_button{
     background-color: grey;
     position: absolute;
-    top: 45%;
-    right: 0%;
-    height: 70px;
-    width: 20px;
-    z-index: 999;
+    top: 98%;
+    right: 40%;
+    height: 20px;
+    width: 70px;
+    z-index: 100;
     border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 .open_trophies_button:hover{    
     filter:brightness(80%);
 }
 
 .open_trophies_button:active{    
-    transform: scale(1.04) translate(-5%,0%);
+    transform: scale(1.04);
 }
 
 .trophies{
@@ -135,8 +136,52 @@ section{
     box-sizing: border-box;
 }
 
+.background{
+    background-image: url("./assets/background/bedroom1.png");
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    background-repeat: no-repeat;
+    /* transition: filter 5s ease-in-out; */
+    image-rendering: pixelated;
+}
+.background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, 
+        #abe3ff, #ffffff,   /* Jour (0% à 33%) */
+        #f9d423,   /* Sunset (33% à 66%) */
+        #102e5c, #0a3d66    /* Nuit (66% à 100%) */
+    );
+    background-size: 100% 350%;
+    background-position: 0% 100%;
+    mix-blend-mode: multiply; 
+
+    /* --transition-vitesse: 5s; */
+    transition: background-position var(--transition-vitesse) steps(10);
+    pointer-events: none;
+
+    filter: url(#pixelate);
+}
+.background.night::before {
+    background-position: 0% 100%;
+}
+.background.day::before {
+    background-position: 0% 0%;
+}
+
+
 .gauche p {
-    font-size: clamp(1.2rem, 3vw, 2rem); /* S'adapte dynamiquement */
+    font-size: clamp(1.2rem, 3vw, 2rem);
     align-self: center;
     text-align: center;
     margin: 2vh 0;
@@ -159,7 +204,7 @@ section{
     left: 50%;
     transform: translate(-50%, -50%);
     margin: auto;
-    z-index: 998;
+    z-index: 2;
     width: 100%;
     height: 100%;
     background-color: black;
@@ -190,7 +235,7 @@ section{
     width: auto;
     display: block;
     position: relative; /* Optionnel : pour gérer son z-index */
-    z-index: 999;        /* Derrière le contenu */
+    z-index: 2;        /* Derrière le contenu */
 }
 
 .highlight-text{
@@ -210,42 +255,130 @@ section{
 .clickfeedback{
     color: white;
     position: absolute;
-    font-size: 20px;
+    font-size: 3vmin;
+    width: 12vmin;
     pointer-events: none;
-    z-index: 999;
+    z-index: 3;
+    white-space: nowrap;
 }
 
 .onclickicon{
     position: absolute;
-    top: 2px;
-    width:20px;
+    top: 0.2vmin; 
+    width: 3vmin;
+    height: 3vmin;
 }
 
 
 .upgrade {
     display: flex;
+    position: relative;
     align-items: center;
-    justify-content: space-between;
-    width: fit-content; /* S'adapte à la largeur du parent */
-    max-width: 400px; /* Sécurité pour les très grands écrans */
-    height: auto; /* Laisse le contenu respirer */
+    justify-content: left;
+    width: 90%;
+    max-width: 400px;
+    height: auto;
     min-height: 6vh; 
-    border: 4px solid white;
     border-radius: 5px;
-    padding: 1vh 1vw; /* Padding proportionnel */
+    padding: 1vh 1vw;
     margin: 0 auto 10px auto;
+    z-index: 1;
+    transition: transform 0.05s ease-out;
+    will-change: transform;
 }
 
-.upgrade:hover{
+.upgrade::after {
+    content: '';
+    position: absolute;
+    z-index: -1; 
+    top: 3px;
+    left: 3px;
+    right: 3px;
+    bottom: 3px;
+    background: rgb(31, 31, 31); /* Ton fond sombre revient ici */
+}
+.upgrade::before {
+    content: '';
+    position: absolute;
+    z-index: -2; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    background-size: 500%;
+    animation: multicolor 5s steps(40) infinite;
+}
+
+.upgrade.upgrade.has-powerup .sectionG::before{
+    background: url('./assets/upgrades/pu_bg.png');
+    animation: tourbillon 10s steps(40) infinite;
+    background-size: 100%;
+}
+.upgrade.has-powerup::before {
+    background: linear-gradient(90deg, 
+        #ff0000, #00ff00, #0000ff, #ff0000, #00ff00, #0000ff, #ff0000
+    );
+    background-size: 200% 100%;
+    filter: url(#pixelate); 
+    image-rendering: pixelated;
+    animation: multicolor 4s steps(20) infinite;
+}
+
+@keyframes multicolor {
+    0% {background-position: 0% 0%;}
+    100% { background-position: 300% 0%;}
+}
+
+
+
+.sectionG {
+    max-width: 20%;
+    max-height: 20%;
+    border-radius: 5px;
+    padding: 2px;
+    position: relative;
+    overflow: hidden; 
+}
+
+.sectionG::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: url('./assets/upgrades/bg.png');
+    background-size: 110%;
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: scale(1.4);
+}
+.sectionG .upgrade-img {
+    position: relative;
+    z-index: 2; 
+}
+
+.upgrade.ishovered{
     opacity: 0.9;
     transform: scale(1.01);
 }
-
-
-.sectionG{
-    max-width: 15%;
+.upgrade.ishovered .sectionG::before {
+    animation: tourbillon 10s steps(40) infinite;
+}
+@keyframes tourbillon {
+    0% {
+        transform: scale(1.4) rotate(0deg);
+    }
+    100% {
+        transform: scale(1.4) rotate(360deg);
+    }
 }
 
+.sectionM{
+    padding-left: 5%;
+}
 .sectionM h4{
     margin: 0;
     margin-bottom: 10px;
@@ -255,13 +388,27 @@ section{
     margin:0;
 }
 
+.sectionD{
+    margin-left: auto;
+}
+.sectionD span{
+    font-size: 30px;
+}
+
 .upgrade-img {
-    width: 100%; /* L'image s'adapte à la taille du bouton */
+    width: 100%;
+    pointer-events: none;
+    user-select: none;
+}
+.upgrade-txt{
+    font-weight: 400;
 }
 
 .currency-img{
     width: 30px;
     height: 30px;
+    pointer-events: none;
+    user-select: none;
 }
 
 .info-prix{
@@ -270,23 +417,10 @@ section{
     gap : 5px;
 }
 
-.info-niv-suiv{
-    position: absolute;
-    right: 102%;
-    z-index: 100;
-    pointer-events: none;
-    background-color: rgb(90,89,90);
-    height: 80px;
-    width: 100px;
-    text-align: center;
-    display: none;
-    border-radius: 4px;
+.info{
+    background:#141414;
+    opacity: 0.9;
 }
-
-.upgrade:hover .info-niv-suiv{
-    display:block;
-}
-
 
 .statistiques {
     width: 100%;
@@ -294,6 +428,7 @@ section{
     padding: 2vh;
     box-sizing: border-box;
     border-top: 6px white solid;
+    background: #141414;
 }
 
 .texte{
@@ -351,10 +486,7 @@ section{
     background: #555;
 }
 
-    /* ─── Zone de scroll ─── */
 .area {
-/* Superposition sur l'image */
-    /* border-radius: 5%; */
     position: absolute;
     top: 2%;
     left: 2.5%;
