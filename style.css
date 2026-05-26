@@ -183,6 +183,7 @@ section{
     filter: brightness(0.8);
 }
 #options{
+    filter: contrast(1.1);
     background-repeat: no-repeat;
     background-position: 0% 100%;
     background-size: contain;
@@ -446,6 +447,7 @@ section{
     background: url("./assets/UI/menu/boutique/upgrade_frames/upg_frame1.png");
     background-position: center;
     background-size: 100% 100%;
+    filter:brightness(0.8);
 }
 
 .upgrade::before {
