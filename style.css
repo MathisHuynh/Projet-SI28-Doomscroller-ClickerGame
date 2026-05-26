@@ -260,8 +260,10 @@ section{
     height: auto;
 }
 .stop_button img{
+    border-radius: 0.2rem;
     width: 100%;
     height: 100%;
+    filter: brightness(0.95);
 }
 .stop_hitbox{
     position: absolute;
@@ -421,7 +423,7 @@ section{
 }
 
 .upgrade.upgrade.achetable{
-    filter: brightness(1);
+    filter: brightness(0.8);
 }
 
 .upgrade.achetable .info-prix{
@@ -583,8 +585,15 @@ section{
 }
 
 .info{
-    background:#141414;
-    opacity: 0.9;
+    align-self: center;
+    width: 30%;
+    height: 13%;
+    background: url('./assets/UI/score_frame.png');
+    background-position: center;
+    background-size: 100% 100%;
+    box-shadow: 0rem 0.3rem 0.4rem black;
+    border-radius: 0.2rem;
+    filter: brightness(0.9);
 }
 
 .statistiques {
@@ -593,7 +602,7 @@ section{
     padding: 2vh;
     box-sizing: border-box;
     border-top: 0.375rem white solid; /* 6px */
-    background: #141414;
+    background: #523020;
 }
 
 .texte {
