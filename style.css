@@ -77,21 +77,21 @@ section{
     background-image: url("./assets/UI/menu/boutique/boutique_bg.png");
     background-position: center;
     background-size: 100% 100%;
+    filter: brightness(1.7);
 }
 .boutique.selected{
     display: block;
 }
 
 #upgrades {
-    width: 98%;
+    width: 87%;
     height:94%;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
     flex-grow: 1;
     /* padding: 0.3125rem 0.5rem;  */
-    padding: 2rem 2rem;
-    padding-left: 2.5rem;
+    padding: 0.5rem 0.5rem;
     box-sizing: border-box;
     position: absolute;
     overflow-y: scroll;
@@ -264,7 +264,7 @@ section{
     position: absolute;
     right:0;
     bottom:0;
-    width: 25vmin;
+    width: 23vmin;
     height: auto;
 }
 .stop_button img{
@@ -425,7 +425,7 @@ section{
     z-index: 1;
     transition: transform 0.1s ease-out;
     will-change: transform;
-    filter: brightness(0.8);
+    filter: brightness(0.6);
 }
 
 .upgrade.upgrade.achetable{
@@ -462,6 +462,7 @@ section{
     background-size: 500%;
     animation: multicolor 5s steps(40) infinite;
     border-radius: 0.5rem;
+    box-shadow: 0rem 0.2rem 0.2rem black;
 }
 
 .upgrade.upgrade.has-powerup .sectionG::before{
@@ -492,6 +493,7 @@ section{
     padding: 0.125rem; /* 2px */
     position: relative;
     overflow: hidden; 
+    filter: brightness(0.5);
 }
 
 .sectionG::before {
