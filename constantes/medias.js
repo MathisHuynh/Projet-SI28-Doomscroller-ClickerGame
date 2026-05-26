@@ -34,5 +34,13 @@ export const medias = [
     {
         name: 'Pop Cat',
         src:'./assets/medias/pop_cat.gif'
+    },
+    {
+        name: 'Tralalero Tralala',
+        src:'./assets/medias/tralalero.gif'
+    },
+    {
+        name:'Giga Chad',
+        src:'./assets/medias/flight.gif'
     }
 ];

@@ -39,7 +39,7 @@ export const music = [
 ];
 
 music.forEach(track => {
-    track.volume = 0.7;
+    track.volume = 1;
     track.loop = false;
 });
 

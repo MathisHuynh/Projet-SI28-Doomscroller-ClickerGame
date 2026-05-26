@@ -1,6 +1,6 @@
 import { stats } from "./constantes/stats.js";
 import { bgm, adaptSoundTrack, lancerMusique } from "./audio.js";
-import { changerAmbiance } from "./background.js";
+import { changerAmbiance, changerBackground } from "./background.js";
 import { updateScoresAuto, getCPS, incrementerScore, getSpsEffectif } from "./score.js";
 import { _upgrades, indiquerAchetable } from "./upgradesMan.js";
 import { area, scrollContent, scrollState, applyOffset, handleGestureEnd, nextMedia, isLoading } from "./scrolling.js";
@@ -133,6 +133,7 @@ setInterval(() => {
     updateScoresAuto();
     adaptSoundTrack();
     indiquerAchetable();
+    changerBackground();
 
     //--- Auto Scrolling ---
     if (!window.compteurAuto) window.compteurAuto = 0;
@@ -152,11 +153,15 @@ setInterval(() => {
     if(!window.compteurTemps) window.compteurTemps = 0;
     window.compteurTemps++;
     let multiplier = filters[status%2]==='day'? 1 : 0.8;
-    let cycle = window.compteurTemps%(1200*multiplier) //deux minute pour le cycle normal
+    const mod=Math.max(1,Math.round(1200*multiplier/Math.max(1,spsActuel*0.00000001)));
+    let cycle = window.compteurTemps%mod //deux minute pour le cycle normal
     if(cycle===0){
-        changerAmbiance(filters[status%2]);
+        if(mod<50){
+            changerAmbiance(filters[status%2], Math.min(Math.max(0.1, Math.round(1200*multiplier/Math.max(1,spsActuel*0.00000001))),5))
+        }else changerAmbiance(filters[status%2]);
         status += 1;
     }
+
 
     if (bgm.paused) bgm.play().catch(() => {});
 }, 100);

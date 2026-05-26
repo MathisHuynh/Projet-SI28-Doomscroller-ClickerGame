@@ -43,7 +43,7 @@ section{
     user-select: none;
     transform: translate(-0.625rem, -0.8125rem); /* -10px, -13px */
     overflow: hidden;
-    display: none;
+    display: block;
 }
 
 .droite {
@@ -212,7 +212,7 @@ section{
 }
 
 .background{
-    background-image: url("./assets/background/bedroom1.png");
+    background: url("./assets/background/bedroom1.png");
     background-size: cover;
     background-position: center;
     position: absolute;
@@ -258,6 +258,7 @@ section{
     bottom:0;
     width: 23vmin;
     height: auto;
+    box-shadow: 0rem 0.2rem 0 0.1rem black;
 }
 .stop_button img{
     border-radius: 0.2rem;
@@ -374,7 +375,7 @@ section{
 
 .highlight-text{
     font-size: 2rem; /* 32px */
-    color: rgb(202, 115,243);
+    color: rgb(234, 59, 59);
     text-shadow: 0.125rem 0.125rem 0.1875rem rgb(0, 0, 0); /* 2px 2px 3px */
 }
 
@@ -456,7 +457,7 @@ section{
     background-size: 500%;
     animation: multicolor 5s steps(40) infinite;
     border-radius: 0.5rem;
-    box-shadow: 0rem 0.2rem 0.2rem black;
+    box-shadow: 0rem 0.2rem 0 0.1rem black;
 }
 
 .upgrade.upgrade.has-powerup .sectionG::before{
@@ -516,8 +517,14 @@ section{
 }
 
 .upgrade.achetable.ishovered{
-    filter: brightness(1.1);
     transform: scale(1.01);
+}
+
+.upgrade.achetable .sectionG{
+    filter:brightness(0.6);
+}
+.upgrade.achetable.ishovered .sectionG{
+    filter:brightness(0.7);
 }
 
 .upgrade.ishovered .upgrade-img{
@@ -591,7 +598,7 @@ section{
     background: url('./assets/UI/score_frame.png');
     background-position: center;
     background-size: 100% 100%;
-    box-shadow: 0rem 0.3rem 0.4rem black;
+    box-shadow: 0rem 0.3rem 0 0.1rem black;
     border-radius: 0.2rem;
     filter: brightness(0.9);
 }
