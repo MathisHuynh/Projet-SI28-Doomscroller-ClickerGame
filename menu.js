@@ -6,8 +6,13 @@ const boutique = document.querySelector('.boutique');
 const b_trophies = document.getElementById('trophies');
 const b_boutique = document.getElementById('boutique');
 
+const menu_sfx = new Audio('./assets/audio/open_menu.mp3');
+menu_sfx.volume=0.4;
+
 window.afficherMenu = function(menu) {
     if(current===menu) return;
+    menu_sfx.currentTime=0;
+    menu_sfx.play().catch(() => {});
     if (menu==="boutique"){
         b_trophies.classList.remove('selected');
         trophies.classList.remove('selected');
