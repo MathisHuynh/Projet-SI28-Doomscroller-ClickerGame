@@ -9,5 +9,7 @@ export const stats = {
         neural: { productionSps: 0, multiplicateurSps: 1 },
         cable: { productionSps: 0, multiplicateurSps: 1 },
         singularity: { productionSps: 0, multiplicateurSps: 1 }
-    }
+    },
+    loading_rate: 0.1,
+    loading_max_time: 5,
 };

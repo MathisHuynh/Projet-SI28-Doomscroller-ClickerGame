@@ -54,13 +54,13 @@ export function checkPowerup(upgradeId, lvl) {
 
 export const behaviour = {
     clicker: {
-        desc: "Augmente le nombre de shorties consommé par clic (et génère un revenu passif).",
+        desc: "Augmente le nombre de shorties consommé par clic.",
         multiplicateurScore: 1.05,
         multiplicateurPrix: 1.25,
         powerup: [
             {
                 nom: 'Bouton de scroll',
-                img: './assets/upgrades/clicker_up_placeholder.png',
+                img: './assets/upgrades/scrolling_button.png',
                 niveau: [15],
                 desc: 'Permet de scroller avec un seul clic',
                 achat: function() {
@@ -71,9 +71,9 @@ export const behaviour = {
             },
             {
                 nom: 'Images rémanentes',
-                img: './assets/upgrades/clicker_up_placeholder.png',
-                niveau: [10, 30, 50, 70, 100],
-                desc: '"Vous scrollez tellement vite que vous pouvez voir plusieurs shorties sur un seul écran!"<br>Augmente le multiplicateur de shorties généré par vos écrans.',
+                img: './assets/upgrades/after_images.png',
+                niveau: [10, 20, 30, 40, 50, 70, 100],
+                desc: '"Vous scrollez tellement vite que vous pouvez voir plusieurs shorties sur un seul écran!"<br>Augmente le multiplicateur de shorties généré par le scrolling manuel.',
                 achat: function() {
                     powerupsfx.play().catch(() => {});
                     stats.batiments.clicker.multiplicateurSpc *= 1.5;
@@ -87,7 +87,6 @@ export const behaviour = {
             else { 
                 playupgradesfx();
                 stats.spcBase += this.bonus;
-                stats.batiments.clicker.productionSps += this.bonus * 0.2; 
             }
         }
     },
@@ -105,6 +104,27 @@ export const behaviour = {
             if (pu !== 0) this.powerup.at((pu - 1) % this.powerup.length).achat();
             else { playupgradesfx(); stats.batiments.scroller.productionSps += this.bonus; }
         }
+    },
+    router:{
+        desc: "Améliore la qualité du réseau et réduit le temps de chargement.",
+        multiplicateurScore: 0.95,
+        multiplicateurPrix: 1.8,
+        powerup: [{
+            nom: 'Relai Wi-Fi', img: './assets/upgrades/relay.png', niveau: [5, 10, 15, 20],
+            desc: '"On baigne dans les ondes.".<br>Réduit le taux d\'apparition des chargements.',
+            achat: function() { stats.loading_rate *= 0.7; powerupsfx.play().catch(() => {}); }
+        },{
+            nom: 'Fibre Mondiale', img: './assets/upgrades/fiber.png', niveau: [30],
+            desc: '"Une connexion directe aux dorsales dinternet.".<br>Le débit est absolu, il n\'y a plus de chargement.',
+            achat: function() { stats.loading_rate *= 0; powerupsfx.play().catch(() => {}); }
+        },
+        ],
+        achat: function() {
+            let pu = checkPowerup(this.id, parseInt(this.niveau.textContent));
+            if (pu !== 0) this.powerup.at((pu - 1) % this.powerup.length).achat();
+            else { playupgradesfx(); stats.loading_max_time = Math.max(0,stats.loading_max_time-this.bonus); }
+        },
+        
     },
     farm: {
         desc: "Une usine remplie de téléphones qui scrollent tout seuls.",
@@ -167,7 +187,7 @@ export const behaviour = {
         }
     },
     cable: {
-        desc: "Un accès direct aux dorsales d'internet. Le débit est absolu.",
+        desc: "Les shorties ont un accès direct à vos synapses.",
         multiplicateurScore: 1.18,
         multiplicateurPrix: 1.33,
         powerup: [{

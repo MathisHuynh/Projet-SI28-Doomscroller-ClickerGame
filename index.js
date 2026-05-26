@@ -3,12 +3,11 @@ import { bgm, adaptSoundTrack, lancerMusique } from "./audio.js";
 import { changerAmbiance } from "./background.js";
 import { updateScoresAuto, getCPS, incrementerScore, getSpsEffectif } from "./score.js";
 import { _upgrades, indiquerAchetable } from "./upgradesMan.js";
-import { area, scrollContent, scrollState, applyOffset, handleGestureEnd, nextMedia } from "./scrolling.js";
+import { area, scrollContent, scrollState, applyOffset, handleGestureEnd, nextMedia, isLoading } from "./scrolling.js";
 import { cursor, _clicker } from "./cursor.js";
+import "./menu.js";
 
 import "./trophies.js";
-
-let loading = document.querySelector('.loading');
 
 // --- INTERACTION SOURIS GLOBALE ---
 document.addEventListener('mouseup', (e) => {
@@ -67,6 +66,7 @@ area.addEventListener('mouseleave', () => {
     if (!scrollState.isDragging) cursor.src = "./assets/UI/cursor/default.png";
 });
 area.addEventListener('mousedown', (e) => {
+    if (isLoading) return;
     scrollState.isDragging = true;
     scrollState.lastY = e.clientY;
     area.classList.add('dragging');
@@ -85,6 +85,44 @@ _clicker.addEventListener('mouseenter', () => { cursor.src = "./assets/UI/cursor
 _clicker.addEventListener('mouseleave', () => { cursor.src = "./assets/UI/cursor/default.png"; });
 _clicker.addEventListener('mousedown', () => { cursor.src = "./assets/UI/cursor/click.png"; });
 _clicker.addEventListener('mouseup', () => { cursor.src = "./assets/UI/cursor/pointer.png"; });
+
+// --- INTERACTIONS DU BOUTON STOP ---
+const _stop_button = document.querySelector(".stop_hitbox");
+const _stop_buttonImg = document.querySelector(".stop_img");
+
+_stop_button.addEventListener('mouseenter', () => { cursor.src = "./assets/UI/cursor/pointer.png"; });
+_stop_button.addEventListener('mouseleave', () => { cursor.src = "./assets/UI/cursor/default.png"; });
+
+window.clickStop = function(){
+    cursor.src="./assets/UI/cursor/click.png";
+    _stop_buttonImg.src="./assets/UI/stop_button_pushed.png";
+    setTimeout(() => {
+        cursor.src = "./assets/UI/cursor/pointer.png";
+        _stop_buttonImg.src="./assets/UI/stop_button.png";
+    }, 100);
+};
+
+// -- INTERACTIONS DE LA VITRE ---
+const _safety_glass = document.querySelector(".safety_glass");
+let isOpen = false;
+_safety_glass.addEventListener('mouseenter', () => { cursor.src = "./assets/UI/cursor/grab.png"; });
+_safety_glass.addEventListener('mouseleave', () => { cursor.src = "./assets/UI/cursor/default.png"; });
+
+window.clickGlass = function(){
+    cursor.src="./assets/UI/cursor/grabbing.png";
+    if(!isOpen){
+        _safety_glass.classList.add("open");
+        isOpen=true;
+    }
+    else{
+        _safety_glass.classList.remove("open");
+        isOpen=false;
+    }
+    setTimeout(() => {
+        cursor.src = "./assets/UI/cursor/pointer.png";
+    }, 100);
+};
+
 
 // --- BOUCLE PRINCIPALE ---
 
@@ -105,7 +143,7 @@ setInterval(() => {
     if (!isSingularityUnlocked) scaling = Math.min(199, Math.log10(Math.max(1, spsActuel)) * 30);
     else scaling = 200;
     const seuil = 200 - scaling;
-    if (window.compteurAuto >= seuil && spsActuel > 0) {
+    if (window.compteurAuto >= seuil && spsActuel > 0 && !isLoading) {
         if (getCPS() < 1 && !scrollState.isDragging) nextMedia(false); 
         window.compteurAuto = 0;
     }
@@ -113,8 +151,8 @@ setInterval(() => {
     //--- Cycle jour/nuit ---
     if(!window.compteurTemps) window.compteurTemps = 0;
     window.compteurTemps++;
-    let multiplier = filters[status%2]==='day'? 1 : 0.8; 
-    let cycle = window.compteurTemps%(600*multiplier) //Une minute pour le cycle normal
+    let multiplier = filters[status%2]==='day'? 1 : 0.8;
+    let cycle = window.compteurTemps%(1200*multiplier) //deux minute pour le cycle normal
     if(cycle===0){
         changerAmbiance(filters[status%2]);
         status += 1;

@@ -1,6 +1,6 @@
 import { stats } from "./constantes/stats.js";
 import { playscoresfx } from "./audio.js";
-import { nextMedia } from "./scrolling.js";
+import { nextMedia, isLoading } from "./scrolling.js";
 
 export let scorestr = document.querySelector('.score-val');
 export let cpsstr = document.getElementById("cps");
@@ -10,7 +10,7 @@ let divImgClickable = document.querySelector('.div-img-clickable');
 
 export const scoreState = {
     total_score: 0,
-    score: 100000000000000000,
+    score: 1000000000000000000000,
 };
 
 let clickTimes = [];
@@ -58,6 +58,7 @@ function calculCpcEffectif() {
 }
 
 export function incrementerScore(event, isClick) {
+    if (isLoading) return;
     clickTimes.push(Date.now());
     playscoresfx();
     nextMedia(isClick);
@@ -71,11 +72,12 @@ export function incrementerScore(event, isClick) {
 }
 
 export function updateScoresAuto() {
+    if (isLoading) return;
     const spsEffectif = getSpsEffectif(); 
     scoreState.total_score += (spsEffectif / 10);
     scoreState.score += (spsEffectif / 10);
     scorestr.textContent = Math.round(scoreState.score);
     cpsstr.textContent = getCPS();
-    spcstr.textContent = calculCpcEffectif().toFixed(2);
-    spsstr.textContent = spsEffectif.toFixed(2);
+    spcstr.textContent = Math.round(calculCpcEffectif());
+    spsstr.textContent = Math.round(spsEffectif);
 }

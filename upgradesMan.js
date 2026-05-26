@@ -1,6 +1,6 @@
 import { upgrades, checkPowerup } from "./constantes/upgrades.js";
 import { cursor } from "./cursor.js";
-import { scoreState, scorestr, updateScoresAuto } from "./score.js"; // Import de updateScoresAuto ajouté
+import { scoreState, scorestr, updateScoresAuto } from "./score.js"; 
 
 // --- GESTION DES INTERFACES ---
 export const desc = document.querySelector('.desc');
@@ -26,7 +26,14 @@ window.afficherDesc = function(upgradeID) {
         const nextPowerup = upg.powerup[puIndex - 1];
         desc.innerHTML = `<u>POWERUP: ${nextPowerup.nom}</u><br><br>${nextPowerup.desc}`;
     } else {
-        desc.innerHTML = `<u>${upg.nom}</u><br><br>${upg.desc || "Amélioration standard"}`;
+        let next_pu=999;
+        upg.powerup.forEach(pu => {
+            pu.niveau.forEach(nv => {
+                if(nv>niveauActuel && nv<next_pu) next_pu=nv;
+            })
+        })
+        const pu_str = (next_pu!==999)? `<br>Prochain POWERUP: Niveau ${next_pu}` : '';
+        desc.innerHTML = `<u>${upg.nom}</u><br><br>${upg.desc || "Amélioration standard"}${pu_str}`;
     }
     desc.style.display = 'block';
 };
@@ -63,7 +70,7 @@ window.acheterUpgrade = function(upgradeID) {
     
     if (scoreState.score >= mu.prix) {
         scoreState.score -= mu.prix;
-        mu.achat(); // C'est ici que l'upgrade modifie l'objet "stats" global
+        mu.achat();
         
         let nouveauNiveau = parseInt(mu.niveau.textContent) + 1;
         mu.niveau.textContent = nouveauNiveau;
@@ -71,7 +78,6 @@ window.acheterUpgrade = function(upgradeID) {
         mu.prix *= mu.multiplicateurPrix;
         mu.prixstr.textContent = Math.round(mu.prix);
         
-        // On force la mise à jour visuelle immédiate des compteurs et des statistiques SPC/SPS
         updateScoresAuto(); 
         
         switchPowerup(upgradeID);

@@ -1,4 +1,5 @@
 import { medias } from "./constantes/medias.js";
+import { stats } from "./constantes/stats.js";
 import { getCPS, incrementerScore } from "./score.js";
 
 // --- CONFIGURATION DU GLISSEMENT ---
@@ -30,7 +31,40 @@ function finishAnimation() {
     if (activeCleanup) activeCleanup();
 }
 
+const loading = document.querySelector(".loading");
+const loading_sfx = new Audio("./assets/audio/loading.mp3");
+loading_sfx.volume = 0.6;
+
+const loading_end_sfx = new Audio("./assets/audio/loading_end.mp3");
+loading_end_sfx.volume=0.2;
+
+export let isLoading = false;
+function rollLoading(){
+        if(stats.batiments.cable.productionSps===0){
+        let roll = Math.random();
+        if (roll <= stats.loading_rate) {
+            loading.style.display = "block";
+            isLoading = true;
+            const minTime = 1;
+            const maxTime = stats.loading_max_time;
+            const loadDuration = (Math.random() * (maxTime - minTime) + minTime) * 1000;
+            loading_sfx.currentTime=0;
+            loading_sfx.play().catch(() => {});
+            setTimeout(() => {
+                loading.style.display = "none";
+                isLoading = false;
+                loading_end_sfx.currentTime=0;
+                loading_end_sfx.play().catch(() => {});
+            }, loadDuration);
+        }
+    }
+}
+
+
 export function nextMedia(isClick = false) {
+    if (isLoading) return; 
+    rollLoading();
+
     finishAnimation();
     scrollState.isDragging = false;
     cancelAnimationFrame(rafId);
@@ -38,6 +72,7 @@ export function nextMedia(isClick = false) {
     const itemHeight = (scrollContent.querySelector('.item')) ? scrollContent.querySelector('.item').offsetHeight : 0;
     scrollState.currentOffset = itemHeight;
     let duration = 0.5;
+    
     if (isClick) {
         const cps = getCPS();
         duration = Math.max(0.05, 0.25 - (cps / MAX_CPS_EFFECT) * 0.2);

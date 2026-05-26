@@ -39,12 +39,19 @@
                     </p>
                 </div>
                 <div class="div-img-clickable">
+                    <div class="stop_button">
+                        <div class="safety_glass">
+                            <img src="./assets/UI/safety_glass.png" onclick="clickGlass()" class="safety_img">
+                        </div>
+                        <div class ="stop_hitbox" onclick="clickStop()"></div>
+                        <img src="./assets/UI/stop_button.png" class="stop_img">
+                    </div>
                     <div class="scroll-area">
                         <div class="glow"></div> <img src="./assets/phone.gif" class="clicker" onclick="incrementerScore(event,true)" draggable="false">
-                        <div class = "loading"><img src="./assets/loading.gif"></div>
                         <div class="area" id="area">
-                            <div class="fade-top"></div>
-                            <div class="fade-bottom"></div>            
+                            <div class = "loading"><img src="./assets/loading.gif"></div>
+                            <div class="fade-top" style="height: 1.875rem; top: 5.5%;"></div>
+                            <div class="fade-bottom" style="height: 1.875rem; bottom: 8%;"></div>            
                             <div class="scroll-content" id="scrollContent">
                                 <div class="item">
                                     <img src="./assets/medias/OnceUponABouchardon.gif" draggable="false" alt="">
@@ -86,14 +93,19 @@
             </script>
 
             <div class="droite">
-                <div class="open_trophies_button" onclick="afficherTrophies()"></div>
-                <div class="boutique">
-                    <div class="intitule">BOUTIQUE</div>
-                    <div id="upgrades"></div>
+                <div class="UI_buttons">
+                    <div class="button selected" id="boutique" onclick="afficherMenu('boutique')"><div class="button_text">BOUTIQUE</div></div>
+                    <div class="button" id="trophies" onclick="afficherMenu('trophies')"><div class="button_text">COLLECTION</div></div>
+                    <div class="button" id="options" onclick="afficherMenu('options')"><div class="button_text">OPTIONS</div></div>
                 </div>
-
-                <div class="trophies">
-                    <div class="intitule">SHORTIES RARES</div>
+                <div class="menu">
+                    <div class="boutique selected">
+                        <!-- <div class="intitule">BOUTIQUE</div> -->
+                        <div id="upgrades"></div>
+                    </div>
+                    <div class="trophies">
+                        <!-- <div class="intitule">SHORTIES RARES</div> -->
+                    </div>
                 </div>
             </div>
 

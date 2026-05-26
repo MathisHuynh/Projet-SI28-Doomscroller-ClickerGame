@@ -1,5 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Tiny5&display=swap');
 
+html {
+    /* ✨ LA MAGIE OPÈRE ICI ✨
+       1.2vw = 1.2% de la largeur de l'écran. 
+       Si tu trouves le jeu trop gros ou trop petit, modifie juste cette valeur !
+       (Tu peux aussi essayer "1.5vmin" pour qu'il s'adapte à la plus petite dimension) */
+    font-size: .8vmax;
+}
+
 body{
     display:grid;
     place-items: center;
@@ -22,18 +30,18 @@ section{
 
 .main{
     display: flex;
-    width:100%;
+    width: 100%;
     height: 100%;
 }
 
 .cursor{
-    width: 3em;
-    height: 3em;
+    width: 50px; /* Converti en rem pour scaler avec le reste */
+    height: 50px;
     position: absolute;
     z-index: 9999;
     pointer-events: none;
     user-select: none;
-    transform: translate(-10px, -13px);
+    transform: translate(-0.625rem, -0.8125rem); /* -10px, -13px */
     overflow: hidden;
     display: none;
 }
@@ -41,35 +49,59 @@ section{
 .droite {
     display: flex;
     position: relative;
-    flex-direction:row;
-    /*flex: 1; /* Prend 1 part de l'espace */
-    width: fit-content;
-    height: 99vh; /* Utilise la hauteur de vue plutôt que fixe */
-    border: 4px solid white;
-    overflow: hidden; /* Évite les débordements bizarres */
-}
-
-.boutique{
+    flex-direction: column; /* Aligne le menu et les boutons côte à côte */
+    flex: 0 0 25%;       /* Conserve tes 25% de l'écran total */
     height: 100vh;
-    width: fit-content;
-    position: relative;
-    margin: 0px 0px;
+    border: 0.25rem solid #24140E;
+    overflow: hidden;
+    box-sizing: border-box; /* Recommandé pour éviter que les bordures déforment les calculs de % */
 }
 
-#upgrades{
-    background: #454850;
-    width: 100%;
-    height:100%;
-    flex-grow: 1;
-    padding: 5px;
+.menu {
+    height: 90%;
+    flex: 0 0 90%;
+    display: flex;
+    flex-direction: column;
     position: relative;
+    box-sizing: border-box;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+}
+
+.boutique {
+    height: 100%;
+    width: 100%; 
+    position: relative;
+    margin: 0;
+    display: none;
+    background-image: url("./assets/UI/menu/boutique/boutique_bg.png");
+    background-position: center;
+    background-size: 100% 100%;
+}
+.boutique.selected{
+    display: block;
+}
+
+#upgrades {
+    width: 98%;
+    height:94%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    flex-grow: 1;
+    /* padding: 0.3125rem 0.5rem;  */
+    padding: 2rem 2rem;
+    padding-left: 2.5rem;
+    box-sizing: border-box;
+    position: absolute;
     overflow-y: scroll;
+    scrollbar-color: #24140E;
 }
 
 .intitule{
     width: 95%;
     height: fit-content;
-    padding: 10px;
+    padding: 0.625rem; /* 10px */
     position: relative;
     display: flex;
     align-items: center;
@@ -78,39 +110,87 @@ section{
     background-color:#141414;
 }
 
-
 .desc {
     position: fixed;
-    pointer-events: none; /* Empêche la div de clignoter en passant sous la souris */
+    pointer-events: none;
     display: none;
     z-index: 9999;
     background: rgba(0, 0, 0, 0.85);
     color: white;
-    padding: 10px;
-    border-radius: 6px;
-    max-width: 250px;
-    font-size: 0.9em;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    transform: translate(10px, 10px); /* Décalage pour ne pas être sous le curseur */
+    padding: 0.625rem; /* 10px */
+    border-radius: 0.375rem; /* 6px */
+    max-width: 16.625rem; /* 250px */
+    font-size: 0.9rem;
+    box-shadow: 0 0.25rem 0.9375rem rgba(0,0,0,0.5); /* 0 4px 15px */
+    transform: translate(0.625rem, 0.625rem); /* 10px, 10px */
 }
 
-.open_trophies_button{
-    background-color: grey;
-    position: absolute;
-    top: 97%;
-    right: 30%;
-    height: 30px;
-    width: 140px;
+.UI_buttons {
+    flex: 0 0 10%;
+    height: 10%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-sizing: border-box;
+    overflow: visible;
+    background-color: #24140E;
+}
+
+.button{
+    flex: 1;
+    position: relative;
+    height: 10rem;
     z-index: 100;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    border-top: none;
+    transform: translateY(-20%);
+    transition: transform 0.2s steps(3);
 }
-.open_trophies_button:hover{    
-    filter:brightness(80%);
+.button:hover{    
+    filter:brightness(1.2);
+    transform: translate(0,-12%);
 }
-
-.open_trophies_button:active{    
-    transform: scale(1.04);
+.button.selected:hover{    
+    filter:brightness(1.2);
+    transform: translate(0,-20%);
+}
+.button:active{    
+    transform: scale(1.04) translate(0,-15%);
+}
+.button_text{
+    font-size: 1.7rem;
+    position: absolute;
+    width:100%;
+    bottom:0;
+    text-align:center;
+}
+#boutique{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url("./assets/UI/menu/boutique/shop_button.png");
+}
+#boutique.selected{
+    filter: brightness(0.8);
+}
+#trophies{
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: 0% 100%;
+    background-image: url("./assets/UI/menu/trophy_button.png");
+}
+#trophies.selected{
+    filter: brightness(0.8);
+}
+#options{
+    background-repeat: no-repeat;
+    background-position: 0% 100%;
+    background-size: contain;
+    background-image: url("./assets/UI/menu/setting_button.png");
+}
+#options.selected{
+    filter: brightness(0.8);
+    background-image: url("./assets/UI/menu/setting_button.png");
 }
 
 .trophies{
@@ -124,17 +204,17 @@ section{
     height: 100%;
     transition: transform 5s ease-in-out;
 }
-
+.trophies.selected{
+    display: block;
+}
 
 .gauche {
     flex-grow: 1;
     position: relative;
     display: flex;
     flex-direction: column;
-    /*flex: 1.5; /* Prend 1.5 part de l'espace (plus large que la droite) */
     height: 100vh;
-    min-width: 50%;
-    border: 4px solid white;
+    border: 1.2rem solid #24140E; 
     box-sizing: border-box;
 }
 
@@ -151,6 +231,7 @@ section{
     background-repeat: no-repeat;
     image-rendering: pixelated;
 }
+
 .background::before {
     content: '';
     position: absolute;
@@ -166,13 +247,11 @@ section{
     background-size: 100% 350%;
     background-position: 0% 100%;
     mix-blend-mode: multiply; 
-
-    /* --transition-vitesse: 5s; */
     transition: background-position var(--transition-vitesse) steps(10);
     pointer-events: none;
-
     filter: url(#pixelate);
 }
+
 .background.night::before {
     background-position: 0% 100%;
 }
@@ -180,6 +259,42 @@ section{
     background-position: 0% 0%;
 }
 
+.stop_button{
+    position: absolute;
+    right:0;
+    bottom:0;
+    width: 25vmin;
+    height: auto;
+}
+.stop_button img{
+    width: 100%;
+    height: 100%;
+}
+.stop_hitbox{
+    position: absolute;
+    width:19vmin;
+    height:19vmin;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-51%);
+    z-index: 1;
+}
+
+.safety_glass{
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    position: absolute;
+    opacity: 0.8;
+    width: 95%;
+    z-index: 2;
+}
+.safety_glass.open{
+    -webkit-transform: scale(-1, -1);
+    -moz-transform: scale(-1, -1);
+    -o-transform: scale(-1, -1);
+    transform: translate(-50%,-150%) scale(1, -1);
+}
 
 .gauche p {
     font-size: clamp(1.2rem, 3vw, 2rem);
@@ -187,7 +302,6 @@ section{
     text-align: center;
     margin: 2vh 0;
 }
-
 
 .div-img-clickable {
     flex: 1;
@@ -218,67 +332,59 @@ section{
     left: 50%;
     transform: translate(-50%, -70%);
     width: 30%;
+    pointer-events: none;
+    user-select: none;
 }
 
 .scroll-area {
-    /*border-radius: 10%;*/
     display: inline-block;
-    position: relative; /* Référence pour le positionnement absolu */
-    /* overflow: hidden; */
+    position: relative; 
     line-height: 0;
 }
 
 .clicker {
     pointer-events: none;
     user-select: none;
-    /* L'image qui définit la taille */
     height: 60vh;
     width: auto;
     display: block;
-    position: relative; /* Optionnel : pour gérer son z-index */
-    z-index: 2;        /* Derrière le contenu */
+    position: relative;
+    z-index: 2;
 }
+
 .glow {
-position: absolute;
+    position: absolute;
     top: 49%;
     left: 50%;
     transform: translate(-50%, -50%);
-    /* Taille fixe pour un rendu pixel-perfect */
     width: 22vh;
     height: 49vh;
-    
-    /* Création de l'aspect 8-bit avec des ombres portées multiples 
-       et pas de flou (blur) */
     background: transparent;
+    /* Traduction des ombres en rem (15px, 25px, 35px, 45px) */
     box-shadow: 
-        0 0 0 15px rgba(255, 255, 255, 0.2),
-        0 0 0 25px rgba(255, 255, 255, 0.15),
-        0 0 0 35px rgba(255, 255, 255, 0.1),
-        0 0 0 45px rgba(255, 255, 255, 0.05);
-        
-    /* Force le rendu sans anti-aliasing pour le côté rétro */
+        0 0 0 0.9375rem rgba(255, 255, 255, 0.2), 
+        0 0 0 1.5625rem rgba(255, 255, 255, 0.15),
+        0 0 0 2.1875rem rgba(255, 255, 255, 0.1),
+        0 0 0 2.8125rem rgba(255, 255, 255, 0.05);
     image-rendering: pixelated;
-    
     pointer-events: none;
     z-index: 3;
-    
-    /* Animation saccadée (steps) pour le style 8-bit */
-    animation: pulse 1s steps(4) infinite;
+    animation: glow_pulse 1s steps(4) infinite;
 }
 
-@keyframes pulse {
+@keyframes glow_pulse {
     0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
     50% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.05, 1.03); }
 }
 
 .highlight-text{
-    font-size: 32px;
+    font-size: 2rem; /* 32px */
     color: rgb(202, 115,243);
-    text-shadow: 2px 2px 3px rgb(0, 0, 0);
+    text-shadow: 0.125rem 0.125rem 0.1875rem rgb(0, 0, 0); /* 2px 2px 3px */
 }
 
 .prixstr{
-    font-size: 20px;
+    font-size: 1.25rem; /* 20px */
 }
 
 .scroll-area:hover{
@@ -302,27 +408,29 @@ position: absolute;
     height: 3vmin;
 }
 
-
 .upgrade {
     display: flex;
     position: relative;
     align-items: center;
     justify-content: left;
-    width: 90%;
-    max-width: 400px;
+    width: 100%;
+    box-sizing: border-box;
     height: auto;
-    min-height: 6vh; 
-    border-radius: 5px;
+    min-height: 6vh;
+    border-radius: 0.3125rem;
     padding: 1vh 1vw;
-    margin: 0 auto 10px auto;
+    padding-left: 3rem;
+    margin: 0 auto 0.625rem auto;
     z-index: 1;
     transition: transform 0.1s ease-out;
     will-change: transform;
     filter: brightness(0.8);
 }
+
 .upgrade.upgrade.achetable{
     filter: brightness(1);
 }
+
 .upgrade.achetable .info-prix{
     color:#00ff00;
 }
@@ -331,23 +439,27 @@ position: absolute;
     content: '';
     position: absolute;
     z-index: -1; 
-    top: 3px;
-    left: 3px;
-    right: 3px;
-    bottom: 3px;
-    background: rgb(31, 31, 31); /* Ton fond sombre revient ici */
+    top: 0.1875rem; /* 3px */
+    left: 0.1875rem; 
+    right: 0.1875rem; 
+    bottom: 0.1875rem;
+    background: url("./assets/UI/menu/boutique/upgrade_frames/upg_frame1.png");
+    background-position: center;
+    background-size: 100% 100%;
 }
+
 .upgrade::before {
     content: '';
     position: absolute;
     z-index: -2; 
     top: 0;
     left: 0;
-    width: 100%;
+    width: 101%;
     height: 100%;
-    background: white;
+    background: #24140E;
     background-size: 500%;
     animation: multicolor 5s steps(40) infinite;
+    border-radius: 0.5rem;
 }
 
 .upgrade.upgrade.has-powerup .sectionG::before{
@@ -355,6 +467,7 @@ position: absolute;
     animation: tourbillon 10s steps(40) infinite;
     background-size: 100%;
 }
+
 .upgrade.has-powerup::before {
     background: linear-gradient(90deg, 
         #ff0000, #00ff00, #0000ff, #ff0000, #00ff00, #0000ff, #ff0000
@@ -370,13 +483,11 @@ position: absolute;
     100% { background-position: 300% 0%;}
 }
 
-
-
 .sectionG {
     max-width: 20%;
     max-height: 20%;
-    border-radius: 5px;
-    padding: 2px;
+    border-radius: 0.3125rem; /* 5px */
+    padding: 0.125rem; /* 2px */
     position: relative;
     overflow: hidden; 
 }
@@ -395,6 +506,7 @@ position: absolute;
     background-position: center;
     transform: scale(1.4);
 }
+
 .sectionG .upgrade-img {
     position: relative;
     z-index: 2; 
@@ -404,31 +516,40 @@ position: absolute;
     filter: brightness(0.8);
     transform: scale(1.01);
 }
+
 .upgrade.achetable.ishovered{
-    filter: brightness(0.9);
+    filter: brightness(1.1);
     transform: scale(1.01);
+}
+
+.upgrade.ishovered .upgrade-img{
+    animation: pulse 2s steps(10) infinite;
+}
+
+@keyframes pulse {
+    0%, 100%{ transform: scale(1); }
+    50%{ transform: scale(1.1); }
 }
 
 .upgrade.ishovered .sectionG::before {
     animation: tourbillon 10s steps(40) infinite;
 }
+
 @keyframes tourbillon {
-    0% {
-        transform: scale(1.4) rotate(0deg);
-    }
-    100% {
-        transform: scale(1.4) rotate(360deg);
-    }
+    0% { transform: scale(1.4) rotate(0deg); }
+    100% { transform: scale(1.4) rotate(360deg); }
 }
 
 .sectionM{
     padding-left: 5%;
 }
+
 .sectionM h4{
     margin: 0;
-    margin-bottom: 10px;
+    margin-bottom: 0.625rem; /* 10px */
     font-size: 110%;
 }
+
 .sectionM p{
     margin:0;
 }
@@ -436,22 +557,25 @@ position: absolute;
 .sectionD{
     margin-left: auto;
 }
+
 .sectionD span{
-    font-size: 30px;
+    font-size: 1.875rem; /* 30px */
 }
 
 .upgrade-img {
+    image-rendering:pixelated;
     width: 100%;
     pointer-events: none;
     user-select: none;
 }
+
 .upgrade-txt{
     font-weight: 400;
 }
 
 .currency-img{
-    width: 30px;
-    height: 30px;
+    width: 1.875rem; /* 30px */
+    height: 1.875rem;
     pointer-events: none;
     user-select: none;
 }
@@ -459,7 +583,7 @@ position: absolute;
 .info-prix{
     display: flex;
     align-items: center;
-    gap : 5px;
+    gap : 0.3125rem; /* 5px */
 }
 
 .info{
@@ -472,51 +596,38 @@ position: absolute;
     height: fit-content;
     padding: 2vh;
     box-sizing: border-box;
-    border-top: 6px white solid;
+    border-top: 0.375rem white solid; /* 6px */
     background: #141414;
 }
 
-.texte{
+.texte {
     display: flex;
-    gap: 100px;
-    justify-content: center;
-    font-size: 22px;
+    flex-wrap: wrap;
+    padding-left: 2%;
+    gap: 2vw;
+    width: 75%;
+    justify-content: flex-start;
 }
-
+.texte p {
+    font-size: clamp(0.9rem, 2vw, 1.375rem);
+    margin: 0;
+}
 
 .fade-up{
     animation: fade-up 1s;
 }
 
 @keyframes fade-up{
-    0%{
-        transform: translateY(0);
-        opacity: 1;
-    }
-    20%{
-        transform: translateY(-5px);
-        opacity: 0.9;
-    }
-    40%{
-        transform: translateY(-13px);
-        opacity: 0.75;
-    }
-    60%{
-        transform: translateY(-25px);
-        opacity: 0.55;
-    }
-    80%{
-        transform: translateY(-42px);
-        opacity: 0.3;
-    }
-    100%{
-        transform: translateY(-65px);
-        opacity: 0;
-    }
+    0%{ transform: translateY(0); opacity: 1; }
+    20%{ transform: translateY(-0.3125rem); opacity: 0.9; }
+    40%{ transform: translateY(-0.8125rem); opacity: 0.75; }
+    60%{ transform: translateY(-1.5625rem); opacity: 0.55; }
+    80%{ transform: translateY(-2.625rem); opacity: 0.3; }
+    100%{ transform: translateY(-4.0625rem); opacity: 0; }
 }
 
 ::-webkit-scrollbar{
-    width: 10px;
+    width: 0.625rem; /* 10px */
 }
 
 ::-webkit-scrollbar-track{
@@ -535,17 +646,13 @@ position: absolute;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* Déplace l'élément de sa propre moitié */
+    transform: translate(-50%, -50%);
     width: 95%;
     height: 95%;
-    
-    /* TRANSPARENCE */
-    background: transparent !important; /* Force la transparence, ignore les anciennes couleurs */
-    
+    background: transparent !important;
     overflow: hidden;
-    z-index: 0; /* Devant l'image */
+    z-index: 0;
 }
- 
  
 /* ─── Contenu scrollable ─── */
 .scroll-content {
@@ -553,41 +660,33 @@ position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    /*padding: 1.5rem;*/
-    will-change: transform; /* optimisation GPU */
+    will-change: transform;
 }
  
-/* ─── Items ─── */
 .item { 
     width: 100%;
     aspect-ratio: 372 / 770; 
-
-    background-color: black; /* C'est ce fond noir qui va créer les "barres" */
+    background-color: black;
     transition: border-color 0.2s;
     display: flex;
     justify-content: center;
     align-items: center;
 }
- 
- 
-    /* ─── Masques haut / bas pour effet de fondu ─── */
+
 .fade-top,
 .fade-bottom {
     position: absolute;
     left: 0;
     width: 100%;
-    height: 10px;
     pointer-events: none;
     z-index: 2;
 }
  
 .fade-top {
-    top: 0;
     background: linear-gradient(to bottom, #141414, transparent);
 }
  
 .fade-bottom {
-    bottom: 0;
     background: linear-gradient(to top, #141414, transparent);
 }
 
@@ -595,9 +694,6 @@ position: absolute;
     display: block;
     width: 100%;
     height: 100%;
-    /* LA MAGIE EST ICI : "contain" redimensionne l'image pour qu'elle 
-       rentre entièrement dans la boîte sans être coupée. */
-    object-fit: contain; 
-    /* Évite que l'image ne disparaisse pendant le changement de src */
+    object-fit: contain;
     backface-visibility: hidden; 
 }
