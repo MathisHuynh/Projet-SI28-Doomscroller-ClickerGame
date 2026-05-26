@@ -60,6 +60,7 @@ function rollLoading(){
     }
 }
 
+const _phone = document.querySelector(".clicker");
 
 export function nextMedia(isClick = false) {
     if (isLoading) return; 
@@ -81,6 +82,7 @@ export function nextMedia(isClick = false) {
         const popDuration = 0.1;
         scrollArea.style.transition = `transform ${popDuration}s cubic-bezier(0.25, 1, 0.5, 1)`;
         scrollArea.style.transform = 'scale(1.02)';
+        _phone.src = "./assets/phone_click.png";
         setTimeout(() => {
             if (scrollArea) scrollArea.style.transform = 'scale(1)';
         }, popDuration * 1000);
@@ -91,6 +93,7 @@ export function nextMedia(isClick = false) {
         if (scrollArea) {
             scrollArea.style.transition = 'none';
             scrollArea.style.transform = 'scale(1)';
+            _phone.src = "./assets/phone.gif";
         }
         const items = scrollContent.querySelectorAll('.item img');
         if (items.length >= 2) {
