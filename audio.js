@@ -79,7 +79,7 @@ bgm.addEventListener('timeupdate', handleLoop);
 
 
 export function playscoresfx() {
-    const clicksfx = new Audio('/assets/audio/click.mp3');
+    const clicksfx = new Audio('./assets/audio/click.mp3');
     clicksfx.currentTime = 0;
     clicksfx.playbackRate = 0.8 + Math.random() * 0.4;
     clicksfx.play();

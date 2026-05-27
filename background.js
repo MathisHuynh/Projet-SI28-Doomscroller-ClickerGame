@@ -17,6 +17,13 @@ const bedrooms=[
     './assets/background/bedroom10_black_hole.png'
 ];
 
+const bedroomsPreload = [];
+bedrooms.forEach(src => {
+    const img = new Image();
+    img.src = src;
+    bedroomsPreload.push(img);
+});
+
 const SINGULARITE = 1000000000; // Ex: 1 Milliard de shorties générés
 
 const paliers_bed = [

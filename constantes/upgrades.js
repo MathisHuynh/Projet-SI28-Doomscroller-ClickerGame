@@ -1,7 +1,7 @@
 import { defaultVal } from "./defaultVal.js"
 import { stats } from "./stats.js";
 
-const powerupsfx = new Audio('/assets/audio/powerup.mp3');
+const powerupsfx = new Audio('./assets/audio/powerup.mp3');
 powerupsfx.volume = 0.3;
 
 function creerUpgrades(){
