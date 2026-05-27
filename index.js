@@ -3,7 +3,7 @@ import { bgm, adaptSoundTrack, lancerMusique } from "./audio.js";
 import { changerAmbiance, changerBackground } from "./background.js";
 import { updateScoresAuto, getCPS, incrementerScore, getSpsEffectif } from "./score.js";
 import { _upgrades, indiquerAchetable } from "./upgradesMan.js";
-import { area, scrollContent, scrollState, applyOffset, handleGestureEnd, nextMedia, isLoading } from "./scrolling.js";
+import { area, scrollContent, scrollState, applyOffset, handleGestureEnd, nextMedia, getNextMedia, isLoading } from "./scrolling.js";
 import { cursor, _clicker } from "./cursor.js";
 import "./menu.js";
 
@@ -165,5 +165,12 @@ setInterval(() => {
 
     if (bgm.paused) bgm.play().catch(() => {});
 }, 100);
+
+
+
+const mediaImg = document.querySelectorAll('.item img');
+mediaImg.forEach(img => {
+    img.src = getNextMedia().src;
+});
 
 window.incrementerScore = incrementerScore;

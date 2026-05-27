@@ -18,7 +18,7 @@ let activeCleanup = null;
 
 let last_media = null;
 // --- GESTION DES MÉDIAS ---
-function getNextMedia() {
+export function getNextMedia() {
     let new_media = medias[Math.floor(Math.random() * medias.length)];
     if(last_media!==null){
         while(new_media===last_media) new_media = medias[Math.floor(Math.random() * medias.length)];
