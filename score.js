@@ -6,11 +6,15 @@ export let scorestr = document.querySelector('.score-val');
 export let cpsstr = document.getElementById("cps");
 export let spcstr = document.getElementById("spc");
 export let spsstr = document.getElementById("sps");
+export let loading_ratestr = document.getElementById("loading_rate");
+export let max_loadingstr = document.getElementById("max_loading");
+
+
 let divImgClickable = document.querySelector('.div-img-clickable');
 
 export const scoreState = {
     total_score: 0,
-    score: 10000000000000000000,
+    score: 10000000,
 };
 
 let clickTimes = [];
@@ -72,12 +76,14 @@ export function incrementerScore(event, isClick) {
 }
 
 export function updateScoresAuto() {
-    if (isLoading) return;
     const spsEffectif = getSpsEffectif(); 
-    scoreState.total_score += (spsEffectif / 10);
-    scoreState.score += (spsEffectif / 10);
-    scorestr.textContent = Math.round(scoreState.score);
     cpsstr.textContent = getCPS();
     spcstr.textContent = Math.round(calculCpcEffectif());
     spsstr.textContent = Math.round(spsEffectif);
+    scorestr.textContent = Math.round(scoreState.score);
+    loading_ratestr.textContent = (stats.loading_rate*100).toFixed(1);
+    max_loadingstr.textContent = stats.loading_max_time.toFixed(2);
+    if (isLoading) return;
+    scoreState.total_score += (spsEffectif / 10);
+    scoreState.score += (spsEffectif / 10);
 }
