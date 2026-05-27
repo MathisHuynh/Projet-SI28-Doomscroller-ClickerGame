@@ -29,7 +29,7 @@ function creerUpgrades(){
 }
 
 function playupgradesfx(){
-    const upgradesfx = new Audio('/assets/audio/upgrade.mp3');
+    const upgradesfx = new Audio('./assets/audio/upgrade.mp3');
     upgradesfx.currentTime = 0;
     upgradesfx.volume = 0.3;
     upgradesfx.playbackRate = 0.8 + Math.random()*0.4;
