@@ -1,4 +1,4 @@
-import { stats } from "./constantes/stats.js";
+import { stats } from "../constantes/stats.js";
 import { getCPS, getSpsEffectif } from "./score.js";
 
 // --- CONFIGURATION DES PALIERS ---

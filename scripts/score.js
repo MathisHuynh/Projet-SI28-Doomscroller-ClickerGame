@@ -1,4 +1,4 @@
-import { stats } from "./constantes/stats.js";
+import { stats } from "../constantes/stats.js";
 import { playscoresfx } from "./audio.js";
 import { nextMedia, isLoading } from "./scrolling.js";
 

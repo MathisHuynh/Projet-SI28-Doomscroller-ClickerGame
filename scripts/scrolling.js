@@ -1,5 +1,5 @@
-import { medias } from "./constantes/medias.js";
-import { stats } from "./constantes/stats.js";
+import { medias } from "../constantes/medias.js";
+import { stats } from "../constantes/stats.js";
 import { getCPS, incrementerScore } from "./score.js";
 
 // --- CONFIGURATION DU GLISSEMENT ---

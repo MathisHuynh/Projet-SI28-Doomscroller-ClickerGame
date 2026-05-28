@@ -1,4 +1,4 @@
-import { stats } from "./constantes/stats.js";
+import { stats } from "../constantes/stats.js";
 import { bgm, adaptSoundTrack, lancerMusique } from "./audio.js";
 import { changerAmbiance, changerBackground } from "./background.js";
 import { updateScoresAuto, getCPS, incrementerScore, getSpsEffectif } from "./score.js";

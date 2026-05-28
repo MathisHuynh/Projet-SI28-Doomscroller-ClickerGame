@@ -1,4 +1,4 @@
-import { upgrades, checkPowerup } from "./constantes/upgrades.js";
+import { upgrades, checkPowerup } from "../constantes/upgrades.js";
 import { cursor } from "./cursor.js";
 import { scoreState, scorestr, updateScoresAuto } from "./score.js"; 
 
