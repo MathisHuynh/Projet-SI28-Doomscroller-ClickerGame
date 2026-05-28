@@ -1,21 +1,53 @@
 # Doomscroller
-## Description du projet
-Doomscroller est un jeu incrémental développé en HTML,CSS et JavaScript.
-L'objectif du jeu est de consommer un maximum de contenu court en scrollant manuellement ou en automatisant la consommation avec des améliorations.
 
-## Système du jeu
-Le joueur doit consommer des Shorties en scrollant/cliquant sur le téléphone à gauche de l'écran. Les Shorties accumulés permettent d'acheter des objets dont le prix augmente progressivement et qui produisent des points de manière autonome en permanence. Investir dans ces objets permet d'obtenir des améliorations qui permettent d'augmenter sa consommation par objet, clic ou absolu.
+> Un jeu incrémental satirique et immersif explorant les mécanismes de l'addiction aux écrans et aux formats courts.
 
-## Collection de Shorties
-A chaque scroll, le joueur a une chance de débloquer un contenu rare (les raretés sont: Uncommon/Rare/Epic/Legendary/Mythical Shorty Pull) dont le joueur peut faire collection.
+---
 
-## Analogie de l'addiction
-L'objectif de cette expérience est de sensibiliser à l'addiction aux écrans en critiquant la surconsommation de contenus courts sur des plateformes comme TikTok, Youtube ou encore Instagram.
-La formule clicker est une bonne accroche pour l'utilisateur car il est un genre qui banalise un mouvement simple et le rend addictif.
-La consommation de contenu devient de plus en plus facile (scroll manuel en drag and drop, clic, génération automatique,...), ce qui symbolise bien le fait qu'il devient difficile de s'arrêter une fois lancé.
+## Présentation du Projet
 
-## Dégradation de l'expérience utilisateur
-Notre objectif est de rendre l'utilisateur addict puis de progressivement rendre l'expérience difficile pour le faire décrocher en saturant ses sens (Images rémanentes, flashs lumineux, environnement anxiogène, sound design...).
+**Doomscroller** est un *idle game* (jeu incrémental) développé en technologies web natives (**HTML5, CSS3, JavaScript**). 
 
-## Conclusion de l'expérience
-Le jeu en soit n'a pas vraiment de fin puisqu'on peut faire tendre la production vers l'infini. Cependant, un bouton sera mis à disposition du joueur afin d'arrêter l'expérience à tout moment. Appuyer sur celui-ci déclenche la fin du jeu avec un bilan: temps écoulé, shorties consommés, temps et energie que cela représente et autres données culpabilisantes.
+Ce projet a été conçu et réalisé dans le cadre de l'unité d'enseignement **SI28 - Écriture interactive et multimédia** à l'**Université de Technologie de Compiègne (UTC)**. Il propose une critique interactive de la surconsommation de contenus éphémères sur les plateformes modernes (TikTok, YouTube Shorts, Instagram Reels).
+
+---
+
+## Mécaniques de Jeu (Gameplay)
+
+* **Boucle Principale :** Le joueur génère des **Shorties** en simulant un mouvement de scroll (drag and drop) ou en cliquant sur l'interface de smartphone dédiée.
+* **Système d'Upgrades :** Les points accumulés permettent d'investir dans des structures automatisées et des améliorations technologiques. Le coût et la production suivent une courbe exponentielle, fidèle aux standards des jeux incrémentaux.
+* **Collection & Rareté :** Chaque interaction offre une probabilité de capturer des contenus rares classés par paliers de rareté (*Uncommon, Rare, Epic, Legendary, Mythical Shorty Pull*), incitant le joueur à poursuivre sa collection.
+
+---
+
+## Note d'Intention & Dimension Multimédia
+
+### L'Analogie de l'Addiction
+Le choix du genre *clicker/idle* est une mise en abyme délibérée. En banalisant et en récompensant un geste mécanique simple (le *scroll*), le jeu reproduit fidèlement la boucle de rétroaction dopamine-dépendante des réseaux sociaux. Plus la production s'automatise, plus le joueur est dépossédé de son action, symbolisant la perte de contrôle de l'utilisateur face aux algorithmes.
+
+### Dégradation de l'Expérience Utilisateur (UX)
+L'expérience est évolutive et perturbatrice. Au fur et à mesure que le score augmente et s'approche de la singularité, l'interface subit une **surcharge sensorielle et visuelle** progressive :
+* Apparition d'images rémanentes et de flashs lumineux.
+* Distorsions graphiques de l'environnement (pixel art évolutif, anomalies visuelles).
+* Sound design devenant de plus en plus anxiogène et saturé.
+
+L'objectif étant de provoquer une rupture de l'engagement en transformant un espace initialement ludique en un environnement hostile et étouffant.
+
+### Épilogue et Prise de Conscience
+Le jeu ne possède pas de fin structurelle, reflétant l'infinité des flux d'actualités réels. Cependant, un système de sortie est proposé via un bouton d'arrêt d'urgence. Quitter l'expérience déclenche un bilan analytique et culpabilisant, quantifiant précisément le temps perdu, l'énergie consommée et l'équivalent en impact environnemental, etc.
+
+---
+
+## Technologies Utilisées
+
+* **Langages :** HTML5, CSS3, JavaScript (ES6+ moderne, architecture en modules).
+* **Design Visuel :** Pixel Art adaptatif avec gestion de filtres dynamiques (cycles jour/nuit) et effets de distorsion CSS.
+* **Audio :** API Web Audio / Gestion des flux audio natifs pour l'adaptation de la bande-son en fonction des SPS (Shorties Par Seconde).
+
+---
+
+## Équipe et Contributions
+
+* **Développement & Programmation :** Mathis HUYNH
+* **Conception des Assets Visuels :** Matthieu PANICO, Mathis HUYNH & IA (Génération du fond de la section gauche)
+* **Sound Design & Composition Musicale :** Mathis HUYNH
