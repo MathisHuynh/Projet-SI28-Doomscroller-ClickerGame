@@ -24,18 +24,17 @@ bedrooms.forEach(src => {
     bedroomsPreload.push(img);
 });
 
-const SINGULARITE = 1000000000; // Ex: 1 Milliard de shorties générés
+const SINGULARITE = 1000000000;
 
 const paliers_bed = [
-    // --- PHASE 1 : L'accumulation (Multiplicateur x10) ---
-    1000,                 // bedroom2 : Quelques déchets
-    10000,                // bedroom3 : Ça s'accumule
-    100000,               // bedroom4 : Ça devient sale
-    1000000,              // bedroom5 : Très sale
-    10000000,             // bedroom6 : Taudis absolu
-    SINGULARITE,          // bedroom7 : L'espace-temps commence à se plier (1 Milliard)
-    SINGULARITE * 100,    // bedroom8 : Le trou noir se forme (100 Milliards)
-    SINGULARITE * 10000,   // bedroom10 : Absorption totale (10 Trillions)
+    1000,                 // bedroom2
+    10000,                // bedroom3
+    100000,               // bedroom4
+    1000000,              // bedroom5
+    10000000,             // bedroom6
+    SINGULARITE,          // bedroom7
+    SINGULARITE * 100,    // bedroom8
+    SINGULARITE * 10000,   // bedroom10
     SINGULARITE * 20000
 ];
 

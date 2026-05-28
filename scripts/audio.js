@@ -51,8 +51,6 @@ export let bgm = music[currentTrackIndex];
 // --- GESTION DU BOUCLAGE ET DES TRANSITIONS DYNAMIQUES (4 PÉRIODES) ---
 function handleLoop() {
     if (isNaN(bgm.duration) || bgm.duration === 0) return;
-    // L'API "timeupdate" se déclenche toutes les ~250ms.
-    // Un buffer de 0.25 garantit de ne rater aucune transition.
     const buffer = 0.25; 
     const duration = bgm.duration;
     const periodLength = duration / 4;
