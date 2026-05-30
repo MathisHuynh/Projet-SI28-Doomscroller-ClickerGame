@@ -709,3 +709,73 @@ section{
     object-fit: contain;
     backface-visibility: hidden; 
 }
+
+
+
+
+.start{
+    top:50%;
+    left: 50%;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color:#2C2C2C;
+    z-index:998;
+    opacity: 0;
+    transform: scale(0);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+
+    transform-origin: center;
+}
+.start.is-open {
+    pointer-events: auto;
+    animation: tv-turn-on 0.4s steps(10) forwards; /*cubic-bezier(0.25, 1, 0.5, 1)*/
+}
+.start.is-closed {
+    pointer-events: none;
+    animation: tv-turn-off 0.4s steps(10) forwards;
+}
+
+/* ─── ANIMATION ALLUMAGE (TV ON) ─── */
+@keyframes tv-turn-on {
+    0% {
+        transform: scaleX(0) scaleY(0.005) translate(-50%,-50%);
+        filter: brightness(5);
+        opacity: 0;
+    }
+    40% {
+        transform: scaleX(1) scaleY(0.005) translate(-50%,-50%);
+        filter: brightness(5);
+        opacity: 0.99;
+    }
+    100% {
+        transform: scaleX(1) scaleY(1) translate(-50%,-50%);
+        filter: brightness(1);
+        opacity: 0.99;
+    }
+}
+
+/* ─── ANIMATION EXTINCTION (TV OFF) ─── */
+@keyframes tv-turn-off {
+    0% {
+        transform: scaleX(1) scaleY(1) translate(-50%,-50%);
+        filter: brightness(1);
+        opacity: 0.99;
+    }
+    40% {
+        transform: scaleX(1) scaleY(0.005);
+        filter: brightness(4);
+        opacity: 0.99;
+    }
+    80% {
+        transform: scaleX(0) scaleY(0.005) translate(-50%,-50%);
+        filter: brightness(10);
+        opacity: 0.99;
+    }
+    100% {
+        transform: scaleX(0) scaleY(0);
+        filter: brightness(10);
+        opacity: 0;
+    }
+}
