@@ -21,11 +21,23 @@
       <feFuncB type="discrete" tableValues="0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1" />
     </feComponentTransfer>
   </filter>
+
+  <filter id="global-rgb-glitch" x="-100%" y="-100%" width="300%" height="300%">
+    <feColorMatrix type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" in="SourceGraphic" result="red"/>
+    <feColorMatrix type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" in="SourceGraphic" result="green"/>
+    <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" in="SourceGraphic" result="blue"/>
+    
+    <feOffset id="rgb-offset-red" in="red" dx="12" dy="4" result="red_shift"/>
+    <feOffset id="rgb-offset-blue" in="blue" dx="-12" dy="-4" result="blue_shift"/>
+    
+    <feBlend in="red_shift" in2="green" mode="screen" result="blend1"/>
+    <feBlend in="blue_shift" in2="blend1" mode="screen"/>
+  </filter>
 </svg>
 
 
 <body>
-
+    <div class="bottom_bar"></div>
     <div id="loader-wrapper">
         <div id="progress-bar">
             <div class="loading-title">Chargement en cours...</div>
@@ -36,6 +48,9 @@
     </div>
 
     <div class="home">
+        <div class="title-card">
+            <img src="" alt="">
+        </div>
         <div class="start">
             <div id="window-title">Doomscroller wizard</div>
             <div class="narrator">
@@ -43,24 +58,24 @@
                 <div class="dialog"><p></p></div>
             </div>
         </div>
-        <div class="bottom_bar"></div>
     </div>
 
     <section>
+        <div class="glitch-target">
         <div class="main">
-            <img src="./assets/UI/cursor/default.png" class="cursor">
+            <img src="./assets/UI/cursor/default.png" class="cursor glitch-immune">
             <div class="desc"></div>
             <div class="gauche">
                 <div class="background"></div>
                 <div class="info">
                     <p>
-                        Shorties:<br />
+                        Shorties:<br/>
                         <span class="score-val highlight-text"></span>
                         <img src="./assets/currency.png" style="position: relative;top: 0.5rem; width: 8%; height: auto; pointer-events: none;user-select: none;">
                     </p>
                 </div>
                 <div class="div-img-clickable">
-                    <div class="stop_button">
+                    <div class="stop_button glitch-immune">
                         <div class="safety_glass">
                             <img src="./assets/UI/safety_glass.png" onclick="clickGlass()" class="safety_img">
                         </div>
@@ -129,6 +144,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </section>
     <script src="./assets/audio/js/riffwave.js"></script>

@@ -6,8 +6,9 @@ import { _upgrades, indiquerAchetable } from "./js/upgradesMan.js";
 import { area, scrollContent, scrollState, applyOffset, handleGestureEnd, nextMedia, getNextMedia, isLoading } from "./js/scrolling.js";
 import { cursor, _clicker } from "./js/cursor.js";
 import "./js/menu.js";
-import {narratorSay} from "./js/narrator.js"
+import {narratorDialog} from "./js/narrator.js"
 import { initAnimalese } from './js/animaleseMan.js';
+import {triggerMainGlitch} from "./js/glitch.js";
 
 initAnimalese();
 
@@ -166,6 +167,10 @@ setInterval(() => {
         status += 1;
     }
 
+    //--- Glitch ---
+    // if (Math.random() > 0.95) {
+    //     triggerMainGlitch(1);
+    // }
 
     if (bgm.paused) bgm.play().catch(() => {});
 }, 100);
@@ -187,7 +192,7 @@ const home = document.querySelector(".home");
 function startInteraction() {
     start.classList.add("is-open");
     setTimeout(()=>{
-        narratorSay("Bonjour à toi, jeune amateur de scroll. Comment vas-tu en cette magnifique journée?",38, 0.8, 1.5); //sans speed=1: 68 | speed=1.5: 38
+        narratorDialog(); //sans speed=1: 68 | speed=1.5: 38
     },1000)
     home.removeEventListener('click', startInteraction);
 }
