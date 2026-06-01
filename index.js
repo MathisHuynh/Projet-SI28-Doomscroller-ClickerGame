@@ -6,6 +6,10 @@ import { _upgrades, indiquerAchetable } from "./js/upgradesMan.js";
 import { area, scrollContent, scrollState, applyOffset, handleGestureEnd, nextMedia, getNextMedia, isLoading } from "./js/scrolling.js";
 import { cursor, _clicker } from "./js/cursor.js";
 import "./js/menu.js";
+import {narratorSay} from "./js/narrator.js"
+import { initAnimalese } from './js/animaleseMan.js';
+
+initAnimalese();
 
 import "./js/trophies.js";
 
@@ -174,3 +178,41 @@ mediaImg.forEach(img => {
 });
 
 window.incrementerScore = incrementerScore;
+
+
+const start = document.querySelector(".start");
+
+
+const home = document.querySelector(".home");
+function startInteraction() {
+    start.classList.add("is-open");
+    setTimeout(()=>{
+        narratorSay("Bonjour à toi, jeune amateur de scroll. Comment vas-tu en cette magnifique journée?",38, 0.8, 1.5); //sans speed=1: 68 | speed=1.5: 38
+    },1000)
+    home.removeEventListener('click', startInteraction);
+}
+home.addEventListener('click', startInteraction);
+
+
+window.addEventListener("load", () => {
+    updateProgressBar(100);
+    const loaderWrapper = document.getElementById("loader-wrapper");
+    setTimeout(() => {
+        loaderWrapper.classList.add("loader-hidden");
+        loaderWrapper.addEventListener("transitionend", () => loaderWrapper.remove());
+    }, 500);
+});
+function updateProgressBar(percent) {
+    const fill = document.getElementById('fill');
+    if (fill) fill.style.width = percent + "%";
+}
+
+const resources = document.querySelectorAll('img, audio, script');
+let loadedCount = 0;
+resources.forEach(res => {
+    res.addEventListener('load', () => {
+        loadedCount++;
+        let progress = (loadedCount / resources.length) * 100;
+        updateProgressBar(progress);
+    });
+});

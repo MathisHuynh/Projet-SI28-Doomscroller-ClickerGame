@@ -25,13 +25,30 @@
 
 
 <body>
+
+    <div id="loader-wrapper">
+        <div id="progress-bar">
+            <div class="loading-title">Chargement en cours...</div>
+            <div class="progress-bar-border">
+                <div class="progress-bar-fill" id="fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="home">
+        <div class="start">
+            <div id="window-title">Doomscroller wizard</div>
+            <div class="narrator">
+                <div class="sprite"></div>
+                <div class="dialog"><p></p></div>
+            </div>
+        </div>
+        <div class="bottom_bar"></div>
+    </div>
+
     <section>
         <div class="main">
             <img src="./assets/UI/cursor/default.png" class="cursor">
-
-            <div class="start is-open"></div>
-
-
             <div class="desc"></div>
             <div class="gauche">
                 <div class="background"></div>
@@ -114,6 +131,8 @@
             </div>
         </div>
     </section>
+    <script src="./assets/audio/js/riffwave.js"></script>
+    <script src="./assets/audio/js/animalese.js"></script>
     <script type="module" src="./index.js"></script>
 </body>
 </html>

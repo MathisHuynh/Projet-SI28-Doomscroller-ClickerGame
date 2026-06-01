@@ -711,20 +711,37 @@ section{
 }
 
 
-
-
+.home{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: #008080;
+    z-index: 1999;
+}
+.bottom_bar{
+    background-image: url("./assets/UI/start/bottom_bar.png");
+    background-position: center;
+    background-size: 100% 100%;
+    position: absolute;
+    width: 100%;
+    height: 4%;
+    bottom: 0;
+}
 .start{
     top:50%;
     left: 50%;
     position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color:#2C2C2C;
-    z-index:998;
+    width: 70%;
+    height: 80%;
+    background-image: url("./assets/UI/start/bg.png");
+    background-position: center;
+    background-size: 100% 100%;
+    z-index:997;
     opacity: 0;
     transform: scale(0);
     pointer-events: none;
     transform: translate(-50%, -50%);
+    overflow: hidden;
 
     transform-origin: center;
 }
@@ -736,7 +753,15 @@ section{
     pointer-events: none;
     animation: tv-turn-off 0.4s steps(10) forwards;
 }
-
+#window-title{
+    font-family: "Courier New", Courier, monospace;
+    position: absolute;
+    top:1rem;
+    left:1.5rem;
+    width: fit-content;
+    height: auto;
+    font-size: 2rem;
+}
 /* ─── ANIMATION ALLUMAGE (TV ON) ─── */
 @keyframes tv-turn-on {
     0% {
@@ -755,7 +780,6 @@ section{
         opacity: 0.99;
     }
 }
-
 /* ─── ANIMATION EXTINCTION (TV OFF) ─── */
 @keyframes tv-turn-off {
     0% {
@@ -778,4 +802,90 @@ section{
         filter: brightness(10);
         opacity: 0;
     }
+}
+
+
+.narrator{
+    position:absolute;
+    top: 20%;
+}
+.sprite{
+    width: 35rem;
+    height: 38rem;
+    background-position: center;
+    background-size: 100% 100%;
+    background-image: url("./assets/UI/start/idle.gif");
+}
+.narrator.is-talking .sprite{
+    background-image: url("./assets/UI/start/talk.gif");
+}
+
+.dialog{
+    color: #141414;
+    top:-3rem;
+    left: 25rem;
+    position: absolute;
+    background-image: url("./assets/UI/start/text_bubble.png");
+    background-position: center;
+    background-size: 100% 100%;
+    width: 45rem;
+    height: 18rem;
+    display: none;
+}
+.dialog.visible{
+    display: block;
+}
+
+.dialog p{
+    font-size:2rem;
+    position: absolute;
+    top:7%;
+    left:6%;
+    width: 88%;
+    height: 50%;
+}
+
+
+#loader-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.2s ease;
+}
+.loader-hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+
+#progress-bar{
+    background-color: #C0C0C0;
+    border: 2px solid;
+    border-color: #FFF #000 #000 #FFF;
+    padding: 15px;
+    width: 300px;
+    font-family: "Courier New", Courier, monospace;
+}
+.loading-title {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+.progress-bar-border {
+    background-color: #808080;
+    border: 2px solid;
+    border-color: #000 #FFF #FFF #000;
+    height: 25px;
+    padding: 2px;
+}
+.progress-bar-fill {
+    background-color: #000080;
+    height: 100%;
+    width: 0%;
 }
