@@ -6,7 +6,7 @@ import { _upgrades, indiquerAchetable } from "./js/upgradesMan.js";
 import { area, scrollContent, scrollState, applyOffset, handleGestureEnd, nextMedia, getNextMedia, isLoading } from "./js/scrolling.js";
 import { cursor, _clicker } from "./js/cursor.js";
 import "./js/menu.js";
-import {narratorDialog} from "./js/narrator.js"
+import {narratorDialog, openMain} from "./js/narrator.js"
 import { initAnimalese } from './js/animaleseMan.js';
 import {triggerMainGlitch} from "./js/glitch.js";
 
@@ -134,6 +134,8 @@ window.clickGlass = function(){
 const filters = ['day', 'night'];
 let status = 0;
 
+let isInMain = false;
+
 setInterval(() => {
     updateScoresAuto();
     adaptSoundTrack();
@@ -171,22 +173,22 @@ setInterval(() => {
     const MIN_SPS = 2518914070;
     const MAX_SPS = 97948186772;
     if (spsActuel >= MIN_SPS) {
-    const logMin = Math.log10(MIN_SPS);
-    const logMax = Math.log10(MAX_SPS);
-    const logActuel = Math.log10(spsActuel);
-    let t = (logActuel - logMin) / (logMax - logMin);
-    t = Math.min(1, Math.max(0, t)); 
-    let seuil = 1 - t;
-    if (Math.random() > seuil) {
-        if(spsActuel>MAX_SPS){
-            triggerMainGlitch(1+t*2)
-        }
-        else{
-            triggerMainGlitch(1);
+        const logMin = Math.log10(MIN_SPS);
+        const logMax = Math.log10(MAX_SPS);
+        const logActuel = Math.log10(spsActuel);
+        let t = (logActuel - logMin) / (logMax - logMin);
+        t = Math.min(1, Math.max(0, t)); 
+        let seuil = 1 - t;
+        if (Math.random() > seuil) {
+            if(spsActuel>MAX_SPS){
+                triggerMainGlitch(1+t*2)
+            }
+            else{
+                triggerMainGlitch(1);
+            }
         }
     }
-
-}
+    if (isInMain && bgm.paused) bgm.play().catch(() => {});
 }, 100);
 
 
@@ -201,17 +203,27 @@ window.incrementerScore = incrementerScore;
 
 const start = document.querySelector(".start");
 
-
+const dialog_text = [
+    "Bonjour à toi, jeune amateur de scroll. Comment vas-tu en cette magnifique journée ?",
+    "Qu'avais-tu prévu de faire aujourd'hui ? Apprendre une nouvelle langue ? Lire un livre ? Faire du sport ? Voir tes amis ?",
+    "Quoi ? Non ?",
+    "Ah...",
+    "Donc tu comptais déjà passer les six prochaines heures à regarder ton écran.",
+    "Excellent choix.",
+    "Dans ce cas, j'ai exactement ce qu'il te faut !",  
+    "Je te présente la toute dernière application : DOOMSCROLLER™ !!!",
+];
 const home = document.querySelector(".home");
 function startInteraction() {
     const titleCard = document.querySelector(".title-card");
     titleCard.classList.remove("is-open")
     titleCard.classList.add("is-closed")
     start.classList.add("is-open");
+    isInMain = true;
     setTimeout(()=>{
-        narratorDialog(); //sans speed=1: 68 | speed=1.5: 38
+        narratorDialog(dialog_text,openMain);
     },1000)
-    if (bgm.paused) bgm.play().catch(() => {});
+    
     home.removeEventListener('click', startInteraction);
 }
 home.addEventListener('click', startInteraction);

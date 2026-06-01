@@ -32,7 +32,7 @@ function typeWriter(element, text, delay = 100, i = 0) {
     setTimeout(() => typeWriter(element, text, delay, i + 1), delay);
 }
 
-export function narratorSay(text, delay = 38, pitch = 0.8, speed = 1.5) {
+export function narratorSay(text, delay = 38, pitch = 0.8, speed = 1.5, top = 28, left = 15) {
     if (!narrator || !text_div) return 0;
     narrator.classList.add("is-talking");
     dialog.classList.add("visible")
@@ -45,22 +45,42 @@ export function narratorSay(text, delay = 38, pitch = 0.8, speed = 1.5) {
     return textTime + 2000;
 }
 
+function narratorAppear(top = 28, left = 15) {
+    return new Promise((resolve) => {
+        narrator.style.top = String(top) + "%";
+        narrator.style.left = String(left) + "%";
+        narrator.classList.remove("is-closed");
+        narrator.classList.add("is-open");
+        function handleTransitionEnd(event) {
+            if (event.target === narrator) {
+                narrator.removeEventListener("animationend", handleTransitionEnd);
+                resolve(); 
+            }
+        }
+        narrator.addEventListener("animationend", handleTransitionEnd);
+    });
+}
 
-const dialog_text = [
-    "Bonjour à toi, jeune amateur de scroll. Comment vas-tu en cette magnifique journée ?",
-    "Qu'avais-tu prévu de faire aujourd'hui ? Apprendre une nouvelle langue ? Lire un livre ? Faire du sport ? Voir tes amis ?",
-    "Quoi ? Non ?",
-    "Ah...",
-    "Donc tu comptais déjà passer les six prochaines heures à regarder ton écran.",
-    "Excellent choix.",
-    "Dans ce cas, j'ai exactement ce qu'il te faut !",  
-    "Je te présente la toute dernière application : DOOMSCROLLER™ !!!",
-];
+function narratorDisappear(){
+    narrator.classList.remove("is-open");
+    narrator.classList.add("is-closed");
+}
 
-export async function narratorDialog(texts = dialog_text, delay = 38, pitch = 0.8, speed = 1.5){
+
+export async function narratorDialog(texts, endfunc = {}, top = 28, left = 15, delay = 38, pitch = 0.8, speed = 1.5){
+    await narratorAppear(top,left);
     for (const text of texts) {
-        const duration = narratorSay(text, delay, pitch, speed);
+        const duration = narratorSay(text, delay, pitch, speed,top,left);
         await new Promise(resolve => setTimeout(resolve, duration));
     }
     dialog.classList.remove("visible");
+    setTimeout(() => {
+        narratorDisappear();
+        endfunc();
+    },1000)
 }
+
+export function openMain(){
+    const main = document.querySelector(".main");
+    main.classList.add("is-open");
+ }

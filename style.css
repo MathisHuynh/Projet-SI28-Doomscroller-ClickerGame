@@ -815,8 +815,8 @@ section{
     top:50%;
     left: 50%;
     position: absolute;
-    width: 70%;
-    height: 80%;
+    width: 75rem;
+    height: 50rem;
     background-image: url("./assets/UI/start/bg.png");
     background-position: center;
     background-size: 100% 100%;
@@ -890,7 +890,61 @@ section{
 
 .narrator{
     position:absolute;
-    top: 20%;
+    /* top: 28%;
+    left: 15%; */
+    z-index: 10000;
+
+    transform-origin: center;
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0);
+}
+.narrator.is-open {
+    pointer-events: auto;
+    animation: narrator-turn-on 0.2s steps(10) forwards; /*cubic-bezier(0.25, 1, 0.5, 1)*/
+}
+.narrator.is-closed {
+    pointer-events: none;
+    animation: narrator-turn-off 0.2s steps(10) forwards;
+}
+@keyframes narrator-turn-on {
+    0% {
+        transform: scaleX(0) scaleY(0.005);
+        filter: brightness(5);
+        opacity: 0;
+    }
+    40% {
+        transform: scaleX(1) scaleY(0.005);
+        filter: brightness(5);
+        opacity: 0.99;
+    }
+    100% {
+        transform: scaleX(1) scaleY(1);
+        filter: brightness(1);
+        opacity: 0.99;
+    }
+}
+@keyframes narrator-turn-off {
+    0% {
+        transform: scaleX(1) scaleY(1);
+        filter: brightness(1);
+        opacity: 0.99;
+    }
+    40% {
+        transform: scaleX(1) scaleY(0.005);
+        filter: brightness(4);
+        opacity: 0.99;
+    }
+    80% {
+        transform: scaleX(0) scaleY(0.005);
+        filter: brightness(10);
+        opacity: 0.99;
+    }
+    100% {
+        transform: scaleX(0) scaleY(0);
+        filter: brightness(10);
+        opacity: 0;
+    }
 }
 .sprite{
     width: 35rem;
