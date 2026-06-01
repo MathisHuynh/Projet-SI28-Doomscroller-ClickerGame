@@ -753,6 +753,64 @@ section{
     height: 4%;
     bottom: 0;
 }
+
+.title-card{
+    align-content: center;
+    position: absolute;
+    top:40%;
+    left:50%;
+    transform: translate(-50%,-50%) scale(0);
+    background-color: #C0C0C0;
+    border: 2px solid;
+    border-color: #FFF #000 #000 #FFF;
+    padding: 15px;
+    font-family: "Courier New", Courier, monospace;
+
+    opacity: 0;
+    overflow: hidden;
+    transform-origin: center;
+}
+.title-card p{
+    text-align: center;
+    color: #000;
+    font-size: 1.5rem;
+    animation: blink 2s steps(10) infinite;
+}
+@keyframes blink {
+    0%{
+        opacity: 1;
+    }
+    50%{
+        opacity: 0;
+    }
+}
+#title-card-img{
+    width: 90rem;
+    background-color: #000000;
+    border: 2px solid;
+    border-color: #000 #FFF #FFF #000;
+}
+#title-card-img img{
+    width: 100%;
+    animation: pulse_title 2s steps(5) infinite;
+}
+@keyframes pulse_title {
+    0%{
+        transform: scale(1);
+    }
+    50%{
+        transform: scale(1.02);
+    }
+}
+.title-card.is-open {
+    pointer-events: auto;
+    animation: tv-turn-on 0.4s steps(10) forwards; /*cubic-bezier(0.25, 1, 0.5, 1)*/
+}
+.title-card.is-closed {
+    pointer-events: none;
+    animation: tv-turn-off 0.4s steps(10) forwards;
+}
+
 .start{
     top:50%;
     left: 50%;
@@ -764,9 +822,8 @@ section{
     background-size: 100% 100%;
     z-index:997;
     opacity: 0;
-    transform: scale(0);
     pointer-events: none;
-    transform: translate(-50%, -50%);
+    transform: scale(0) translate(-50%, -50%);
     overflow: hidden;
 
     transform-origin: center;
@@ -796,7 +853,7 @@ section{
         opacity: 0;
     }
     40% {
-        transform: scaleX(1) scaleY(0.005) translate(-50%,-50%);
+        transform: scaleX(1) scaleY(0.005);
         filter: brightness(5);
         opacity: 0.99;
     }

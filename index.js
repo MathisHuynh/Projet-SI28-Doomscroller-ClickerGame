@@ -168,11 +168,25 @@ setInterval(() => {
     }
 
     //--- Glitch ---
-    // if (Math.random() > 0.95) {
-    //     triggerMainGlitch(1);
-    // }
+    const MIN_SPS = 2518914070;
+    const MAX_SPS = 97948186772;
+    if (spsActuel >= MIN_SPS) {
+    const logMin = Math.log10(MIN_SPS);
+    const logMax = Math.log10(MAX_SPS);
+    const logActuel = Math.log10(spsActuel);
+    let t = (logActuel - logMin) / (logMax - logMin);
+    t = Math.min(1, Math.max(0, t)); 
+    let seuil = 1 - t;
+    if (Math.random() > seuil) {
+        if(spsActuel>MAX_SPS){
+            triggerMainGlitch(1+t*2)
+        }
+        else{
+            triggerMainGlitch(1);
+        }
+    }
 
-    if (bgm.paused) bgm.play().catch(() => {});
+}
 }, 100);
 
 
@@ -190,10 +204,14 @@ const start = document.querySelector(".start");
 
 const home = document.querySelector(".home");
 function startInteraction() {
+    const titleCard = document.querySelector(".title-card");
+    titleCard.classList.remove("is-open")
+    titleCard.classList.add("is-closed")
     start.classList.add("is-open");
     setTimeout(()=>{
         narratorDialog(); //sans speed=1: 68 | speed=1.5: 38
     },1000)
+    if (bgm.paused) bgm.play().catch(() => {});
     home.removeEventListener('click', startInteraction);
 }
 home.addEventListener('click', startInteraction);
@@ -202,11 +220,14 @@ home.addEventListener('click', startInteraction);
 window.addEventListener("load", () => {
     updateProgressBar(100);
     const loaderWrapper = document.getElementById("loader-wrapper");
+    const titleCard = document.querySelector(".title-card");
     setTimeout(() => {
         loaderWrapper.classList.add("loader-hidden");
         loaderWrapper.addEventListener("transitionend", () => loaderWrapper.remove());
+        titleCard.classList.add("is-open");
     }, 500);
 });
+
 function updateProgressBar(percent) {
     const fill = document.getElementById('fill');
     if (fill) fill.style.width = percent + "%";

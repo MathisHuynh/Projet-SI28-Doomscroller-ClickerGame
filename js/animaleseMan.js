@@ -29,6 +29,7 @@ export function playAnimalese(text, pitch = 1.0, speed = 1.0, shorten = false) {
 function playNext() {
     if (audioQueue.length === 0) return;
     const currentAudio = audioQueue.shift();
+    currentAudio.volume = 0.4;
     currentAudio.play().catch(e => console.log("Lecture bloquée"));
     currentAudio.onended = () => {
         playNext();
