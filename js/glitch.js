@@ -15,8 +15,8 @@ function playRandomGlitchSound(amount) {
     
     // Nœud de volume global pour ce son avec une coupure exponentielle propre (pas de "clic" audio)
     const gainNode = audioCtx.createGain();
-    gainNode.gain.setValueAtTime(0.12, audioCtx.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+    gainNode.gain.setValueAtTime(0.12*0.4, audioCtx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.001*0.5, audioCtx.currentTime + duration);
 
     // Choix aléatoire du signal (0: Bruit blanc Bitcrush, 1: Descente de fréquence, 2: Signal Carré fixe)
     const signalType = Math.floor(Math.random() * 3);

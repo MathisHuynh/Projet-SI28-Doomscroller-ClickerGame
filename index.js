@@ -6,7 +6,7 @@ import { _upgrades, indiquerAchetable } from "./js/upgradesMan.js";
 import { area, scrollContent, scrollState, applyOffset, handleGestureEnd, nextMedia, getNextMedia, isLoading } from "./js/scrolling.js";
 import { cursor, _clicker } from "./js/cursor.js";
 import "./js/menu.js";
-import {narratorDialog, openMain} from "./js/narrator.js"
+import {narratorDialog, openMain, closeMain} from "./js/narrator.js"
 import { initAnimalese } from './js/animaleseMan.js';
 import {triggerMainGlitch} from "./js/glitch.js";
 
@@ -99,11 +99,14 @@ _stop_button.addEventListener('mouseenter', () => { cursor.src = "./assets/UI/cu
 _stop_button.addEventListener('mouseleave', () => { cursor.src = "./assets/UI/cursor/default.png"; });
 
 window.clickStop = function(){
+    const sfx = new Audio("./assets/audio/stop_push.mp3");
+    if (sfx.paused) sfx.play().catch(() => {});
     cursor.src="./assets/UI/cursor/click.png";
     _stop_buttonImg.src="./assets/UI/stop_button_pushed.png";
     setTimeout(() => {
         cursor.src = "./assets/UI/cursor/pointer.png";
         _stop_buttonImg.src="./assets/UI/stop_button.png";
+        closeMain();
     }, 100);
 };
 
@@ -181,7 +184,7 @@ setInterval(() => {
         let seuil = 1 - t;
         if (Math.random() > seuil) {
             if(spsActuel>MAX_SPS){
-                triggerMainGlitch(1+t*2)
+                triggerMainGlitch(1+t*1.1)
             }
             else{
                 triggerMainGlitch(1);

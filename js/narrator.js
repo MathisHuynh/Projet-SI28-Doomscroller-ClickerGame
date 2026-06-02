@@ -80,7 +80,25 @@ export async function narratorDialog(texts, endfunc = {}, top = 28, left = 15, d
     },1000)
 }
 
+const main = document.querySelector(".main");
+const main_shutter = main.querySelector(".shutter");
 export function openMain(){
-    const main = document.querySelector(".main");
+    main.classList.remove("is-closed");
     main.classList.add("is-open");
  }
+export function closeMain() {
+    setTimeout(() =>  {
+        const sfx = new Audio("./assets/audio/shutter.mp3");
+        main_shutter.classList.add("closed");
+        if (sfx.paused) sfx.play().catch(() => {});
+        setTimeout(() => {
+            main_shutter.classList.add("shake");
+            setTimeout(() => {
+                main_shutter.classList.remove("shake"); 
+                main.classList.remove("is-open");
+                main.classList.add("is-closed");
+            }, 500); // 200ms = 0.2s (durée du shake)
+
+        }, 100); // 100ms = 0.1s (durée de la transition du shutter)
+    },200);
+}

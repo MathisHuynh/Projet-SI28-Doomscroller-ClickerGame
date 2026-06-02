@@ -1,10 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Tiny5&display=swap');
 
 html {
-    /* ✨ LA MAGIE OPÈRE ICI ✨
-       1.2vw = 1.2% de la largeur de l'écran. 
-       Si tu trouves le jeu trop gros ou trop petit, modifie juste cette valeur !
-       (Tu peux aussi essayer "1.5vmin" pour qu'il s'adapte à la plus petite dimension) */
     font-size: .8vmax;
 }
 
@@ -42,6 +38,10 @@ section{
     pointer-events: auto;
     animation: tv-turn-on-main 0.4s steps(10) forwards; /*cubic-bezier(0.25, 1, 0.5, 1)*/
 }
+.main.is-closed {
+    pointer-events: none;
+    animation: tv-turn-off-main 0.4s steps(10) forwards; /*cubic-bezier(0.25, 1, 0.5, 1)*/
+}
 /* ─── ANIMATION ALLUMAGE (TV ON) ─── */
 @keyframes tv-turn-on-main {
     0% {
@@ -58,6 +58,28 @@ section{
         transform: scaleX(1) scaleY(1);
         filter: brightness(1);
         opacity: 0.99;
+    }
+}
+@keyframes tv-turn-off-main {
+    0% {
+        transform: scaleX(1) scaleY(1);
+        filter: brightness(1);
+        opacity: 0.99;
+    }
+    40% {
+        transform: scaleX(1) scaleY(0.005);
+        filter: brightness(4);
+        opacity: 0.99;
+    }
+    80% {
+        transform: scaleX(0) scaleY(0.005);
+        filter: brightness(10);
+        opacity: 0.99;
+    }
+    100% {
+        transform: scaleX(0) scaleY(0);
+        filter: brightness(10);
+        opacity: 0;
     }
 }
 
@@ -1099,4 +1121,36 @@ section{
     75%{
         transform: translate(-40%, 380%);
     }
+}
+
+.shutter{
+    top:-110%;
+    left:0;
+    position: absolute;
+    z-index: 99999999;
+    width:100vw;
+    height: 110vh;
+    background-image: url("./assets/UI/main_shutter.png");
+    background-position: center;
+    background-size: cover;
+    transition: top 0.1s;
+}
+.shutter.closed{
+    top:-10%;
+}
+.shake {
+    animation: slam-shake 0.2s ease-out;
+}
+@keyframes slam-shake {
+    0%   { transform: translateY(0); }
+    25%  { transform: translateY(3rem); }
+    50%  { transform: translateY(-2rem); }
+    75%  { transform: translateY(1rem); }
+    100% { transform: translateY(0); }
+}
+.shutter img{
+    width: 100%;
+    top:50%;
+    transform: translateY(70%);
+    mix-blend-mode:hard-light;
 }
