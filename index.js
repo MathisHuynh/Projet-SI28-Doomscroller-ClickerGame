@@ -221,7 +221,8 @@ function startInteraction() {
     start.classList.add("is-open");
     isInMain = true;
     setTimeout(()=>{
-        narratorDialog(dialog_text,openMain);
+        // narratorDialog(dialog_text,openMain);
+        openMain();
     },1000)
     
     home.removeEventListener('click', startInteraction);
