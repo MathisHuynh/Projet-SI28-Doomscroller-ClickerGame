@@ -1,5 +1,7 @@
 import { playAnimalese } from './animaleseMan.js';
 
+export let isInMain = false;
+
 const narrator = document.querySelector(".narrator");
 const dialog = narrator ? narrator.querySelector(".dialog") : null;
 const text_div = narrator ? narrator.querySelector(".dialog p") : null;
@@ -83,10 +85,12 @@ export async function narratorDialog(texts, endfunc = {}, top = 28, left = 15, d
 const main = document.querySelector(".main");
 const main_shutter = main.querySelector(".shutter");
 export function openMain(){
+    isInMain = true;
     main.classList.remove("is-closed");
     main.classList.add("is-open");
  }
 export function closeMain() {
+    isInMain = false;
     setTimeout(() =>  {
         const sfx = new Audio("./assets/audio/shutter.mp3");
         main_shutter.classList.add("closed");

@@ -6,7 +6,7 @@ import { _upgrades, indiquerAchetable } from "./js/upgradesMan.js";
 import { area, scrollContent, scrollState, applyOffset, handleGestureEnd, nextMedia, getNextMedia, isLoading } from "./js/scrolling.js";
 import { cursor, _clicker } from "./js/cursor.js";
 import "./js/menu.js";
-import {narratorDialog, openMain, closeMain} from "./js/narrator.js"
+import {narratorDialog, openMain, closeMain, isInMain} from "./js/narrator.js"
 import { initAnimalese } from './js/animaleseMan.js';
 import {triggerMainGlitch} from "./js/glitch.js";
 
@@ -110,7 +110,6 @@ window.clickStop = function(){
         cursor.src = "./assets/UI/cursor/pointer.png";
         _stop_buttonImg.src="./assets/UI/stop_button.png";
         if(getSpsEffectif()<MIN_SPS){
-            isInMain=false;
             bgm.pause();
             closeMain();
         }else{
@@ -146,7 +145,6 @@ window.clickGlass = function(){
 const filters = ['day', 'night'];
 let status = 0;
 
-let isInMain = false;
 setInterval(() => {
     updateScoresAuto();
     adaptSoundTrack();
@@ -228,7 +226,6 @@ function startInteraction() {
     titleCard.classList.remove("is-open")
     titleCard.classList.add("is-closed")
     start.classList.add("is-open");
-    isInMain = true;
     setTimeout(()=>{
         narratorDialog(dialog_text,openMain);
     },1000)
