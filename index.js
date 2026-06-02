@@ -243,7 +243,7 @@ window.addEventListener("load", () => {
         loaderWrapper.classList.add("loader-hidden");
         loaderWrapper.addEventListener("transitionend", () => loaderWrapper.remove());
         titleCard.classList.add("is-open");
-    }, 500);
+    }, 2000);
 });
 
 function updateProgressBar(percent) {
