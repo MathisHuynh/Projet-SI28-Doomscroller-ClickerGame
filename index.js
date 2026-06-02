@@ -98,6 +98,9 @@ const _stop_buttonImg = document.querySelector(".stop_img");
 _stop_button.addEventListener('mouseenter', () => { cursor.src = "./assets/UI/cursor/pointer.png"; });
 _stop_button.addEventListener('mouseleave', () => { cursor.src = "./assets/UI/cursor/default.png"; });
 
+const MIN_SPS = 2518914070;
+const MAX_SPS = 97948186772;
+
 window.clickStop = function(){
     const sfx = new Audio("./assets/audio/stop_push.mp3");
     if (sfx.paused) sfx.play().catch(() => {});
@@ -106,7 +109,11 @@ window.clickStop = function(){
     setTimeout(() => {
         cursor.src = "./assets/UI/cursor/pointer.png";
         _stop_buttonImg.src="./assets/UI/stop_button.png";
-        closeMain();
+        if(getSpsEffectif()<MIN_SPS){
+            closeMain();
+        }else{
+            triggerAlarm();
+        }
     }, 100);
 };
 
@@ -138,7 +145,6 @@ const filters = ['day', 'night'];
 let status = 0;
 
 let isInMain = false;
-
 setInterval(() => {
     updateScoresAuto();
     adaptSoundTrack();
@@ -173,8 +179,6 @@ setInterval(() => {
     }
 
     //--- Glitch ---
-    const MIN_SPS = 2518914070;
-    const MAX_SPS = 97948186772;
     if (spsActuel >= MIN_SPS) {
         const logMin = Math.log10(MIN_SPS);
         const logMax = Math.log10(MAX_SPS);
@@ -224,8 +228,7 @@ function startInteraction() {
     start.classList.add("is-open");
     isInMain = true;
     setTimeout(()=>{
-        // narratorDialog(dialog_text,openMain);
-        openMain();
+        narratorDialog(dialog_text,openMain);
     },1000)
     
     home.removeEventListener('click', startInteraction);

@@ -98,7 +98,10 @@ export function closeMain() {
                 main.classList.remove("is-open");
                 main.classList.add("is-closed");
             }, 500); // 200ms = 0.2s (durée du shake)
-
         }, 100); // 100ms = 0.1s (durée de la transition du shutter)
     },200);
+}
+
+export function triggerAlarm(){
+
 }
