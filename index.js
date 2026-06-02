@@ -110,6 +110,8 @@ window.clickStop = function(){
         cursor.src = "./assets/UI/cursor/pointer.png";
         _stop_buttonImg.src="./assets/UI/stop_button.png";
         if(getSpsEffectif()<MIN_SPS){
+            isInMain=false;
+            bgm.pause();
             closeMain();
         }else{
             triggerAlarm();
