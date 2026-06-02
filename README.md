@@ -51,3 +51,21 @@ Le jeu ne possède pas de fin structurelle, reflétant l'infinité des flux d'ac
 * **Développement & Programmation :** Mathis HUYNH
 * **Conception des Assets Visuels :** Matthieu PANICO, Mathis HUYNH & IA (Génération du fond de la section gauche)
 * **Sound Design & Composition Musicale :** Mathis HUYNH
+
+## Attribution et Licence
+
+Ce projet est distribué sous la licence **MIT**. 
+
+Si vous utilisez ce projet, une partie de son code ou ses ressources dans vos propres travaux, **l'attribution est requise**. Merci d'inclure une mention de mon travail de la manière suivante :
+
+> **Projet original :** Doomscroller
+> **Auteur :** Mathis Huynh
+> **Lien :** https://github.com/MathisHuynh/Projet-SI28-Doomscroller-ClickerGame
+
+### Licences des dépendances
+Certaines parties de ce projet utilisent des bibliothèques tierces dont les licences sont les suivantes :
+
+* **[Animalese.js](https://github.com/Acedio/animalese.js) :** Créé par Josh Simmons (Licence MIT).
+
+---
+*Si vous avez des questions concernant l'utilisation ou l'attribution, n'hésitez pas à me contacter.*
