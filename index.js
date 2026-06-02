@@ -9,9 +9,6 @@ import "./js/menu.js";
 import {narratorDialog, openMain, closeMain, isInMain} from "./js/narrator.js"
 import { initAnimalese } from './js/animaleseMan.js';
 import {triggerMainGlitch} from "./js/glitch.js";
-
-initAnimalese();
-
 import "./js/trophies.js";
 
 // --- INTERACTION SOURIS GLOBALE ---
@@ -239,7 +236,9 @@ window.addEventListener("load", () => {
     updateProgressBar(100);
     const loaderWrapper = document.getElementById("loader-wrapper");
     const titleCard = document.querySelector(".title-card");
+    
     setTimeout(() => {
+        initAnimalese(); 
         loaderWrapper.classList.add("loader-hidden");
         loaderWrapper.addEventListener("transitionend", () => loaderWrapper.remove());
         titleCard.classList.add("is-open");
