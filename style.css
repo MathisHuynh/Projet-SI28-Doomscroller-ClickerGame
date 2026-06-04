@@ -1111,28 +1111,31 @@ section{
     pointer-events: none;
     user-select: none;
 }
-.visual.clicker-visual{
+.visual.dragger-visual{
     position: absolute;
-    animation: clicker-animation 40s steps(30) infinite;
+    animation: dragger-animation 90s steps(60) infinite;
     top:0;
     left:0;
-    transform: translate(-40%, -90%);
+    width: 20%;
+    height: 10%;
+    transform-origin: center;
+    transform: translate(-120%, -90%);
 }
-.visual.clicker-visual img{
-    width: 50%;
+.visual.dragger-visual img{
+    width: 150%;
 }
-@keyframes clicker-animation {
+@keyframes dragger-animation {
     0%{
-        transform: translate(-40%, -90%);
+        transform: translate(-120%, -150%);
     }
     25%{
-        transform: translate(90%, -90%);
+        transform: translate(470%, -150%);
     }
     50%{
-        transform: translate(90%, 380%);
+        transform: translate(470%, 960%);
     }
     75%{
-        transform: translate(-40%, 380%);
+        transform: translate(-120%, 960%);
     }
 }
 

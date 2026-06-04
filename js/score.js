@@ -14,7 +14,7 @@ let divImgClickable = document.querySelector('.div-img-clickable');
 
 export const scoreState = {
     total_score: 0,
-    score: 0,
+    score: 10000000000,
 };
 
 let clickTimes = [];
@@ -57,7 +57,7 @@ function createFeedback(val) {
 
 function calculCpcEffectif() {
     const spsActuel = getSpsEffectif();
-    const indexationPassive = spsActuel * 0.01;
+    const indexationPassive = spsActuel * 0.02;
     return (stats.spcBase + indexationPassive) * stats.batiments.clicker.multiplicateurSpc;
 }
 

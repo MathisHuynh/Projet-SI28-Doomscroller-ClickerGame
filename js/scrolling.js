@@ -1,6 +1,7 @@
 import { medias } from "../constantes/medias.js";
 import { stats } from "../constantes/stats.js";
 import { getCPS, incrementerScore } from "./score.js";
+import { isWheelUnlocked } from "../constantes/upgrades.js";
 
 // --- CONFIGURATION DU GLISSEMENT ---
 export var area = document.getElementById('area');
@@ -132,3 +133,18 @@ export function handleGestureEnd() {
         scrollContent.style.transform = 'translateY(0px)';
     }
 }
+
+let scrollAccumulator = 0;
+const SCROLL_THRESHOLD = 1700;
+
+area.addEventListener('wheel', (e) => {
+    if (!isWheelUnlocked || isLoading) return;
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+    scrollAccumulator += e.deltaY;
+    if (scrollAccumulator >= SCROLL_THRESHOLD) {
+        incrementerScore(null, false);
+        scrollAccumulator = 0;
+        nextMedia(false); 
+    }
+    e.preventDefault();
+}, { passive: false });

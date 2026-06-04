@@ -10,6 +10,6 @@ export const stats = {
         cable: { productionSps: 0, multiplicateurSps: 1 },
         singularity: { productionSps: 0, multiplicateurSps: 1 }
     },
-    loading_rate: 0.05,
+    loading_rate: 0.03,
     loading_max_time: 5,
 };

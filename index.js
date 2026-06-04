@@ -10,6 +10,7 @@ import {narratorDialog, openMain, closeMain, isInMain} from "./js/narrator.js"
 import { initAnimalese } from './js/animaleseMan.js';
 import {triggerMainGlitch} from "./js/glitch.js";
 import "./js/trophies.js";
+import { isClickerEnabled } from "./constantes/upgrades.js";
 
 // --- INTERACTION SOURIS GLOBALE ---
 document.addEventListener('mouseup', (e) => {
@@ -62,23 +63,37 @@ if (_upgrades) {
 
 // --- INTERACTIONS DE LA ZONE DE GLISSEMENT ---
 area.addEventListener('mouseenter', () => {
-    if (!scrollState.isDragging) cursor.src = "./assets/UI/cursor/grab.png";
+    if(!isClickerEnabled){
+        if (!scrollState.isDragging) cursor.src = "./assets/UI/cursor/grab.png";
+    }else{
+        cursor.src = "./assets/UI/cursor/pointer.png";
+    }
 });
 area.addEventListener('mouseleave', () => {
     if (!scrollState.isDragging) cursor.src = "./assets/UI/cursor/default.png";
 });
 area.addEventListener('mousedown', (e) => {
     if (isLoading) return;
-    scrollState.isDragging = true;
-    scrollState.lastY = e.clientY;
-    area.classList.add('dragging');
-    cursor.src = "./assets/UI/cursor/grabbing.png";
-    e.preventDefault();
+
+    if(!isClickerEnabled){
+        scrollState.isDragging = true;
+        scrollState.lastY = e.clientY;
+        area.classList.add('dragging');
+        cursor.src = "./assets/UI/cursor/grabbing.png";
+        e.preventDefault();
+    }else{
+        cursor.src = "./assets/UI/cursor/click.png";
+        incrementerScore(null,true)
+    }
 });
 area.addEventListener('mouseup', () => {
-    if (scrollState.isDragging) {
-        handleGestureEnd();
-        cursor.src = "./assets/UI/cursor/grab.png";
+    if(!isClickerEnabled){
+        if (scrollState.isDragging) {
+            handleGestureEnd();
+            cursor.src = "./assets/UI/cursor/grab.png";
+        }
+    }else{
+        cursor.src = "./assets/UI/cursor/pointer.png";
     }
 });
 
@@ -224,7 +239,8 @@ function startInteraction() {
     titleCard.classList.add("is-closed")
     start.classList.add("is-open");
     setTimeout(()=>{
-        narratorDialog(dialog_text,openMain);
+        // narratorDialog(dialog_text,openMain);
+        openMain();
     },1000)
     
     home.removeEventListener('click', startInteraction);

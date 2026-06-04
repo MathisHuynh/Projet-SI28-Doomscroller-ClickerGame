@@ -3,6 +3,8 @@ import { stats } from "./stats.js";
 
 const powerupsfx = new Audio('./assets/audio/powerup.mp3');
 powerupsfx.volume = 0.3;
+export let isWheelUnlocked = false;
+export let isClickerEnabled = false;
 
 function creerUpgrades(){
     const upgrades_cont = document.getElementById('upgrades');
@@ -76,22 +78,11 @@ const div_clicker = document.querySelector(".div-img-clickable");
 const scroll_area = div_clicker.querySelector(".scroll-area");
 
 export const behaviour = {
-    clicker: {
-        desc: "Augmente le nombre de shorties consommé par clic.",
+    dragger: {
+        desc: "Augmente la consommation manuelle de shorties.",
         multiplicateurScore: 1.05,
-        multiplicateurPrix: 1.25,
+        multiplicateurPrix: 1.2,
         powerup: [
-            {
-                nom: 'Bouton de scroll',
-                img: './assets/upgrades/icon/scrolling_button.png',
-                niveau: [15],
-                desc: 'Permet de scroller avec un seul clic',
-                achat: function() {
-                    const clicker = document.querySelector('.clicker');
-                    if (clicker) clicker.style.pointerEvents = 'auto';
-                    powerupsfx.play().catch(() => {});
-                },
-            },
             {
                 nom: 'Images rémanentes',
                 img: './assets/upgrades/icon/after_images.png',
@@ -109,25 +100,37 @@ export const behaviour = {
             else if (pu !== 0) this.powerup.at(this.powerup.length - 1).achat();
             else { 
                 playupgradesfx();
-                scroll_area.appendChild(generateVisual("clicker"));
-                spacingVisuals("clicker",40);
+                scroll_area.appendChild(generateVisual("dragger"));
+                spacingVisuals("dragger",90);
                 stats.spcBase += this.bonus;
+                stats.batiments.scroller.productionSps += 0.8;
             }
         }
     },
-    scroller: {
+    robot: {
         desc: "Scrolle automatiquement pour toi. Le premier grand pas vers l'automatisation.",
         multiplicateurScore: 1.08,
         multiplicateurPrix: 1.25,
-        powerup: [{
-            nom: 'WD-40', img: './assets/upgrades/icon/WD40.png', niveau: [10, 25, 50],
-            desc: '"Un petit coup de lubrifiant et ça repart".<br>Double l\'efficacité des Bras Robotiques.',
-            achat: function() { stats.batiments.scroller.multiplicateurSps *= 2; powerupsfx.play().catch(() => {}); }
+        powerup: [
+            {
+                nom: 'Scroller',
+                img: './assets/upgrades/icon/scroller.png',
+                niveau: [5],
+                desc: 'Permet de scroller avec la molette de la souris!',
+                achat: function() {
+                    isWheelUnlocked=true;
+                    powerupsfx.play().catch(() => {});
+                },
+            },
+            {
+            nom: 'WD-40', img: './assets/upgrades/icon/WD40.png', niveau: [15, 25, 50],
+            desc: '"Un petit coup de lubrifiant et ça repart".<br>Double l\'efficacité des Bras Robotiques et augmente le multiplicateur manuel.',
+            achat: function() { stats.batiments.scroller.multiplicateurSps *= 2;stats.batiments.clicker.multiplicateurSpc+=1; powerupsfx.play().catch(() => {}); }
         }],
         achat: function() {
             let pu = checkPowerup(this.id, parseInt(this.niveau.textContent));
             if (pu !== 0) this.powerup.at((pu - 1) % this.powerup.length).achat();
-            else { playupgradesfx(); stats.batiments.scroller.productionSps += this.bonus; }
+            else { playupgradesfx(); stats.batiments.scroller.productionSps += this.bonus; stats.spcBase+=this.bonus}
         }
     },
     router:{
@@ -152,18 +155,27 @@ export const behaviour = {
         
     },
     farm: {
-        desc: "Une usine remplie de téléphones qui scrollent tout seuls.",
+        desc: "Une ferme remplie de téléphones qui scrollent tout seuls.",
         multiplicateurScore: 1.10,
         multiplicateurPrix: 1.25,
-        powerup: [{
-            nom: 'Batteries Lithium', img: './assets/upgrades/icon/farm_up.png', niveau: [10, 25, 50],
-            desc: '"On les épuise et ça repart!"<br>Multiplie par 2 la production de vos usines.',
+        powerup: [
+            {
+            nom: 'Boutton de scroll', img: './assets/upgrades/icon/scrolling_button.png', niveau: [5],
+            desc: 'Permet de scroller en un seul clic!',
+            achat: function() {
+                powerupsfx.play().catch(() => {});
+                isClickerEnabled=true;
+            }
+            },
+            {
+            nom: 'Arrosoires Energétiques', img: './assets/upgrades/icon/farm_up.png', niveau: [10, 25, 50],
+            desc: '"On les épuise et ça repart!"<br>Multiplie par 2 la production de vos ferme.',
             achat: function() { stats.batiments.farm.multiplicateurSps *= 2; powerupsfx.play().catch(() => {}); }
         }],
         achat: function() {
             let pu = checkPowerup(this.id, parseInt(this.niveau.textContent));
             if (pu !== 0) this.powerup.at((pu - 1) % this.powerup.length).achat();
-            else { playupgradesfx(); stats.batiments.farm.productionSps += this.bonus; }
+            else { playupgradesfx(); stats.batiments.farm.productionSps += this.bonus; stats.spcBase+=this.bonus/2}
         }
     },
     algo: {
