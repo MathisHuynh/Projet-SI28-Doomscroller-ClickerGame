@@ -6,7 +6,7 @@ import { _upgrades, indiquerAchetable } from "./js/upgradesMan.js";
 import { area, scrollContent, scrollState, applyOffset, handleGestureEnd, nextMedia, getNextMedia, isLoading } from "./js/scrolling.js";
 import { cursor, _clicker } from "./js/cursor.js";
 import "./js/menu.js";
-import {narratorDialog, openMain, closeMain, isInMain} from "./js/narrator.js"
+import {narratorDialog, openMain, closeMain, isInMain, end, tuto} from "./js/narrator.js"
 import { initAnimalese } from './js/animaleseMan.js';
 import {triggerMainGlitch} from "./js/glitch.js";
 import "./js/trophies.js";
@@ -124,6 +124,9 @@ window.clickStop = function(){
         if(getSpsEffectif()<MIN_SPS){
             bgm.pause();
             closeMain();
+            setTimeout(()=>{
+                end();
+            },1000)
         }else{
             triggerAlarm();
         }
@@ -158,6 +161,7 @@ const filters = ['day', 'night'];
 let status = 0;
 
 setInterval(() => {
+    if(!isInMain) return;
     updateScoresAuto();
     adaptSoundTrack();
     indiquerAchetable();
@@ -169,9 +173,9 @@ setInterval(() => {
     const spsActuel = getSpsEffectif();
     const isSingularityUnlocked = stats.batiments.singularity.niveau > 0;
     let scaling;
-    if (!isSingularityUnlocked) scaling = Math.min(199, Math.log10(Math.max(1, spsActuel)) * 30);
-    else scaling = 200;
-    const seuil = 200 - scaling;
+    if (!isSingularityUnlocked) scaling = Math.min(99, Math.log2(spsActuel)*6)//Math.log10(Math.max(1, spsActuel)) * 30);
+    else scaling = 100;
+    const seuil = 100 - scaling;
     if (window.compteurAuto >= seuil && spsActuel > 0 && !isLoading) {
         if (getCPS() < 1 && !scrollState.isDragging) nextMedia(false); 
         window.compteurAuto = 0;
@@ -207,7 +211,7 @@ setInterval(() => {
             }
         }
     }
-    if (isInMain && bgm.paused) bgm.play().catch(() => {});
+    if (bgm.paused) bgm.play().catch(() => {});
 }, 100);
 
 
@@ -233,17 +237,16 @@ const dialog_text = [
     "Je te présente la toute dernière application : DOOMSCROLLER™ !!!",
 ];
 const home = document.querySelector(".home");
-function startInteraction() {
+async function startInteraction() {
+    home.removeEventListener('click', startInteraction);
     const titleCard = document.querySelector(".title-card");
     titleCard.classList.remove("is-open")
     titleCard.classList.add("is-closed")
     start.classList.add("is-open");
-    setTimeout(()=>{
-        // narratorDialog(dialog_text,openMain);
-        openMain();
-    },1000)
-    
-    home.removeEventListener('click', startInteraction);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    await narratorDialog(dialog_text);
+    tuto();
+    // openMain();
 }
 home.addEventListener('click', startInteraction);
 

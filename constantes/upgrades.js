@@ -61,7 +61,7 @@ function generateVisual(upgradeID) {
     div.appendChild(img);
     return div;
 }
-function spacingVisuals(upgradeID, duration = 40) {
+function spacingVisualsAnim(upgradeID, duration = 40) {
     const visuals = document.querySelectorAll('.visual.' + upgradeID + '-visual');
     const totalElements = visuals.length;
     
@@ -73,12 +73,20 @@ function spacingVisuals(upgradeID, duration = 40) {
         div.style.animationName = `${upgradeID}-animation`; 
     });
 }
+function spacingVisuals(element, level, offsetX, offsetY,baseY, flipOffset, MAX_ROW) {
+    const isFlipped = level%2 === 0;
+    const yOffset = isFlipped ? (baseY + Math.floor((level - 1)/2) * offsetY):(baseY + Math.floor((level - 1)/2) * offsetY);
+    const xOffset = isFlipped ? flipOffset : offsetX; // Valeur X arbitraire pour l'autre côté
+    const flipScale = isFlipped ? -1 : 1;
+    element.style.transform = `translate(${xOffset}%, ${yOffset}%) scaleX(${flipScale})`;
+}
 
 const div_clicker = document.querySelector(".div-img-clickable");
 const scroll_area = div_clicker.querySelector(".scroll-area");
 
 export const behaviour = {
     dragger: {
+        nbVisuals:0,
         desc: "Augmente la consommation manuelle de shorties.",
         multiplicateurScore: 1.05,
         multiplicateurPrix: 1.2,
@@ -86,7 +94,7 @@ export const behaviour = {
             {
                 nom: 'Images rémanentes',
                 img: './assets/upgrades/icon/after_images.png',
-                niveau: [10, 20, 30, 40, 50, 70, 100],
+                niveau: [10, 15, 30, 40, 50],
                 desc: '"Vous scrollez tellement vite que vous pouvez voir plusieurs shorties sur un seul écran!"<br>Augmente le multiplicateur de shorties généré par le scrolling manuel.',
                 achat: function() {
                     powerupsfx.play().catch(() => {});
@@ -100,14 +108,18 @@ export const behaviour = {
             else if (pu !== 0) this.powerup.at(this.powerup.length - 1).achat();
             else { 
                 playupgradesfx();
-                scroll_area.appendChild(generateVisual("dragger"));
-                spacingVisuals("dragger",90);
+                if(this.nbVisuals<21){
+                    this.nbVisuals+=1;
+                    scroll_area.appendChild(generateVisual("dragger"));
+                    spacingVisualsAnim("dragger",90);
+                }
                 stats.spcBase += this.bonus;
                 stats.batiments.scroller.productionSps += 0.8;
             }
         }
     },
     robot: {
+        nbVisuals:0,
         desc: "Scrolle automatiquement pour toi. Le premier grand pas vers l'automatisation.",
         multiplicateurScore: 1.08,
         multiplicateurPrix: 1.25,
@@ -123,14 +135,22 @@ export const behaviour = {
                 },
             },
             {
-            nom: 'WD-40', img: './assets/upgrades/icon/WD40.png', niveau: [15, 25, 50],
+            nom: 'WD-40', img: './assets/upgrades/icon/WD40.png', niveau: [10, 15, 25],
             desc: '"Un petit coup de lubrifiant et ça repart".<br>Double l\'efficacité des Bras Robotiques et augmente le multiplicateur manuel.',
             achat: function() { stats.batiments.scroller.multiplicateurSps *= 2;stats.batiments.clicker.multiplicateurSpc+=1; powerupsfx.play().catch(() => {}); }
         }],
         achat: function() {
             let pu = checkPowerup(this.id, parseInt(this.niveau.textContent));
             if (pu !== 0) this.powerup.at((pu - 1) % this.powerup.length).achat();
-            else { playupgradesfx(); stats.batiments.scroller.productionSps += this.bonus; stats.spcBase+=this.bonus}
+            else {
+                this.nbVisuals+=1
+                playupgradesfx(); stats.batiments.scroller.productionSps += this.bonus; stats.spcBase+=this.bonus
+                if(this.nbVisuals<3){
+                    let div=generateVisual("robot");
+                    scroll_area.appendChild(div);
+                    spacingVisuals(div,this.nbVisuals,-420,100,200,830,8);
+                }
+            }
         }
     },
     router:{
@@ -168,14 +188,14 @@ export const behaviour = {
             }
             },
             {
-            nom: 'Arrosoires Energétiques', img: './assets/upgrades/icon/farm_up.png', niveau: [10, 25, 50],
+            nom: 'Arrosoires Energétiques', img: './assets/upgrades/icon/farm_up.png', niveau: [10, 15, 25],
             desc: '"On les épuise et ça repart!"<br>Multiplie par 2 la production de vos ferme.',
             achat: function() { stats.batiments.farm.multiplicateurSps *= 2; powerupsfx.play().catch(() => {}); }
         }],
         achat: function() {
             let pu = checkPowerup(this.id, parseInt(this.niveau.textContent));
             if (pu !== 0) this.powerup.at((pu - 1) % this.powerup.length).achat();
-            else { playupgradesfx(); stats.batiments.farm.productionSps += this.bonus; stats.spcBase+=this.bonus/2}
+            else { playupgradesfx(); stats.batiments.farm.productionSps += this.bonus; stats.spcBase+=this.bonus/8}
         }
     },
     algo: {

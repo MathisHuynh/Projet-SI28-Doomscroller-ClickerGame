@@ -2,6 +2,7 @@ import { medias } from "../constantes/medias.js";
 import { stats } from "../constantes/stats.js";
 import { getCPS, incrementerScore } from "./score.js";
 import { isWheelUnlocked } from "../constantes/upgrades.js";
+import { playscoresfx } from "./audio.js";
 
 // --- CONFIGURATION DU GLISSEMENT ---
 export var area = document.getElementById('area');
@@ -65,6 +66,7 @@ const _phone = document.querySelector(".clicker");
 
 export function nextMedia(isClick = false) {
     if (isLoading) return; 
+    playscoresfx();
     rollLoading();
 
     finishAnimation();

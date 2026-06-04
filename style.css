@@ -936,6 +936,29 @@ section{
         opacity: 0;
     }
 }
+#end-text-box{
+    color: #000;
+    transform: translate(-50%, 10%);
+    left: 50%;
+    top: 50%;
+    position: absolute;
+    background-color: white;
+    width: 90%;
+    height: fit-content;
+    display: none;
+}
+#end-text-box.is-open{
+    display: inline;
+}
+.summary{
+    font-size: 1.5rem;
+    background-color: #C0C0C0;
+    width: 66.14rem;
+    height: fit-content;
+    border: 2px solid;
+    border-color: #FFF #000 #000 #FFF;
+    padding: 0.5rem;
+}
 
 
 .narrator{
@@ -1111,6 +1134,20 @@ section{
     pointer-events: none;
     user-select: none;
 }
+.visual.robot-visual{
+    position: absolute;
+    top:0;
+    left:0;
+    width: 20%;
+    height: 10%;
+    transform-origin: center;
+    /* transform: translate(-90%, 50%); */
+}
+.visual.robot-visual img{
+    /* width: 150%; */
+    width: 600%;
+}
+
 .visual.dragger-visual{
     position: absolute;
     animation: dragger-animation 90s steps(60) infinite;

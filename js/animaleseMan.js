@@ -1,9 +1,7 @@
 let synth = null;
 let isReady = false;
-
 let audioQueue = [];
-
-const home = document.querySelector(".home");
+let currentPlayingAudio = null;
 
 export function initAnimalese() {
     synth = new window.Animalese('./assets/audio/animalese.wav', function() {
@@ -14,6 +12,9 @@ export function initAnimalese() {
 
 export function playAnimalese(text, pitch = 1.0, speed = 1.0, shorten = false) {
     if (!isReady || !synth) return;
+    
+    stopAnimalese();
+
     const chunks = text.match(/.{1,40}(\s|$)/g) || [text];
     audioQueue = chunks.map(chunk => {
         const cleanChunk = chunk.toUpperCase().replace(/[^A-Z ]/g, "");
@@ -27,11 +28,26 @@ export function playAnimalese(text, pitch = 1.0, speed = 1.0, shorten = false) {
 }
 
 function playNext() {
-    if (audioQueue.length === 0) return;
-    const currentAudio = audioQueue.shift();
-    currentAudio.volume = 0.4;
-    currentAudio.play().catch(e => console.log("Lecture bloquée"));
-    currentAudio.onended = () => {
+    if (audioQueue.length === 0) {
+        currentPlayingAudio = null;
+        return;
+    }
+    
+    currentPlayingAudio = audioQueue.shift();
+    currentPlayingAudio.volume = 0.4;
+    currentPlayingAudio.play().catch(e => console.log("Lecture bloquée"));
+    
+    currentPlayingAudio.onended = () => {
         playNext();
     };
+}
+
+export function stopAnimalese() {
+    audioQueue = [];
+    if (currentPlayingAudio) {
+        currentPlayingAudio.pause();
+        currentPlayingAudio.currentTime = 0;
+        currentPlayingAudio.onended = null;
+        currentPlayingAudio = null;
+    }
 }

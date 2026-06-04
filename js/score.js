@@ -1,5 +1,4 @@
 import { stats } from "../constantes/stats.js";
-import { playscoresfx } from "./audio.js";
 import { nextMedia, isLoading } from "./scrolling.js";
 
 export let scorestr = document.querySelector('.score-val');
@@ -14,7 +13,9 @@ let divImgClickable = document.querySelector('.div-img-clickable');
 
 export const scoreState = {
     total_score: 0,
-    score: 10000000000,
+    score: 10000,
+    t_begin: 0,
+    t_end: 0
 };
 
 let clickTimes = [];
@@ -57,14 +58,13 @@ function createFeedback(val) {
 
 function calculCpcEffectif() {
     const spsActuel = getSpsEffectif();
-    const indexationPassive = spsActuel * 0.02;
+    const indexationPassive = spsActuel * 0.01;
     return (stats.spcBase + indexationPassive) * stats.batiments.clicker.multiplicateurSpc;
 }
 
 export function incrementerScore(event, isClick) {
     if (isLoading) return;
     clickTimes.push(Date.now());
-    playscoresfx();
     nextMedia(isClick);
     
     const valClic = calculCpcEffectif();
