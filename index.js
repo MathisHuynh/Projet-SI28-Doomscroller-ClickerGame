@@ -6,7 +6,7 @@ import { _upgrades, indiquerAchetable } from "./js/upgradesMan.js";
 import { area, scrollContent, scrollState, applyOffset, handleGestureEnd, nextMedia, getNextMedia, isLoading } from "./js/scrolling.js";
 import { cursor, _clicker } from "./js/cursor.js";
 import "./js/menu.js";
-import {narratorDialog, openMain, closeMain, isInMain, end, tuto} from "./js/narrator.js"
+import {narratorStart, openMain, closeMain, isInMain, end} from "./js/narrator.js"
 import { initAnimalese } from './js/animaleseMan.js';
 import {triggerMainGlitch} from "./js/glitch.js";
 import "./js/trophies.js";
@@ -226,16 +226,6 @@ window.incrementerScore = incrementerScore;
 
 const start = document.querySelector(".start");
 
-const dialog_text = [
-    "Bonjour à toi, jeune amateur de scroll. Comment vas-tu en cette magnifique journée ?",
-    "Qu'avais-tu prévu de faire aujourd'hui ? Apprendre une nouvelle langue ? Lire un livre ? Faire du sport ? Voir tes amis ?",
-    "Quoi ? Non ?",
-    "Ah...",
-    "Donc tu comptais déjà passer les six prochaines heures à regarder ton écran.",
-    "Excellent choix.",
-    "Dans ce cas, j'ai exactement ce qu'il te faut !",  
-    "Je te présente la toute dernière application : DOOMSCROLLER™ !!!",
-];
 const home = document.querySelector(".home");
 async function startInteraction() {
     home.removeEventListener('click', startInteraction);
@@ -244,9 +234,7 @@ async function startInteraction() {
     titleCard.classList.add("is-closed")
     start.classList.add("is-open");
     await new Promise(resolve => setTimeout(resolve, 1000));
-    await narratorDialog(dialog_text);
-    tuto();
-    // openMain();
+    narratorStart();
 }
 home.addEventListener('click', startInteraction);
 

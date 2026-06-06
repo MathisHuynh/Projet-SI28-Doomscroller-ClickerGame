@@ -63,7 +63,11 @@ export function switchPowerup(upgradeID) {
 }
 
 // --- BOUTIQUE ET ACHATS ---
-window.acheterUpgrade = function(upgradeID) {
+let buySignal = null;
+export function setBuySignal(callback) {
+    buySignal = callback;
+}
+function acheterUpgrade(upgradeID) {
     const mu = upgrades.find((u) => u.id === upgradeID);
     const up = document.getElementById(upgradeID);
     cursor.src = "./assets/UI/cursor/click.png";
@@ -86,4 +90,10 @@ window.acheterUpgrade = function(upgradeID) {
     setTimeout(() => {
         cursor.src = "./assets/UI/cursor/pointer.png";
     }, 100);
+    if (buySignal) {
+        buySignal();
+        buySignal = null;
+    }
 };
+
+window.acheterUpgrade=acheterUpgrade;

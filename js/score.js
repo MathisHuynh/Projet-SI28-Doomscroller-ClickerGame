@@ -11,6 +11,18 @@ export let max_loadingstr = document.getElementById("max_loading");
 
 let divImgClickable = document.querySelector('.div-img-clickable');
 
+let scoreSignalThresh = 1;
+let nscoreSignal=0;
+export function setScoreSignalThresh(n=1){
+    scoreSignalThresh=n;
+}
+let scoreSignal = null;
+export function setScoreSignal(callback) {
+    scoreSignal = callback;
+    nscoreSignal = 0;
+}
+
+
 export const scoreState = {
     total_score: 0,
     score: 10000,
@@ -73,6 +85,14 @@ export function incrementerScore(event, isClick) {
     
     scorestr.textContent = Math.round(scoreState.score);
     createFeedback(valClic);
+
+    if (scoreSignal) {
+        nscoreSignal+=calculCpcEffectif();
+        if(nscoreSignal>=scoreSignalThresh){
+            scoreSignal();
+            scoreSignal = null;
+        }
+    }
 }
 
 export function updateScoresAuto() {
