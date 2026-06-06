@@ -91,6 +91,7 @@ export function nextMedia(isClick = false) {
         }, popDuration * 1000);
     }
     const performCleanup = () => {
+        if (!scrollContent || !scrollContent.parentNode) return;
         scrollContent.removeEventListener('transitionend', handleEnd);
         scrollContent.style.transition = 'none';
         if (scrollArea) {
@@ -99,13 +100,12 @@ export function nextMedia(isClick = false) {
             _phone.src = "./assets/phone.gif";
         }
         const items = scrollContent.querySelectorAll('.item img');
-        if (items.length >= 2) {
+        if (items.length >= 2 && items[0] && items[1]) {
             items[0].src = items[1].src;
             items[1].src = getNextMedia().src;
         }
         scrollState.currentOffset = 0;
         scrollContent.style.transform = `translateY(0px)`;
-        void scrollContent.offsetHeight;
         activeCleanup = null;
     };
     const handleEnd = (e) => {

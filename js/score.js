@@ -25,7 +25,7 @@ export function setScoreSignal(callback) {
 
 export const scoreState = {
     total_score: 0,
-    score: 10000,
+    score: 0,
     t_begin: 0,
     t_end: 0
 };
@@ -47,24 +47,25 @@ export function getCPS() {
     return clickTimes.length;
 }
 
+const feedbackContainer = document.getElementById('feedback-container');
+
 function createFeedback(val) {
     const x = Math.random() * 10;
     const y = Math.random() * 10;
     const div = document.createElement('div');
     div.className = 'clickfeedback fade-up';
+    div.style.position = 'absolute';
     div.style.top = (40 + y) + "%";
     div.style.left = (43 + x) + "%";
     div.textContent = "+" + Math.round(val);
-    
     const img = document.createElement('img');
     img.src = "./assets/currency.png";
     img.className = "onclickicon";
     div.appendChild(img);
-    divImgClickable.appendChild(div);
-    
+    feedbackContainer.appendChild(div);
     div.addEventListener('animationend', () => div.remove(), { once: true });
-    if (divImgClickable.children.length > 15) {
-        divImgClickable.removeChild(divImgClickable.firstChild);
+    if (feedbackContainer.children.length > 15) {
+        feedbackContainer.removeChild(feedbackContainer.firstChild);
     }
 }
 
@@ -78,17 +79,14 @@ export function incrementerScore(event, isClick) {
     if (isLoading) return;
     clickTimes.push(Date.now());
     nextMedia(isClick);
-    
     const valClic = calculCpcEffectif();
     scoreState.score += valClic;
     scoreState.total_score += valClic;
-    
     scorestr.textContent = Math.round(scoreState.score);
     createFeedback(valClic);
-
     if (scoreSignal) {
-        nscoreSignal+=calculCpcEffectif();
-        if(nscoreSignal>=scoreSignalThresh){
+        nscoreSignal += valClic;
+        if (nscoreSignal >= scoreSignalThresh) {
             scoreSignal();
             scoreSignal = null;
         }
