@@ -161,8 +161,10 @@ export function triggerAlarm(){
 }
 
 export function end(){
-    const end_box=document.getElementById('end-text-box');
+    const end_box=document.getElementById('endbox');
     end_box.classList.add('is-open');
+    const room=document.getElementById('room-state');
+    room.style.backgroundImage=document.querySelector('.background').style.backgroundImage;
     const t=document.getElementById('time');
     const score_tot=document.getElementById('total_score');
     const c_t=document.getElementById('corresponding_time');
