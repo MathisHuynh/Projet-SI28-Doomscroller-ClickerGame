@@ -25,7 +25,7 @@ export function setScoreSignal(callback) {
 
 export const scoreState = {
     total_score: 0,
-    score: 10000000000000000,
+    score: 0,
     t_begin: 0,
     t_end: 0
 };
