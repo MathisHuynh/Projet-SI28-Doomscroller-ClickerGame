@@ -1,6 +1,8 @@
 import { upgrades, checkPowerup } from "../constantes/upgrades.js";
 import { cursor } from "./cursor.js";
+import { isInMain } from "./narrator.js";
 import { scoreState, scorestr, updateScoresAuto } from "./score.js"; 
+
 
 // --- GESTION DES INTERFACES ---
 export const desc = document.querySelector('.desc');
@@ -57,6 +59,7 @@ export function switchPowerup(upgradeID) {
         upgtxt.textContent = upg.powerup[puIndex - 1].nom;
     } else {
         upgstr.classList.remove('has-powerup');
+        upgstr.classList.remove('glitch-immune');
         upgimg.src = upg.img;
         upgtxt.textContent = upg.nom;
     }
@@ -67,10 +70,15 @@ let buySignal = null;
 export function setBuySignal(callback) {
     buySignal = callback;
 }
-function acheterUpgrade(upgradeID) {
+const _stop_button_hit = document.querySelector(".stop_hitbox");
+export function acheterUpgrade(upgradeID, manual=true) {
+    if(!isInMain) return;
     const mu = upgrades.find((u) => u.id === upgradeID);
     const up = document.getElementById(upgradeID);
-    cursor.src = "./assets/UI/cursor/click.png";
+
+    if(manual){
+        cursor.src = "./assets/UI/cursor/click.png";
+    }
     
     if (scoreState.score >= mu.prix) {
         scoreState.score -= mu.prix;
@@ -85,11 +93,13 @@ function acheterUpgrade(upgradeID) {
         updateScoresAuto(); 
         
         switchPowerup(upgradeID);
-        afficherDesc(upgradeID);
+        if(manual) afficherDesc(upgradeID);
     }
-    setTimeout(() => {
-        cursor.src = "./assets/UI/cursor/pointer.png";
-    }, 100);
+    if(manual){
+        setTimeout(() => {
+            cursor.src = "./assets/UI/cursor/pointer.png";
+        }, 100);
+    }
     if (buySignal) {
         buySignal();
         buySignal = null;

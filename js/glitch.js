@@ -72,7 +72,7 @@ function playRandomGlitchSound(amount) {
  * Déclenche un glitch cyber-corrompu sur le jeu (RVB variable, carrés de négatif, tremblement, audio)
  * @param {number} amount - Intensité du glitch (1 = Léger, 3 = Critique, 5+ = Crash total du système)
  */
-export function triggerMainGlitch(amount = 1) {
+export function triggerMainGlitch(amount = 1,remove=true,keep=false) {
     const wrapper = document.querySelector('.glitch-target');
     if (!wrapper) return;
 
@@ -134,6 +134,7 @@ export function triggerMainGlitch(amount = 1) {
     for (let i = 0; i < numberOfSquares; i++) {
         const square = document.createElement('div');
         square.classList.add('glitch-negative-square');
+        if(!remove) square.style.zIndex=1000001;
 
         // Les blocs deviennent de plus en plus MASSIFS et invasifs selon l'intensité
         const width = (Math.random() * 15 + 5) * (1 + amount * 0.15); 
@@ -152,8 +153,10 @@ export function triggerMainGlitch(amount = 1) {
     }
 
     // ─── 5. NETTOYAGE ET RESTAURATION DU SYSTÈME ───
-    setTimeout(() => {
-        wrapper.classList.remove('glitch-active');
-        activeSquares.forEach(sq => sq.remove());
-    }, totalDuration);
+    if(!keep){
+        setTimeout(() => {
+            wrapper.classList.remove('glitch-active');
+            activeSquares.forEach(sq => sq.remove());
+        }, totalDuration);
+    }
 }

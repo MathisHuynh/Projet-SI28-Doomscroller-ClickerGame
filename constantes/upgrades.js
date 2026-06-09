@@ -188,7 +188,7 @@ export const behaviour = {
             }
             },
             {
-            nom: 'Arrosoires Energétiques', img: './assets/upgrades/icon/farm_up.png', niveau: [10, 15, 25],
+            nom: 'Arrosoire Energétique', img: './assets/upgrades/icon/power_up_farm.png', niveau: [10, 15, 25],
             desc: '"On les épuise et ça repart!"<br>Multiplie par 2 la production de vos ferme.',
             achat: function() { stats.batiments.farm.multiplicateurSps *= 2; powerupsfx.play().catch(() => {}); }
         }],
@@ -203,7 +203,7 @@ export const behaviour = {
         multiplicateurScore: 1.12,
         multiplicateurPrix: 1.28,
         powerup: [{
-            nom: 'Rétention d\'Attention', img: './assets/upgrades/icon/algo_up.png', niveau: [10, 25, 50],
+            nom: 'Rétention d\'Attention', img: './assets/upgrades/icon/powerup_algo.png', niveau: [10, 25, 50],
             desc: '"Ils savent tout de vous."<br>Double l\'efficacité de l\'algo.',
             achat: function() { stats.batiments.algo.multiplicateurSps *= 2; powerupsfx.play().catch(() => {}); }
         }],
@@ -218,7 +218,7 @@ export const behaviour = {
         multiplicateurScore: 1.14,
         multiplicateurPrix: 1.30,
         powerup: [{
-            nom: 'Refroidissement Liquide', img: './assets/upgrades/icon/server_up.png', niveau: [10, 25, 50],
+            nom: 'Refroidissement Liquide', img: './assets/upgrades/icon/power_up_server.png', niveau: [10, 25, 50],
             desc: '"On peut s\'en sortir avec un ou deux lacs en moins..."<br>Double l\'efficacité de la production des serveurs.',
             achat: function() { stats.batiments.server.multiplicateurSps *= 2; powerupsfx.play().catch(() => {}); }
         }],
@@ -233,7 +233,7 @@ export const behaviour = {
         multiplicateurScore: 1.16,
         multiplicateurPrix: 1.32,
         powerup: [{
-            nom: 'Deep Learning', img: './assets/upgrades/icon/neural_up.png', niveau: [10, 25, 50],
+            nom: 'Deep Learning', img: './assets/upgrades/icon/powerup_neural.png', niveau: [10, 25, 50],
             desc: '"Elle pense comme toi <3! (Elle pense mieux que toi)"<br>L\'IA s\'améliore et consomme 2 fois plus vite.',
             achat: function() { stats.batiments.neural.multiplicateurSps *= 2; powerupsfx.play().catch(() => {}); }
         }],
@@ -248,7 +248,7 @@ export const behaviour = {
         multiplicateurScore: 1.18,
         multiplicateurPrix: 1.33,
         powerup: [{
-            nom: 'Vitesse Lumière', img: './assets/upgrades/icon/cable_up.png', niveau: [10, 25],
+            nom: 'Vitesse Lumière', img: './assets/upgrades/icon/powerup_cable.png', niveau: [10, 25],
             desc: '"Einstein avait tort."<br>Le réseau va 2 fois plus vite.',
             achat: function() { stats.batiments.cable.multiplicateurSps *= 2; powerupsfx.play().catch(() => {}); }
         }],
@@ -263,9 +263,9 @@ export const behaviour = {
         multiplicateurScore: 3,
         multiplicateurPrix: 1.3,
         powerup: [{
-            nom: 'Ascension', img: './assets/upgrades/icon/singularity_up.png', niveau: [5],
+            nom: 'Ascension', img: './assets/upgrades/icon/powerup_singularite.png', niveau: [5],
             desc: '"Juste une dernière question pour le Multivac."<br>Le bout du voyage : production de #3?0?<h? multipliée par 5.',
-            achat: function() { stats.batiments.singularity.multiplicateurSps *= 100; powerupsfx.play().catch(() => {}); }
+            achat: function() { stats.batiments.singularity.multiplicateurSps *= 100; setInterval(() => {acheterUpgrade("singularity",false);},100);powerupsfx.play().catch(() => {}); }
         }],
         achat: function() {
             let pu = checkPowerup(this.id, parseInt(this.niveau.textContent));

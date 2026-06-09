@@ -46,7 +46,6 @@
             </div>
         </div>
     </div>
-
     <div class="narrator">
         <div class="sprite"></div>
         <div class="dialog"><p></p></div>
@@ -59,6 +58,28 @@
             </div>
             <p>Cliquez pour Commencer</p>
         </div>
+
+        <div class="win95" id="brain0">
+            <div class="win95-header"></div>
+            <div class="win95-body">
+                <div class="win95-content">
+                    <div class="win95-border">
+                        <img src="./assets/end/brain0.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="win95" id="brain1">
+            <div class="win95-header"></div>
+            <div class="win95-body">
+                <div class="win95-content">
+                    <div class="win95-border">
+                        <img src="./assets/end/brain1.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="start">
             <div id="window-title">Doomscroller wizard</div>
             <div id="endbox">
@@ -78,6 +99,25 @@
     <section>
         <div class="glitch-target">
         <div class="main">
+
+            <div class="space-sequence">
+                <div class="win95" id="window-error">
+                    <div class="win95-header" id="header"></div>
+                    <div class="win95-body" id="crash">
+                        <div class="win95-content" id="error">
+                            <div class="win95-border" id="relief">
+                                <img src="./assets/end/error.png" alt="">
+                                <p>Erreur: Surcharge du moteur physique</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="blackhole"></div>
+                <div id="earth"></div>
+                <div id="nokia"></div>
+            </div>
+
+
             <div class="shutter"><img src="./assets/UI/start/title.png"></div>
             <img src="./assets/UI/cursor/default.png" class="cursor glitch-immune">
             <div class="desc"></div>
@@ -93,10 +133,11 @@
                 </div>
                 <div class="div-img-clickable">
                     <div class="stop_button glitch-immune">
+                        <div id="explosions">
+                        </div>
                         <div class="safety_glass">
                             <img src="./assets/UI/safety_glass.png" onclick="clickGlass()" class="safety_img">
                         </div>
-                        <div class="explosion"></div>
                         <div class ="stop_hitbox" onclick="clickStop()"></div>
                         <img src="./assets/UI/stop_button.png" class="stop_img">
                     </div>

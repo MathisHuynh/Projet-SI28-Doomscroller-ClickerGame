@@ -1,12 +1,12 @@
 import { stats } from "./constantes/stats.js";
 import { bgm, adaptSoundTrack, lancerMusique } from "./js/audio.js";
 import { changerAmbiance, changerBackground } from "./js/background.js";
-import { updateScoresAuto, getCPS, incrementerScore, getSpsEffectif } from "./js/score.js";
+import { updateScoresAuto, getCPS, incrementerScore, getSpsEffectif, scoreState } from "./js/score.js";
 import { _upgrades, indiquerAchetable } from "./js/upgradesMan.js";
 import { area, scrollContent, scrollState, applyOffset, handleGestureEnd, nextMedia, getNextMedia, isLoading } from "./js/scrolling.js";
 import { cursor, _clicker } from "./js/cursor.js";
 import "./js/menu.js";
-import {narratorStart, openMain, closeMain, isInMain, end} from "./js/narrator.js"
+import {narratorStart, openMain, closeMain, isInMain, end, apocalypse, _stop_button, _stop_buttonImg, narratorGoodEnding, playEndSequence, triggerAlarm} from "./js/narrator.js"
 import { initAnimalese } from './js/animaleseMan.js';
 import {triggerMainGlitch} from "./js/glitch.js";
 import "./js/trophies.js";
@@ -104,13 +104,14 @@ _clicker.addEventListener('mousedown', () => { cursor.src = "./assets/UI/cursor/
 _clicker.addEventListener('mouseup', () => { cursor.src = "./assets/UI/cursor/pointer.png"; });
 
 // --- INTERACTIONS DU BOUTON STOP ---
-const _stop_button = document.querySelector(".stop_hitbox");
-const _stop_buttonImg = document.querySelector(".stop_img");
 
-_stop_button.addEventListener('mouseenter', () => { cursor.src = "./assets/UI/cursor/pointer.png"; });
-_stop_button.addEventListener('mouseleave', () => { cursor.src = "./assets/UI/cursor/default.png"; });
+const _stop_button_hit = document.querySelector(".stop_hitbox");
 
-const MIN_SPS = 2518914070;
+_stop_button_hit.addEventListener('mouseenter', () => { cursor.src = "./assets/UI/cursor/pointer.png"; });
+_stop_button_hit.addEventListener('mouseleave', () => { cursor.src = "./assets/UI/cursor/default.png"; });
+
+const exp_thresh= 2518914070;
+const MIN_SPS = 251891407;
 const MAX_SPS = 97948186772;
 
 window.clickStop = function(){
@@ -118,17 +119,26 @@ window.clickStop = function(){
     if (sfx.paused) sfx.play().catch(() => {});
     cursor.src="./assets/UI/cursor/click.png";
     _stop_buttonImg.src="./assets/UI/stop_button_pushed.png";
+
+    const gone=!(getSpsEffectif()<exp_thresh);
+    if(gone){
+        let exp=new Audio("./assets/audio/explosion.mp3");
+        exp.play();
+    }
     setTimeout(() => {
         cursor.src = "./assets/UI/cursor/pointer.png";
         _stop_buttonImg.src="./assets/UI/stop_button.png";
-        if(getSpsEffectif()<MIN_SPS){
+        if(!gone){
             bgm.pause();
             closeMain();
             setTimeout(()=>{
+                if(scoreState.total_score<100){
+                    narratorGoodEnding();
+                }
                 end();
             },1000)
         }else{
-            triggerAlarm();
+            apocalypse();
         }
     }, 100);
 };
@@ -235,6 +245,9 @@ async function startInteraction() {
     start.classList.add("is-open");
     await new Promise(resolve => setTimeout(resolve, 1000));
     narratorStart();
+    // openMain();
+    // openMain();
+    // playEndSequence();
 }
 home.addEventListener('click', startInteraction);
 

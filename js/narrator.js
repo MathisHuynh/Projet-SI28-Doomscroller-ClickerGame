@@ -1,6 +1,8 @@
 import { playAnimalese, stopAnimalese } from './animaleseMan.js';
 import { scoreState, setScoreSignal, setScoreSignalThresh } from './score.js';
-import { setBuySignal } from './upgradesMan.js';
+import { setBuySignal,acheterUpgrade } from './upgradesMan.js';
+import { triggerMainGlitch } from './glitch.js';
+import { bgm } from './audio.js';
 
 export let isInMain = false;
 
@@ -105,9 +107,9 @@ function handleDialogClick() {
     }
 }
 
-export async function narratorDialog(texts, top = 28, left = 22,width=16, delay = 38, pitch = 0.8, speed = 1.5) {
+export async function narratorDialog(texts, top = 28, left = 22,width=16,disappear=true, delay = 38, pitch = 0.8, speed = 1.5) {
     document.addEventListener("click", handleDialogClick);
-    await narratorAppear(top, left,width);
+    if(!narrator.classList.contains("is-open")) await narratorAppear(top, left,width);
     for (const text of texts) {
         skipCurrent = false;
         const interaction = narratorSay(text, delay,width, pitch, speed);
@@ -127,7 +129,7 @@ export async function narratorDialog(texts, top = 28, left = 22,width=16, delay 
     document.removeEventListener("click", handleDialogClick);
     dialog.classList.remove("visible");
     await new Promise(resolve => setTimeout(resolve,1000));
-    await narratorDisappear();
+    if (disappear) await narratorDisappear();
 }
 
 const main = document.querySelector(".main");
@@ -157,7 +159,12 @@ export function closeMain() {
 }
 
 export function triggerAlarm(){
-
+    const check=setInterval(()=>{
+        if(scoreState.total_score>1000000000*2000000000000000000){
+            playEndSequence();
+            clearInterval(check);
+        }
+    },1000);
 }
 
 export function end(){
@@ -285,6 +292,118 @@ const tuto_stop_text = [
     "À plus tard !"
 ];
 
+const good_end=[
+  "Zzzzzzzzz...",
+  "Hein ? Déjà ?",
+  "Attends une seconde...",
+  "Tu as vraiment appuyé sur le bouton ?",
+  "Volontairement ?",
+  "Eh bien... je dois avouer que je ne m'attendais pas à ça.",
+  "La plupart des gens continuent de scroller jusqu'à ce que leur batterie meure. Puis la recharge. Puis recommencent.",
+  "Toi, tu t'es arrêté.",
+  "C'est presque inquiétant.",
+  "Mais probablement une bonne décision.",
+  "Après tout...",
+  "Passer l'intégralité de son après-midi à regarder des vidéos de chat, de recettes improbables et de théories du complot sur les pigeons n'était peut-être pas indispensable.",
+  "Tu sais, on n'y pense pas souvent, mais chaque scroll laisse une petite trace.",
+  "Sur ton cerveau.",
+  "Sur les serveurs.",
+  "Sur la planète.",
+  "Sur l'estime de soi de quelqu'un qui a passé trois heures à monter une vidéo de 12 secondes.",
+  "J'ai connu des gens qui n'ont jamais réussi à s'arrêter.",
+  "Ils ont dit : \"Encore une dernière vidéo.\"",
+  "C'était il y a sept ans.",
+  "Je crois qu'ils sont toujours là.",
+  "Quelque part.",
+  "Au fond d'un algorithme.",
+  "À regarder des compilations de chaises qui tombent.",
+  "Triste destin.",
+  "Enfin... pas pour les chaises.",
+  "Bref.",
+  "Tu as repris le contrôle.",
+  "Ou alors tu as simplement cliqué sur le mauvais bouton.",
+  "Dans les deux cas, le résultat est le même.",
+  "Félicitations.",
+  "Merci d'avoir participé à cette expérience.",
+  "Et si tu connais quelqu'un qui scrolle depuis suffisamment longtemps pour avoir vu trois refontes de son application préférée...",
+  "Partage-lui le jeu.",
+  "Il est peut-être encore possible de le sauver."
+]
+
+const bad_end1=[
+    "Et me revoilà ! Comment tu v...",
+    "...",
+    "Attends.",
+    "Mais c'est quoi cette odeur ?!",
+    "Oh non.",
+    "NON NON NON.",
+    "Tu n'as quand même pas...",
+    "...",
+    "TU N'AS PAS BOUGÉ DEPUIS LA DERNIÈRE FOIS QU'ON S'EST VUS ?!",
+    "...",
+    "Je n'ai même pas les mots !",
+    "Enfin si, j'en ai beaucoup, mais ils ne passeraient pas la censure.",
+    "Attends...",
+    "Tu es en train de me dire que tu as consacré environ 1 % de toute ta vie active...",
+    "À REGARDER DES GENS DONNER LEUR AVIS SUR DES CHOSES QU'ILS NE CONNAISSENT PAS ?!",
+    "Magnifique.",
+    "Absolument magnifique.",
+    "MOUAHAHAHAHA !",
+    "Je dois reconnaître que je m'attendais un peu à ce résultat.",
+    "Après tout, je t'avais prévenu.",
+    "Cette application a été conçue par des ingénieurs extrêmement talentueux.",
+    "Des psychologues.",
+    "Des data scientists.",
+    "Et probablement un sorcier.",
+    "Leur unique objectif : te faire oublier le temps.",
+    "Et visiblement... mission accomplie.",
+    "Bon.",
+    "Comme je t'apprécie à peu près autant qu'une prise secteur apprécie un Nokia...",
+    "Je vais quand même essayer de t'aider.",
+    "Laisse-moi regarder les dégâts."
+]
+
+const bad_end2=[
+    "Voyons les statistiques...",
+    "Ouh là.",
+    "Ouh là là.",
+    "Ouuuuuh là là là.",
+    "C'est spectaculaire.",
+    "Enfin... pour moi.",
+    "Les actionnaires sont en larmes.",
+    "De joie.",
+    "Les serveurs ont chauffé tout l'hiver grâce à toi.",
+    "Tu as probablement financé trois yachts et une quatrième résidence secondaire.",
+    "Très beau travail.",
+    "Maintenant... regardons ton cerveau."
+]
+
+const bad_end3=[
+    "Ah non, pardon.",
+    "Ça, c'est celui que tu avais au début de l'expérience.",
+    "Souvenirs, souvenirs...",
+    "À l'époque, tu savais encore où tu avais posé tes clés.",
+    "Tu pouvais lire un article de plus de deux paragraphes.",
+    "Et tu étais capable de rester assis sans sortir ton téléphone toutes les sept secondes.",
+    "Quel homme.",
+    "Bon.",
+    "Maintenant voici l'état actuel."
+]
+
+const bad_end4=[
+    "Ah oui.",
+    "C'est à peu près ce que je craignais.",
+    "Il reste encore quelques neurones.",
+    "Ils sont actuellement occupés à regarder des vidéos de chats.",
+    "Tu as perdu toutes tes fonctions motrices.",
+    "Toutes tes fonctions cognitives.",
+    "Et probablement ton mot de passe Netflix.",
+    "Tu es désormais incapable de faire autre chose que scroller.",
+    "Même respirer te demande un effort considérable.",
+    "Extraordinaire.",
+    "Les résultats dépassent toutes mes espérances."
+]
+
 export async function narratorStart(){
     await narratorDialog(dialog_text);
     openMain();
@@ -307,4 +426,81 @@ export async function narratorStart(){
     await narratorDialog(tuto_upgrade_text1,20,50,10);
     await narratorDialog(tuto_stop_text,50,50,10);
     enableAction();
+}
+
+const explosionContainer = document.getElementById('explosions');
+function createExplosion() {
+    if (!explosionContainer) return;
+    const div = document.createElement('div');
+    div.style.backgroundImage='url("./assets/explosion.gif")';
+    div.className = 'explosion';
+    const x = Math.random() * 20 - 10;
+    const y = Math.random() * 20 - 10;
+    div.style.top = (y-60) + "%";
+    div.style.left = (x-50) + "%";
+    explosionContainer.appendChild(div);
+    div.addEventListener('animationend', () => div.remove(), { once: true });
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+export const _stop_button = document.querySelector(".stop_button");
+export const _stop_buttonImg = document.querySelector(".stop_img");
+export function apocalypse(){
+    createExplosion()
+    _stop_button.classList.add("broken");
+    _stop_buttonImg.src="./assets/UI/stop_button_broken.png";
+    triggerAlarm();
+}
+
+export function narratorGoodEnding(){
+    narratorDialog(good_end,20,10,10);
+}
+
+const spaceSequence = document.querySelector(".space-sequence");
+const nokia = document.getElementById("nokia");
+const blackhole= document.getElementById("blackhole");
+const earth= document.getElementById("earth");
+const error_win=document.getElementById("window-error");
+const brain0=document.getElementById("brain0");
+const brain1=document.getElementById("brain1");
+export async function playEndSequence() {
+    isInMain=false;
+    spaceSequence.classList.add("active");
+    await new Promise(r => setTimeout(r, 200));
+    triggerMainGlitch(1);
+    await new Promise(r => setTimeout(r, 800));
+    nokia.classList.add("animate-nokia");
+    triggerMainGlitch(1);
+    await new Promise(r => setTimeout(r, 1200));
+    triggerMainGlitch(2);
+    await new Promise(r => setTimeout(r,800))
+    blackhole.classList.add("animate-blackhole");
+    earth.classList.add("animate-earth");
+    triggerMainGlitch(3);
+    triggerMainGlitch(1);
+    await new Promise(r => setTimeout(r, 2000));
+    triggerMainGlitch(3,false);
+    bgm.pause();
+    blackhole.classList.add("freeze");
+    error_win.style.display="block";
+    document.body.style.cursor="wait";
+    main.style.cursor="wait";
+    await new Promise(r => setTimeout(r, 500));
+    for(let i=0;i<10;i++){
+        triggerMainGlitch(3,false);
+        await new Promise(r => setTimeout(r, 100));
+    }
+    triggerMainGlitch(3,false,true);
+    await narratorDialog(bad_end1,20,10,10);
+    closeMain();
+    await new Promise(r => setTimeout(r, 1000));
+    document.body.style.cursor="default";
+    end();
+    await narratorDialog(bad_end2,20,10,10);
+    brain0.style.display="block";
+    await narratorDialog(bad_end3,50,65,10,false);
+    brain1.style.display="block";
+    await narratorDialog(bad_end4,50,65,10);
 }
