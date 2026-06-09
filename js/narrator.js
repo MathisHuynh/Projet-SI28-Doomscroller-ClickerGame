@@ -436,7 +436,7 @@ function createExplosion() {
     div.className = 'explosion';
     const x = Math.random() * 20 - 10;
     const y = Math.random() * 20 - 10;
-    div.style.top = (y-60) + "%";
+    div.style.top = (y-40) + "%";
     div.style.left = (x-50) + "%";
     explosionContainer.appendChild(div);
     div.addEventListener('animationend', () => div.remove(), { once: true });
@@ -502,5 +502,8 @@ export async function playEndSequence() {
     brain0.style.display="block";
     await narratorDialog(bad_end3,50,65,10,false);
     brain1.style.display="block";
+    sprite.classList.add("shocked");
+    await new Promise(r => setTimeout(r, 2000));
+    sprite.classList.remove("shocked");
     await narratorDialog(bad_end4,50,65,10);
 }

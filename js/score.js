@@ -102,6 +102,6 @@ export function updateScoresAuto() {
     loading_ratestr.textContent = (stats.loading_rate*100).toFixed(1);
     max_loadingstr.textContent = stats.loading_max_time.toFixed(2);
     if (isLoading) return;
-    scoreState.total_score += (spsEffectif / 10);
-    scoreState.score += (spsEffectif / 10);
+    scoreState.total_score += (spsEffectif / 20);
+    scoreState.score += (spsEffectif / 20);
 }

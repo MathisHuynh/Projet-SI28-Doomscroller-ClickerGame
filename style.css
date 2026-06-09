@@ -1065,6 +1065,11 @@ section{
 .narrator.is-talking .sprite{
     background-image: url("./assets/UI/start/talk.gif");
 }
+.sprite.shocked{
+    background-position: center;
+    background-size: 220% 105%;
+    background-image: url("./assets/UI/start/shock.png");
+}
 
 .dialog{
     color: #141414;

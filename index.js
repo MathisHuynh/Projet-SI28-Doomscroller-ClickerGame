@@ -186,7 +186,7 @@ setInterval(() => {
     if (!isSingularityUnlocked) scaling = Math.min(99, Math.log2(spsActuel)*6)//Math.log10(Math.max(1, spsActuel)) * 30);
     else scaling = 100;
     const seuil = 100 - scaling;
-    if (window.compteurAuto >= seuil && spsActuel > 0 && !isLoading) {
+    if (window.compteurAuto/2 >= seuil && spsActuel > 0 && !isLoading) {
         if (getCPS() < 1 && !scrollState.isDragging) nextMedia(false); 
         window.compteurAuto = 0;
     }
@@ -196,7 +196,7 @@ setInterval(() => {
     window.compteurTemps++;
     let multiplier = filters[status%2]==='day'? 1 : 0.8;
     const mod=Math.max(1,Math.round(1200*multiplier/Math.max(1,spsActuel*0.00000001)));
-    let cycle = window.compteurTemps%mod //deux minute pour le cycle normal
+    let cycle = (window.compteurTemps/2)%mod //deux minute pour le cycle normal
     if(cycle===0){
         if(mod<50){
             changerAmbiance(filters[status%2], Math.min(Math.max(0.1, Math.round(1200*multiplier/Math.max(1,spsActuel*0.00000001))),5))
@@ -222,7 +222,7 @@ setInterval(() => {
         }
     }
     if (bgm.paused) bgm.play().catch(() => {});
-}, 100);
+}, 50);
 
 
 
