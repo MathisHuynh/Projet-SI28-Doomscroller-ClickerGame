@@ -68,4 +68,13 @@ Certaines parties de ce projet utilisent des bibliothèques tierces dont les lic
 * **[Animalese.js](https://github.com/Acedio/animalese.js) :** Créé par Josh Simmons (Licence MIT).
 
 ---
-*Si vous avez des questions concernant l'utilisation ou l'attribution, n'hésitez pas à me contacter.*
+## Licence / License
+
+Copyright © 2026 Mathis HUYNH. Tous droits réservés.
+
+Ce projet est un produit fini et personnel présenté dans le cadre de mon portfolio. 
+Le code source est mis à disposition uniquement pour consultation. Toute copie, modification, distribution ou utilisation commerciale de tout ou partie du code ou des assets (images, sons) est strictement interdite sans autorisation écrite préalable.
+
+---
+
+*Copyright © 2026 Mathis HUYNH. All rights reserved.*
