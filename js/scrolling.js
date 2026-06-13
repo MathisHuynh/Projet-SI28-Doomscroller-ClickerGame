@@ -137,7 +137,7 @@ export function handleGestureEnd() {
 }
 
 let scrollAccumulator = 0;
-const SCROLL_THRESHOLD = 1700;
+const SCROLL_THRESHOLD = 1000;
 
 area.addEventListener('wheel', (e) => {
     if (!isWheelUnlocked || isLoading) return;

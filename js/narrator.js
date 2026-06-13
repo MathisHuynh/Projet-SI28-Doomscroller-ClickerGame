@@ -159,12 +159,14 @@ export function closeMain() {
 }
 
 export function triggerAlarm(){
-    const check=setInterval(()=>{
-        if(scoreState.total_score>1000000000*2000000000000000000){
-            playEndSequence();
-            clearInterval(check);
-        }
-    },1000);
+    setTimeout(()=>{
+        const check=setInterval(()=>{
+            if(scoreState.total_score>1000000000*2000000000000000000){
+                playEndSequence();
+                clearInterval(check);
+            }
+        },1000);
+    },5000);
 }
 
 export function end(){
@@ -405,7 +407,7 @@ const bad_end4=[
 ]
 
 export async function narratorStart(){
-    await narratorDialog(dialog_text);
+    await narratorDialog(dialog_text,28);
     openMain();
     inhibitAction();
     await new Promise(resolve => setTimeout(resolve,1000));

@@ -112,7 +112,7 @@ _stop_button_hit.addEventListener('mouseleave', () => { cursor.src = "./assets/U
 
 const exp_thresh= 2518914070;
 const MIN_SPS = 251891407;
-const MAX_SPS = 97948186772;
+const MAX_SPS = 9794818677200;
 
 window.clickStop = function(){
     const sfx = new Audio("./assets/audio/stop_push.mp3");
@@ -217,7 +217,7 @@ setInterval(() => {
                 triggerMainGlitch(1+t*1.1)
             }
             else{
-                triggerMainGlitch(1);
+                triggerMainGlitch(0.2+t*1.1);
             }
         }
     }
